@@ -21,3 +21,8 @@ tags
 
 .DS_Store
 .orig
+
+config/configuration.yml
+config/database.yml
+
+coverage
