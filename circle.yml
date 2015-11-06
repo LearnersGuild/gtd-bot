@@ -1,0 +1,9 @@
+deployment:
+  demo:
+    branch: master
+    commands:
+      - bundle exec cap demo deploy
+test:
+  override:
+    - bundle exec rspec --color --require spec_helper spec --format progress
+    - bundle exec rubocop
