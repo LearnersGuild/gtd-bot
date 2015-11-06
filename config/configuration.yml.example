@@ -1,5 +1,7 @@
 development:
   env: development
+  glass_frog:
+    api_key:
 
 test:
   env: test
