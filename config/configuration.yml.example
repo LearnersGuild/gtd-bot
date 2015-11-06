@@ -1,7 +1,11 @@
-development:
-  env: development
+defaults: &defaults
   glass_frog:
     api_key:
 
+development:
+  <<: *defaults
+  env: development
+
 test:
+  <<: *defaults
   env: test
