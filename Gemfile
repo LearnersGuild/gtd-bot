@@ -4,6 +4,7 @@ gem 'rails', '4.2.4'
 gem 'pg'
 gem 'a9n'
 gem 'honeybadger', '~> 2.0'
+gem 'sidekiq'
 
 group :development, :test do
   gem 'spring'
