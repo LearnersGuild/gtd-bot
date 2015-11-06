@@ -2,7 +2,11 @@ class BotWorker
   include Sidekiq::Worker
 
   def perform
-    Bot.new([]).perform
+    strategies = [
+      Strategies::SyncRole.new
+    ]
+
+    Bot.new(strategies).perform
   end
 end
 
