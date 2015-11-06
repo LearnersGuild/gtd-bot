@@ -1,4 +1,4 @@
-set :branch, ENV.fetch('BRANCH', 'master')
+set :branch, ENV.fetch('BRANCH', 'dev')
 server "gtd-bot.demo.llp.pl",
   user: "lunar",
   roles: %w{web app db},

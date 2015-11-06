@@ -1,6 +1,6 @@
 deployment:
   demo:
-    branch: master
+    branch: dev
     commands:
       - bundle exec cap demo deploy
 test:
