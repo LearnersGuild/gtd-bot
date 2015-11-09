@@ -1,4 +1,4 @@
-class GlassFrog
+class GlassFrogClient
   attr_accessor :client
 
   def initialize

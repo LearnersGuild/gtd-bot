@@ -1,6 +1,8 @@
 defaults: &defaults
   glass_frog:
     api_key:
+  asana:
+    api_key:
 
 development:
   <<: *defaults
