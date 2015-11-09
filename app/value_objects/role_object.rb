@@ -3,6 +3,7 @@ class RoleObject
 
   attribute :glass_frog_id, Integer
   attribute :name, String
+  attribute :asana_id, String
 
   def self.from_db(role)
     new(glass_frog_id: role.glass_frog_id, name: role.name)

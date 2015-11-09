@@ -6,10 +6,14 @@ class AsanaRolesUpdater
   end
 
   def perform(diff)
-    diff[:to_create].each do |r|
-      asana_client.create_project(workspace: A9n.asana[:workspace_id],
-                                  team: A9n.asana[:team_id],
-                                  name: "@#{r.name}")
+    to_create = diff[:to_create].map do |r|
+      project = asana_client.create_project(workspace: A9n.asana[:workspace_id],
+                                            team: A9n.asana[:team_id],
+                                            name: "@#{r.name}")
+      new_attributes = r.attributes.merge(asana_id: project.id)
+      RoleObject.new(new_attributes)
     end
+
+    { to_create: to_create }
   end
 end

@@ -15,8 +15,8 @@ module Strategies
       roles = glass_frog_client.roles
       roles_diff = roles_diff_factory.new(roles)
       diff = roles_diff.perform
-      asana_roles_updater.perform(diff)
-      roles_saver.perform(roles)
+      updated_diff = asana_roles_updater.perform(diff)
+      roles_saver.perform(updated_diff)
     end
   end
 end
