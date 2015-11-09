@@ -7,6 +7,7 @@ class AsanaClient
     end
   end
 
-  def update
+  def create_project(attributes)
+    Asana::Project.create(client, attributes)
   end
 end

@@ -3,6 +3,7 @@ defaults: &defaults
     api_key:
   asana:
     api_key:
+    workspace_id:
 
 development:
   <<: *defaults

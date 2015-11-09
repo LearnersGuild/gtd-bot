@@ -5,7 +5,9 @@ describe RolesSaver do
 
   describe "#perform" do
     subject { role_saver.perform([glass_frog_role]) }
-    let(:glass_frog_role) { double(id: 7, name: 'Awesome Developer') }
+    let(:glass_frog_role) do
+      RoleObject.new(glass_frog_id: 7, name: 'Awesome Developer')
+    end
 
     it "saves roles to db" do
       expect { subject }.to change { Role.count }.from(0).to(1)
