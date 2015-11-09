@@ -8,6 +8,7 @@ class AsanaRolesUpdater
   def perform(diff)
     diff[:to_create].each do |r|
       asana_client.create_project(workspace: A9n.asana[:workspace_id],
+                                  team: A9n.asana[:team_id],
                                   name: "@#{r.name}")
     end
   end
