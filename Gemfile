@@ -6,6 +6,7 @@ gem 'a9n'
 gem 'honeybadger', '~> 2.0'
 gem 'sidekiq'
 gem 'glassfrog'
+gem 'virtus'
 
 group :development, :test do
   gem 'spring'

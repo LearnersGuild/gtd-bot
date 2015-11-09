@@ -3,9 +3,9 @@ class RolesDiff
 
   def initialize(roles)
     self.roles = roles
-    self.existing = Role.all
+    self.existing = Role.all.map { |r| RoleObject.from_db(r) }
     self.existing_ids = existing.map(&:glass_frog_id)
-    self.roles_ids = roles.map(&:id)
+    self.roles_ids = roles.map(&:glass_frog_id)
   end
 
   def perform
@@ -15,7 +15,7 @@ class RolesDiff
   private
 
   def to_create
-    roles.select { |r| !existing_ids.include?(r.id) }
+    roles.select { |r| !existing_ids.include?(r.glass_frog_id) }
   end
 
   def to_delete
@@ -25,7 +25,8 @@ class RolesDiff
   def to_update
     existing_hash = Hash[existing.map { |r| [r.glass_frog_id, r] }]
     roles.select do |r|
-      existing_hash[r.id] && r.name != existing_hash[r.id].name
+      existing_hash[r.glass_frog_id] &&
+        r.name != existing_hash[r.glass_frog_id].name
     end
   end
 end

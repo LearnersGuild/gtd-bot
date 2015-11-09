@@ -9,6 +9,6 @@ class GlassFrog
   end
 
   def roles
-    client.get(:roles)
+    client.get(:roles).map { |r| RoleObject.from_glass_frog(r) }
   end
 end

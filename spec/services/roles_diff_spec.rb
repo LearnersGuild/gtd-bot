@@ -9,9 +9,13 @@ describe RolesDiff do
   describe "#perform" do
     subject { roles_diff.perform }
 
-    let(:role_to_create) { double(id: 8, name: 'Awesome Developer') }
-    let!(:role_to_delete) { create(:role) }
-    let(:role_to_update) { double(id: existing_id, name: 'New name') }
+    let(:role_to_create) do
+      RoleObject.new(glass_frog_id: 8, name: 'Awesome Developer')
+    end
+    let(:role_to_update) do
+      RoleObject.new(glass_frog_id: existing_id, name: 'New name')
+    end
+    let!(:role_to_delete) { RoleObject.from_db(create(:role)) }
     let(:existing_id) { 7 }
 
     before(:each) do
