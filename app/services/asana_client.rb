@@ -10,4 +10,9 @@ class AsanaClient
   def create_project(attributes)
     Asana::Project.create(client, attributes)
   end
+
+  def delete_project(project_id)
+    project = Asana::Project.new({ id: project_id }, { client: client })
+    project.delete
+  end
 end
