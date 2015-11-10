@@ -1,5 +1,15 @@
+defaults: &defaults
+  glass_frog:
+    api_key:
+  asana:
+    api_key:
+    workspace_id:
+    team_id:
+
 development:
+  <<: *defaults
   env: development
 
 test:
+  <<: *defaults
   env: test

@@ -7,7 +7,7 @@ describe Bot do
   let(:strategy) { double(:strategy, perform: nil) }
 
   describe "#perform" do
-    it "has method run" do
+    it "has method perform" do
       expect(subject).to respond_to(:perform)
     end
 
