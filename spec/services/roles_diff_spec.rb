@@ -27,7 +27,9 @@ describe RolesDiff do
     let!(:existing_to_update) do
       RoleObjectFactory.new.from_db(create(:role, glass_frog_id: existing_id))
     end
-    let!(:existing_to_delete) { RoleObjectFactory.new.from_db(create(:role)) }
+    let!(:existing_to_delete) do
+      RoleObjectFactory.new.from_db(create(:role, glass_frog_id: 9))
+    end
 
     it "returns roles to create" do
       expect(subject[:to_create]).to eq([created_in_glass_frog])
