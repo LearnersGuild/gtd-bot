@@ -2,36 +2,43 @@ require 'rails_helper'
 
 describe RolesDiff do
   let(:roles) do
-    [role_to_create, role_to_update]
+    [created_in_glass_frog, updated_in_glass_frog]
   end
-  let(:roles_diff) { RolesDiff.new(roles) }
+  let(:role_object_factory) do
+    instance_double('RoleObjectFactory')
+  end
+  before(:each) do
+    expect(role_object_factory).to receive(:from_db)
+      .and_return(existing_to_update, existing_to_delete)
+  end
+
+  let(:roles_diff) { RolesDiff.new(roles, role_object_factory) }
 
   describe "#perform" do
     subject { roles_diff.perform }
 
-    let(:role_to_create) do
+    let(:created_in_glass_frog) do
       RoleObject.new(glass_frog_id: 8, name: 'Awesome Developer')
     end
-    let(:role_to_update) do
+    let(:existing_id) { 7 }
+    let(:updated_in_glass_frog) do
       RoleObject.new(glass_frog_id: existing_id, name: 'New name')
     end
-    let!(:role_to_delete) { RoleObject.from_db(create(:role)) }
-    let(:existing_id) { 7 }
-
-    before(:each) do
-      create(:role, glass_frog_id: existing_id)
+    let!(:existing_to_update) do
+      RoleObjectFactory.new.from_db(create(:role, glass_frog_id: existing_id))
     end
+    let!(:existing_to_delete) { RoleObjectFactory.new.from_db(create(:role)) }
 
     it "returns roles to create" do
-      expect(subject[:to_create]).to eq([role_to_create])
+      expect(subject[:to_create]).to eq([created_in_glass_frog])
     end
 
     it "returns roles to delete" do
-      expect(subject[:to_delete]).to eq([role_to_delete])
+      expect(subject[:to_delete]).to eq([existing_to_delete])
     end
 
     it "returns roles to update" do
-      expect(subject[:to_update]).to eq([role_to_update])
+      expect(subject[:to_update]).to eq([updated_in_glass_frog])
     end
   end
 end

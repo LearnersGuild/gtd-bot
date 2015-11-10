@@ -1,9 +1,10 @@
 class RolesDiff
-  attr_accessor :existing, :existing_ids, :roles_ids, :roles
+  attr_accessor :existing, :existing_ids, :roles_ids, :roles,
+    :role_object_factory
 
-  def initialize(roles)
+  def initialize(roles, role_object_factory)
     self.roles = roles
-    self.existing = Role.all.map { |r| RoleObject.from_db(r) }
+    self.existing = Role.all.map { |r| role_object_factory.from_db(r) }
     self.existing_ids = existing.map(&:glass_frog_id)
     self.roles_ids = roles.map(&:glass_frog_id)
   end

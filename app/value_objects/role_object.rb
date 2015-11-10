@@ -5,14 +5,6 @@ class RoleObject
   attribute :name, String
   attribute :asana_id, String
 
-  def self.from_db(role)
-    new(glass_frog_id: role.glass_frog_id, name: role.name)
-  end
-
-  def self.from_glass_frog(role)
-    new(glass_frog_id: role.id, name: role.name)
-  end
-
   def ==(other)
     attributes == other.attributes
   end
