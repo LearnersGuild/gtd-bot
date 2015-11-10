@@ -5,9 +5,11 @@ class HomeController < ApplicationController
   def test_bot
     asana_client = AsanaClient.new
     asana_roles_updater = AsanaRolesUpdater.new(asana_client)
+    role_object_factory = RoleObjectFactory.new
+    glass_frog_client = GlassFrogClient.new(role_object_factory)
     strategies = [
-      Strategies::SyncRole.new(GlassFrogClient.new, asana_roles_updater,
-                               RolesDiff, RolesSaver.new)
+      Strategies::SyncRole.new(glass_frog_client, asana_roles_updater,
+                               RolesDiff, RolesSaver.new, role_object_factory)
     ]
 
     response = Bot.new(strategies).perform

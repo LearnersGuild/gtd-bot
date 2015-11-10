@@ -25,9 +25,22 @@ class RolesDiff
 
   def to_update
     existing_hash = Hash[existing.map { |r| [r.glass_frog_id, r] }]
+    selected = select_to_update(existing_hash)
+    map_to_update(selected, existing_hash)
+  end
+
+  def select_to_update(existing_hash)
     roles.select do |r|
       existing_hash[r.glass_frog_id] &&
         r.name != existing_hash[r.glass_frog_id].name
+    end
+  end
+
+  def map_to_update(roles, existing_hash)
+    roles.map do |r|
+      asana_id = existing_hash[r.glass_frog_id].asana_id
+      merged_attributes = r.attributes.merge(asana_id: asana_id)
+      RoleObject.new(merged_attributes)
     end
   end
 end

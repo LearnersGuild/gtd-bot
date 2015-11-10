@@ -2,7 +2,7 @@ module Strategies
   describe SyncRole do
     subject do
       SyncRole.new(glass_frog_client, asana_roles_updater,
-                   roles_diff_factory, roles_saver)
+                   roles_diff_factory, roles_saver, role_object_factory)
     end
 
     let(:glass_frog_client) { instance_double('GlassFrogClient', roles: roles) }
@@ -12,6 +12,7 @@ module Strategies
     let(:roles_diff_factory) { double(:roles_diff_factory, new: roles_diff) }
     let(:roles_diff) { instance_double('RolesDiff', perform: diff) }
     let(:roles_saver) { instance_double('RolesSaver', perform: true) }
+    let(:role_object_factory) { instance_double('RoleObjectFactory') }
     let(:roles) { double(:roles) }
     let(:diff) { double(:diff) }
     let(:updated_diff) { double(:updated_diff) }

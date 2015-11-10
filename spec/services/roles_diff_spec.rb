@@ -40,7 +40,10 @@ describe RolesDiff do
     end
 
     it "returns roles to update" do
-      expect(subject[:to_update]).to eq([updated_in_glass_frog])
+      expected_attributes =
+        updated_in_glass_frog.attributes
+        .merge(asana_id: existing_to_update.asana_id)
+      expect(subject[:to_update]).to eq([RoleObject.new(expected_attributes)])
     end
   end
 end

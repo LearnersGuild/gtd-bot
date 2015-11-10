@@ -21,7 +21,7 @@ describe AsanaRolesUpdater do
 
       it "updates Asana" do
         expect(asana_client).to receive(:create_project)
-          .with(ProjectAttributes.new(role_attributes['name']))
+          .with(ProjectAttributes.new('@Role'))
         subject
       end
 
@@ -63,12 +63,15 @@ describe AsanaRolesUpdater do
 
       context "to_update" do
         let(:diff) do
-          { to_update: [existing_role] }
+          { to_update: [to_update_from_glass_frog] }
+        end
+        let(:to_update_from_glass_frog) do
+          RoleObject.new(role_attributes.merge(name: 'Role2'))
         end
 
         it "updates Asana" do
           expect(asana_client).to receive(:update_project)
-            .with('7777', role_attributes)
+            .with('7777', role_attributes.merge(name: '@Role2'))
           subject
         end
 
@@ -76,7 +79,7 @@ describe AsanaRolesUpdater do
           expect(subject).to eq(
             to_create: [],
             to_delete: [],
-            to_update: [existing_role]
+            to_update: [to_update_from_glass_frog]
           )
         end
       end
