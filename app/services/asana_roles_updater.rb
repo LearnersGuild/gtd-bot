@@ -6,7 +6,11 @@ class AsanaRolesUpdater
   end
 
   def perform(diff)
-    { to_create: to_create(diff), to_delete: to_delete(diff) }
+    {
+      to_create: to_create(diff),
+      to_delete: to_delete(diff),
+      to_update: to_update(diff)
+    }
   end
 
   private
@@ -14,9 +18,7 @@ class AsanaRolesUpdater
   def to_create(diff)
     to_create = diff[:to_create] || []
     to_create.map do |r|
-      project = asana_client.create_project(workspace: A9n.asana[:workspace_id],
-                                            team: A9n.asana[:team_id],
-                                            name: "@#{r.name}")
+      project = asana_client.create_project(ProjectAttributes.new(r.name))
       new_attributes = r.attributes.merge(asana_id: project.id)
       RoleObject.new(new_attributes)
     end
@@ -26,6 +28,14 @@ class AsanaRolesUpdater
     to_delete = diff[:to_delete] || []
     to_delete.map do |r|
       asana_client.delete_project(r.asana_id)
+      r
+    end
+  end
+
+  def to_update(diff)
+    to_update = diff[:to_update] || []
+    to_update.map do |r|
+      asana_client.update_project(r.asana_id, r.attributes)
       r
     end
   end
