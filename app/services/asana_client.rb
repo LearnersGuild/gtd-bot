@@ -12,12 +12,27 @@ class AsanaClient
   end
 
   def delete_project(project_id)
-    project = Asana::Project.new({ id: project_id }, { client: client })
-    project.delete
+    project(project_id).delete
   end
 
   def update_project(project_id, attributes)
-    project = Asana::Project.new({ id: project_id }, { client: client })
-    project.update(attributes)
+    project(project_id).update(attributes)
+  end
+
+  def projects(workspace_id, team_id)
+    projects =
+      Asana::Project.find_all(client, workspace: workspace_id, team: team_id)
+    projects.map { |p| ProjectObject.new(asana_id: p.id, name: p.name) }
+  end
+
+  def tasks_for_project(project_id)
+    project(project_id)
+      .tasks.map { |t| TaskObject.new(asana_id: t.id, name: t.name) }
+  end
+
+  private
+
+  def project(id)
+    Asana::Project.new({ id: id }, { client: client })
   end
 end
