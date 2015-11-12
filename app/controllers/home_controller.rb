@@ -7,9 +7,16 @@ class HomeController < ApplicationController
     asana_roles_updater = AsanaRolesUpdater.new(asana_client)
     role_object_factory = RoleObjectFactory.new
     glass_frog_client = GlassFrogClient.new(role_object_factory)
+    asana_hierarchy_fetcher = AsanaHierarchyFetcher.new(asana_client)
+    projects = asana_hierarchy_fetcher.projects
+    roles_saver = RolesSaver.new
+    projects_filter = ProjectsFilter.new(projects)
+    next_action_task_factory = NextActionTaskFactory.new(asana_client)
+
     strategies = [
       Strategies::SyncRole.new(glass_frog_client, asana_roles_updater,
-                               RolesDiff, RolesSaver.new, role_object_factory)
+                               RolesDiff, roles_saver, role_object_factory),
+      Strategies::NextActionTask.new(projects_filter, next_action_task_factory)
     ]
 
     response = Bot.new(strategies).perform
