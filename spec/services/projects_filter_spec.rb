@@ -25,4 +25,12 @@ describe ProjectsFilter do
       expect(subject).not_to include(role)
     end
   end
+
+  describe '#with tasks' do
+    subject { project_filter.with_tasks }
+
+    it 'returns projects with tasks' do
+      expect(subject).to eq([project_with_tasks])
+    end
+  end
 end
