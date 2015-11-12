@@ -16,4 +16,8 @@ class ProjectsFilter
       project.tasks.any?
     end
   end
+
+  def individual
+    projects.select(&:individual?)
+  end
 end

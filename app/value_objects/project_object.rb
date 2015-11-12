@@ -7,4 +7,8 @@ class ProjectObject < BaseObject
   def a_role?
     name.present? && name.start_with?("@")
   end
+
+  def individual?
+    name.present? && name == "@Individual"
+  end
 end
