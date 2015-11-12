@@ -7,7 +7,7 @@ class TasksAssigner
 
   def perform(tasks, assignee_id)
     tasks.each do |task|
-      asana_client.assign_task(task.asana_id, assignee_id)
+      asana_client.update_task(task.asana_id, assignee: assignee_id)
     end
   end
 end

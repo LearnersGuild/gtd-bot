@@ -42,10 +42,4 @@ describe AsanaClient do
       expect(subject).to respond_to(:tasks_for_project)
     end
   end
-
-  describe "#assign_task" do
-    it "delegates to Asana::Client" do
-      expect(subject).to respond_to(:assign_task)
-    end
-  end
 end

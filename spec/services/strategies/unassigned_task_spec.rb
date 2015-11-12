@@ -18,7 +18,7 @@ module Strategies
     let(:tasks) { [task] }
     let(:task) { double }
     let(:projects) { [project] }
-    let(:project) { double(tasks: tasks, owner: double) }
+    let(:project) { ProjectObject.new(tasks: tasks, owner_id: double) }
 
     describe '#perform' do
       it 'assigns unnasigned task to project owner' do

@@ -14,7 +14,7 @@ module Strategies
         tasks = project.tasks
         tasks_filter = tasks_filter_factory.new(tasks)
         unassigned_tasks = tasks_filter.unassigned
-        tasks_assigner.perform(unassigned_tasks, project.owner)
+        tasks_assigner.perform(unassigned_tasks, project.owner_id)
       end
     end
   end
