@@ -19,7 +19,9 @@ class HomeController < ApplicationController
       Strategies::NextActionTask.new(projects_filter, next_action_task_factory),
       Strategies::UnassignedTask.new(projects_filter, TasksFilter,
                                      TasksAssigner.new(asana_client)),
-      Strategies::IndividualRole.new(projects_filter, asana_client)
+      Strategies::IndividualRole.new(projects_filter, asana_client),
+      Strategies::AssignRoleToTask.new(projects_filter, task_filter_factory,
+                                       tasks_role_creator)
     ]
 
     response = Bot.new(strategies).perform
