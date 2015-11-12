@@ -1,11 +1,5 @@
-class RoleObject
-  include Virtus.model
-
+class RoleObject < BaseObject
   attribute :glass_frog_id, Integer
   attribute :name, String
   attribute :asana_id, String
-
-  def ==(other)
-    attributes == other.attributes
-  end
 end
