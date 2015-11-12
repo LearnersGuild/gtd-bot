@@ -47,9 +47,17 @@ class AsanaClient
       .tasks.map { |t| TaskObject.new(asana_id: t.id, name: t.name) }
   end
 
+  def update_task(task_id, attributes)
+    build_task(task_id).update(attributes)
+  end
+
   private
 
   def build_project(id)
     Asana::Project.new({ id: id }, { client: client })
+  end
+
+  def build_task(id)
+    Asana::Task.new({ id: id }, { client: client })
   end
 end

@@ -647,3 +647,4 @@ AllCops:
     - vendor/**/*
     - bin/**/*
     - log/**/*
+    - app/controllers/home_controller.rb

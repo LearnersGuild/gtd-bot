@@ -1,6 +1,4 @@
-class ProjectObject
-  include Virtus.model
-
+class ProjectObject < BaseObject
   attribute :asana_id, String
   attribute :name, String
   attribute :owner_id, String

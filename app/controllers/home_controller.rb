@@ -16,7 +16,9 @@ class HomeController < ApplicationController
     strategies = [
       Strategies::SyncRole.new(glass_frog_client, asana_roles_updater,
                                RolesDiff, roles_saver, role_object_factory),
-      Strategies::NextActionTask.new(projects_filter, next_action_task_factory)
+      Strategies::NextActionTask.new(projects_filter, next_action_task_factory),
+      Strategies::UnassignedTask.new(projects_filter, TasksFilter,
+                                     TasksAssigner.new(asana_client))
     ]
 
     response = Bot.new(strategies).perform
