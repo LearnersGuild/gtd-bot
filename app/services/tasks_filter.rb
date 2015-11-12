@@ -6,6 +6,6 @@ class TasksFilter
   end
 
   def unassigned
-    tasks.select { |task| task.assignee.empty? }
+    tasks.reject(&:assignee_id)
   end
 end

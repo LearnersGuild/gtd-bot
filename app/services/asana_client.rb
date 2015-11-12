@@ -44,7 +44,12 @@ class AsanaClient
 
   def tasks_for_project(project_id)
     build_project(project_id)
-      .tasks.map { |t| TaskObject.new(asana_id: t.id, name: t.name) }
+      .tasks(options: { fields: 'assignee' })
+      .map do |t|
+        assignee_id = t.assignee.try(:[], 'id')
+        TaskObject.new(asana_id: t.id, name: t.name,
+                       assignee_id: assignee_id)
+      end
   end
 
   def update_task(task_id, attributes)
