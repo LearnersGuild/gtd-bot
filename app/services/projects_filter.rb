@@ -7,7 +7,7 @@ class ProjectsFilter
 
   def without_tasks
     projects.select do |project|
-      project.tasks.empty?
+      project.tasks.empty? && !project.a_role?
     end
   end
 end
