@@ -23,6 +23,10 @@ module Strategies
     describe '#perform' do
       it 'assigns unnasigned task to project owner' do
         expect(projects_filter).to receive(:with_tasks)
+        expect(project).to receive(:tasks).and_return(tasks)
+        expect(tasks_filter_factory).to receive(:new).with(tasks)
+        expect(tasks_filter).to receive(:unassigned)
+        expect(tasks_assigner).to receive(:perform)
         subject.perform
       end
     end

@@ -9,6 +9,7 @@ describe TasksFilter do
 
   describe '#unassigned' do
     subject { tasks_filter.unassigned }
+
     it 'returns unassigned tasks' do
       expect(subject).to eq([unassigned_task])
     end
