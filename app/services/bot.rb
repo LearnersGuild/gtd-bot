@@ -6,7 +6,13 @@ class Bot
   end
 
   def perform
-    strategies.each(&:perform)
+    strategies.each do |strategy|
+      begin
+        strategy.perform
+      rescue => exception
+        Honeybadger.notify(exception)
+      end
+    end
   end
 end
 
