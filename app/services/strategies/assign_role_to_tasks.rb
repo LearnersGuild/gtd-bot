@@ -13,7 +13,7 @@ module Strategies
       projects_with_tasks.each do |project|
         task_filter = task_filter_factory.new(project.tasks)
         assigned_to_owner = task_filter.assigned_to_owner(project.owner_id)
-        tasks_role_creator.perform(assigned_to_owner)
+        tasks_role_creator.perform(project, assigned_to_owner)
       end
     end
   end

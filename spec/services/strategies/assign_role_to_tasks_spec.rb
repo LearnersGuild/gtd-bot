@@ -30,7 +30,8 @@ module Strategies
       it "assigns project role to the tasks assigned to project owner" do
         expect(project_filter).to receive(:with_tasks)
         expect(task_filter).to receive(:assigned_to_owner).with(owner_id)
-        expect(tasks_role_creator).to receive(:perform).with(assigned_to_owner)
+        expect(tasks_role_creator).to receive(:perform)
+          .with(project, assigned_to_owner)
         subject
       end
     end
