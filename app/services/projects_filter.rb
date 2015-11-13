@@ -2,7 +2,7 @@ class ProjectsFilter
   attr_accessor :projects
 
   def initialize(projects)
-    self.projects = projects
+    self.projects = projects.reject(&:underscored?)
   end
 
   def without_tasks

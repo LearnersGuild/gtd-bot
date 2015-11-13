@@ -3,13 +3,20 @@ require 'rails_helper'
 describe ProjectsFilter do
   let(:project_filter) { ProjectsFilter.new(projects) }
   let(:projects) do
-    [project_with_tasks, project_without_tasks, role, individual_project]
+    [
+      project_with_tasks,
+      project_without_tasks,
+      role,
+      underscored,
+      individual_project
+    ]
   end
   let(:project_with_tasks) { ProjectObject.new(asana_id: 7, tasks: tasks) }
   let(:tasks) { [TaskObject.new] }
   let(:project_without_tasks) { ProjectObject.new(asana_id: 8) }
   let(:role) { ProjectObject.new(asana_id: 9) }
   let(:individual_project) { ProjectObject.new(name: "@Individual") }
+  let(:underscored) { ProjectObject.new(name: "_Test") }
 
   describe '#without tasks' do
     subject { project_filter.without_tasks }
