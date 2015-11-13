@@ -5,10 +5,20 @@ class ProjectObject < BaseObject
   attribute :tasks, Array
 
   def a_role?
-    name.present? && name.start_with?("@")
+    name_start_with?("@")
+  end
+
+  def underscored?
+    name_start_with?("_")
   end
 
   def individual?
     name.present? && name == Strategies::IndividualRole::INDIVIDUAL_NAME
+  end
+
+  private
+
+  def name_start_with?(text)
+    name.present? && name.start_with?(text)
   end
 end

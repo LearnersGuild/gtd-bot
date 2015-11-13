@@ -3,6 +3,7 @@ class ProjectsFilter
 
   def initialize(projects)
     self.projects = projects
+    ignore_underscored_projects
   end
 
   def without_tasks
@@ -19,5 +20,11 @@ class ProjectsFilter
 
   def individual
     projects.select(&:individual?)
+  end
+
+  private
+
+  def ignore_underscored_projects
+    self.projects = projects.reject(&:underscored?)
   end
 end
