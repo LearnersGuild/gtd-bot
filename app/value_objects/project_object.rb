@@ -9,6 +9,6 @@ class ProjectObject < BaseObject
   end
 
   def individual?
-    name.present? && name == "@Individual"
+    name.present? && name == Strategies::IndividualRole::INDIVIDUAL_NAME
   end
 end
