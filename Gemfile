@@ -8,6 +8,7 @@ gem 'sidekiq'
 gem 'glassfrog'
 gem 'asana'
 gem 'virtus'
+gem 'dependor'
 
 group :development, :test do
   gem 'spring'

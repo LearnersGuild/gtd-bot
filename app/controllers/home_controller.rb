@@ -1,35 +1,13 @@
 class HomeController < ApplicationController
+  inject :strategies_factory
+
   def index
   end
 
   def test_bot
-    asana_client = AsanaClient.new
-    asana_roles_updater = AsanaRolesUpdater.new(asana_client)
-    role_object_factory = RoleObjectFactory.new
-    glass_frog_client = GlassFrogClient.new(role_object_factory)
-    asana_hierarchy_fetcher = AsanaHierarchyFetcher.new(asana_client)
-    projects = asana_hierarchy_fetcher.projects
-    roles_saver = RolesSaver.new
-    projects_filter = ProjectsFilter.new(projects)
-    next_action_task_factory = NextActionTaskFactory.new(asana_client)
-    tasks_assigner = TasksAssigner.new(asana_client)
-    description_parser = DescriptionParser.new
-    task_description_builder = TaskDescriptionBuilder.new(description_parser)
-    tasks_role_creator = TasksRoleCreator.new(task_description_builder,
-                                              asana_client)
-
-    strategies = [
-      Strategies::SyncRole.new(glass_frog_client, asana_roles_updater,
-                               RolesDiff, roles_saver, role_object_factory),
-      Strategies::NextActionTask.new(projects_filter, next_action_task_factory),
-      Strategies::UnassignedTask.new(projects_filter, TasksFilter,
-                                     tasks_assigner),
-      Strategies::IndividualRole.new(projects_filter, asana_client),
-      Strategies::AssignRoleToTasks.new(projects_filter, TasksFilter,
-                                       tasks_role_creator)
-    ]
-
+    strategies = strategies_factory.create
     response = Bot.new(strategies).perform
+
     render :test_bot, locals: { response: response }
   end
 

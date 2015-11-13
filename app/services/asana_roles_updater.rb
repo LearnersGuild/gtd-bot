@@ -1,9 +1,5 @@
-class AsanaRolesUpdater
-  attr_accessor :asana_client
-
-  def initialize(asana_client)
-    self.asana_client = asana_client
-  end
+class AsanaRolesUpdater < BaseService
+  takes :asana_client
 
   def perform(diff)
     {

@@ -1,9 +1,5 @@
-class AsanaHierarchyFetcher
-  attr_accessor :asana_client
-
-  def initialize(asana_client)
-    self.asana_client = asana_client
-  end
+class AsanaHierarchyFetcher < BaseService
+  takes :asana_client
 
   def projects
     projects =

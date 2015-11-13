@@ -103,6 +103,7 @@ GEM
     colorize (0.7.7)
     connection_pool (2.2.0)
     debug_inspector (0.0.2)
+    dependor (1.0.1)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.2.5)
@@ -322,6 +323,7 @@ DEPENDENCIES
   capistrano-rails
   capistrano-rvm
   capistrano3-unicorn
+  dependor
   factory_girl
   glassfrog
   guard-rspec

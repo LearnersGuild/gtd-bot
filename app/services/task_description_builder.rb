@@ -1,9 +1,5 @@
-class TaskDescriptionBuilder
-  attr_accessor :description_parser
-
-  def initialize(description_parser)
-    self.description_parser = description_parser
-  end
+class TaskDescriptionBuilder < BaseService
+  takes :description_parser
 
   def with_project_roles(task, project)
     description = description_parser.plain_description(task.description)
