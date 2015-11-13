@@ -7,7 +7,7 @@ describe TasksRoleCreator do
                     with_project_roles: new_description)
   end
   let(:asana_client) do
-    double('AsanaClient', update_task: true)
+    instance_double('AsanaClient', update_task: true)
   end
   let(:new_description) { '@Tester Very important task' }
 

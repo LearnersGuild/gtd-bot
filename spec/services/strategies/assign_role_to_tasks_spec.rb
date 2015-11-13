@@ -18,11 +18,13 @@ module Strategies
       double(:task_filter_factory, new: task_filter)
     end
     let(:task_filter) do
-      double('TaskFilter', assigned_to: assigned_to_owner)
+      instance_double('TaskFilter', assigned_to: assigned_to_owner)
     end
     let(:assigned_to_owner) { [] }
 
-    let(:tasks_role_creator) { double('TasksRoleCreator', perform: true) }
+    let(:tasks_role_creator) do
+      instance_double('TasksRoleCreator', perform: true)
+    end
 
     describe "#perform" do
       subject { strategy.perform }
