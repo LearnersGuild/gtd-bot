@@ -22,7 +22,7 @@ describe TasksRoleCreator do
       expect(task_description_builder).to receive(:with_project_roles)
         .with(task, project)
       expect(asana_client).to receive(:update_task)
-        .with(task.asana_id, description: new_description)
+        .with(task.asana_id, notes: new_description)
       subject
     end
   end

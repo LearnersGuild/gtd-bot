@@ -19,12 +19,6 @@ describe AsanaClient do
     end
   end
 
-  describe "#project" do
-    it "delegates to Asana::Client" do
-      expect(subject).to respond_to(:project)
-    end
-  end
-
   describe "#projects" do
     it "delegates to Asana::Client" do
       expect(subject).to respond_to(:projects)

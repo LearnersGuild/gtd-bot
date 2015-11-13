@@ -9,10 +9,9 @@ class AsanaHierarchyFetcher
     projects =
       asana_client.projects(A9n.asana[:workspace_id], A9n.asana[:team_id])
     projects.map do |project|
-      detailed_project = asana_client.project(project.asana_id)
       tasks = asana_client.tasks_for_project(project.asana_id)
-      detailed_project.tasks = tasks
-      detailed_project
+      project.tasks = tasks
+      project
     end
   end
 end

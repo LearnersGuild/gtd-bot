@@ -20,18 +20,19 @@ class AsanaClient
   end
 
   def projects(workspace_id, team_id)
-    projects =
-      Asana::Project.find_all(client, workspace: workspace_id, team: team_id)
-    projects.map { |p| ProjectObject.new(asana_id: p.id, name: p.name) }
-  end
-
-  def project(project_id)
-    project = Asana::Project.find_by_id(client, project_id)
-    ProjectObject.new(
-      asana_id: project.id,
-      name: project.name,
-      owner_id: project.owner['id']
-    )
+    projects = Asana::Project.find_all(
+      client,
+      workspace: workspace_id,
+      team: team_id,
+      options: { fields: [:name, :owner, :notes] })
+    projects.map do |p|
+      ProjectObject.new(
+        asana_id: p.id,
+        name: p.name,
+        owner_id: p.owner['id'],
+        description: p.notes
+      )
+    end
   end
 
   def create_task(workspace_id, project_id, attributes)
@@ -44,11 +45,14 @@ class AsanaClient
 
   def tasks_for_project(project_id)
     build_project(project_id)
-      .tasks(options: { fields: 'assignee' })
+      .tasks(options: { fields: [:name, :assignee, :notes] })
       .map do |t|
-        assignee_id = t.assignee.try(:[], 'id')
-        TaskObject.new(asana_id: t.id, name: t.name,
-                       assignee_id: assignee_id)
+        TaskObject.new(
+          asana_id: t.id,
+          name: t.name,
+          assignee_id: t.assignee && t.assignee['id'],
+          description: t.notes
+        )
       end
   end
 

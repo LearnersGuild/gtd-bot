@@ -18,7 +18,7 @@ module Strategies
       double(:task_filter_factory, new: task_filter)
     end
     let(:task_filter) do
-      double('TaskFilter', assigned_to_owner: assigned_to_owner)
+      double('TaskFilter', assigned_to: assigned_to_owner)
     end
     let(:assigned_to_owner) { [] }
 
@@ -29,7 +29,7 @@ module Strategies
 
       it "assigns project role to the tasks assigned to project owner" do
         expect(project_filter).to receive(:with_tasks)
-        expect(task_filter).to receive(:assigned_to_owner).with(owner_id)
+        expect(task_filter).to receive(:assigned_to).with(owner_id)
         expect(tasks_role_creator).to receive(:perform)
           .with(project, assigned_to_owner)
         subject
