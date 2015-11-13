@@ -3,9 +3,10 @@ class ProjectObject < BaseObject
   attribute :name, String
   attribute :owner_id, String
   attribute :tasks, Array
+  attribute :description, String
 
   def a_role?
-    name_start_with?("@")
+    name_start_with?(RoleObject::NAME_PREFIX)
   end
 
   def underscored?

@@ -12,14 +12,21 @@ class HomeController < ApplicationController
     roles_saver = RolesSaver.new
     projects_filter = ProjectsFilter.new(projects)
     next_action_task_factory = NextActionTaskFactory.new(asana_client)
+    tasks_assigner = TasksAssigner.new(asana_client)
+    description_parser = DescriptionParser.new
+    task_description_builder = TaskDescriptionBuilder.new(description_parser)
+    tasks_role_creator = TasksRoleCreator.new(task_description_builder,
+                                              asana_client)
 
     strategies = [
       Strategies::SyncRole.new(glass_frog_client, asana_roles_updater,
                                RolesDiff, roles_saver, role_object_factory),
       Strategies::NextActionTask.new(projects_filter, next_action_task_factory),
       Strategies::UnassignedTask.new(projects_filter, TasksFilter,
-                                     TasksAssigner.new(asana_client)),
-      Strategies::IndividualRole.new(projects_filter, asana_client)
+                                     tasks_assigner),
+      Strategies::IndividualRole.new(projects_filter, asana_client),
+      Strategies::AssignRoleToTasks.new(projects_filter, TasksFilter,
+                                       tasks_role_creator)
     ]
 
     response = Bot.new(strategies).perform

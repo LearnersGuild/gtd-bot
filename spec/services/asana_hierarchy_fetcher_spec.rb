@@ -5,14 +5,10 @@ describe AsanaHierarchyFetcher do
   let(:asana_client) do
     instance_double('AsanaClient',
                     projects: projects,
-                    project: detailed_project,
                     tasks_for_project: tasks)
   end
   let(:projects) do
-    [ProjectObject.new(asana_id: asana_id, name: name)]
-  end
-  let(:detailed_project) do
-    ProjectObject.new(asana_id: asana_id, name: name, owner_id: owner_id)
+    [ProjectObject.new(asana_id: asana_id, name: name, owner_id: owner_id)]
   end
   let(:asana_id) { '7777' }
   let(:name) { 'Project' }
