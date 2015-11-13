@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 describe Bot do
-  subject { Bot.new(strategies) }
+  subject { Bot.new(strategies, exception_handler) }
+
+  let(:exception_handler) { instance_double('ExceptionHandler') }
 
   let(:strategies) { [strategy] }
   let(:strategy) { double(:strategy, perform: nil) }

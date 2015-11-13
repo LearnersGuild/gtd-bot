@@ -1,12 +1,12 @@
 class HomeController < ApplicationController
-  inject :strategies_factory
+  inject :strategies_factory, :exception_handler
 
   def index
   end
 
   def test_bot
     strategies = strategies_factory.create
-    response = Bot.new(strategies).perform
+    response = Bot.new(strategies, exception_handler).perform
 
     render :test_bot, locals: { response: response }
   end
