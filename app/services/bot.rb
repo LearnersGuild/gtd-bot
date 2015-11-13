@@ -5,7 +5,7 @@ class Bot < BaseService
     strategies.each do |strategy|
       begin
         strategy.perform
-      rescue => exception
+      rescue StandardError => exception
         exception_handler.perform(exception)
       end
     end
