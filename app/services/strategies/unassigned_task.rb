@@ -1,12 +1,6 @@
 module Strategies
-  class UnassignedTask
-    attr_accessor :projects_filter, :tasks_filter_factory, :tasks_assigner
-
-    def initialize(projects_filter, tasks_filter_factory, tasks_assigner)
-      self.projects_filter = projects_filter
-      self.tasks_filter_factory = tasks_filter_factory
-      self.tasks_assigner = tasks_assigner
-    end
+  class UnassignedTask < BaseService
+    takes :projects_filter, :tasks_filter_factory, :tasks_assigner
 
     def perform
       projects_with_tasks = projects_filter.with_tasks

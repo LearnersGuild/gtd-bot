@@ -1,12 +1,6 @@
 module Strategies
-  class AssignRoleToTasks
-    attr_accessor :project_filter, :task_filter_factory, :tasks_role_creator
-
-    def initialize(project_filter, task_filter_factory, tasks_role_creator)
-      self.project_filter = project_filter
-      self.task_filter_factory = task_filter_factory
-      self.tasks_role_creator = tasks_role_creator
-    end
+  class AssignRoleToTasks < BaseService
+    takes :project_filter, :task_filter_factory, :tasks_role_creator
 
     def perform
       projects_with_tasks = project_filter.with_tasks

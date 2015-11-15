@@ -1,9 +1,5 @@
-class TasksFilter
-  attr_accessor :tasks
-
-  def initialize(tasks)
-    self.tasks = tasks
-  end
+class TasksFilter < BaseService
+  takes :tasks
 
   def unassigned
     tasks.reject(&:assignee_id)

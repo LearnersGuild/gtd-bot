@@ -1,10 +1,7 @@
-class NextActionTaskFactory
-  attr_accessor :asana_client
-  NEW_ACTION_TITLE = "Please add next Action to project"
+class NextActionTaskFactory < BaseService
+  takes :asana_client
 
-  def initialize(asana_client)
-    self.asana_client = asana_client
-  end
+  NEW_ACTION_TITLE = "Please add next Action to project"
 
   def create(project)
     name = "#{NEW_ACTION_TITLE} @#{project.name}"

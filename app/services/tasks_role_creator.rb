@@ -1,10 +1,5 @@
-class TasksRoleCreator
-  attr_accessor :task_description_builder, :asana_client
-
-  def initialize(task_description_builder, asana_client)
-    self.task_description_builder = task_description_builder
-    self.asana_client = asana_client
-  end
+class TasksRoleCreator < BaseService
+  takes :task_description_builder, :asana_client
 
   def perform(project, tasks)
     tasks.each do |task|

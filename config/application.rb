@@ -4,6 +4,9 @@ require 'rails/all'
 
 Bundler.require(*Rails.groups)
 
+require 'dependor'
+require 'dependor/shorty'
+
 A9n.root = File.expand_path('../..', __FILE__)
 A9n.load
 

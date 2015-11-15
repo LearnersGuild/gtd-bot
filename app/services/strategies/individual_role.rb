@@ -1,12 +1,8 @@
 module Strategies
-  class IndividualRole
-    attr_accessor :projects_filter, :asana_client
-    INDIVIDUAL_NAME = "@Individual"
+  class IndividualRole < BaseService
+    takes :projects_filter, :asana_client
 
-    def initialize(projects_filter, asana_client)
-      self.projects_filter = projects_filter
-      self.asana_client = asana_client
-    end
+    INDIVIDUAL_NAME = "@Individual"
 
     def perform
       if projects_filter.individual.empty?

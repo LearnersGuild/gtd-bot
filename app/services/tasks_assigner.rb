@@ -1,9 +1,5 @@
-class TasksAssigner
-  attr_accessor :asana_client
-
-  def initialize(asana_client)
-    self.asana_client = asana_client
-  end
+class TasksAssigner < BaseService
+  takes :asana_client
 
   def perform(tasks, assignee_id)
     tasks.each do |task|
