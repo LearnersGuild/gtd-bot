@@ -3,10 +3,10 @@ require 'rails_helper'
 module Strategies
   describe AssignRoleToTasks do
     let(:strategy) do
-      AssignRoleToTasks.new(project_filter, task_filter_factory,
+      AssignRoleToTasks.new(projects_filter, task_filter_factory,
                             tasks_role_creator)
     end
-    let(:project_filter) do
+    let(:projects_filter) do
       instance_double('ProjectFilter', with_tasks: projects)
     end
     let(:projects) { [project] }
@@ -30,7 +30,7 @@ module Strategies
       subject { strategy.perform }
 
       it "assigns project role to the tasks assigned to project owner" do
-        expect(project_filter).to receive(:with_tasks)
+        expect(projects_filter).to receive(:with_tasks)
         expect(task_filter).to receive(:assigned_to).with(owner_id)
         expect(tasks_role_creator).to receive(:perform)
           .with(project, assigned_to_owner)

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe ProjectsFilter do
-  let(:project_filter) { ProjectsFilter.new(projects) }
+  let(:projects_filter) { ProjectsFilter.new(projects) }
   let(:projects) do
     [
       project_with_tasks,
@@ -24,7 +24,7 @@ describe ProjectsFilter do
   let(:with_role) { ProjectObject.new(description: "#{role_link} description") }
 
   describe '#without tasks' do
-    subject { project_filter.without_tasks }
+    subject { projects_filter.without_tasks }
 
     before do
       expect(role).to receive(:a_role?).and_return(true)
@@ -40,7 +40,7 @@ describe ProjectsFilter do
   end
 
   describe '#with tasks' do
-    subject { project_filter.with_tasks }
+    subject { projects_filter.with_tasks }
 
     it 'returns projects with tasks' do
       expect(subject).to eq([project_with_tasks])
@@ -48,7 +48,7 @@ describe ProjectsFilter do
   end
 
   describe '#individual' do
-    subject { project_filter.individual }
+    subject { projects_filter.individual }
 
     it 'returns projects with tasks' do
       expect(subject).to eq([individual_project])
@@ -56,7 +56,7 @@ describe ProjectsFilter do
   end
 
   describe '#roles' do
-    subject { project_filter.roles }
+    subject { projects_filter.roles }
 
     it 'returns projects with tasks' do
       expect(subject).to eq([role, individual_project])
@@ -64,7 +64,7 @@ describe ProjectsFilter do
   end
 
   describe '#without_roles_assigned' do
-    subject { project_filter.without_roles_assigned }
+    subject { projects_filter.without_roles_assigned }
 
     it 'returns projects without roles' do
       expected_projects = [project_with_tasks, project_without_tasks]
