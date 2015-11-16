@@ -4,13 +4,14 @@ class ProjectObject < BaseObject
   attribute :owner_id, String
   attribute :tasks, Array
   attribute :description, String
+  IGNORED_PREFIX = '_'
 
   def a_role?
     name_start_with?(RoleObject::NAME_PREFIX)
   end
 
   def underscored?
-    name_start_with?("_")
+    name_start_with?(IGNORED_PREFIX)
   end
 
   def individual?

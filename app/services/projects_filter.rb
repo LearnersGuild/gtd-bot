@@ -13,11 +13,15 @@ class ProjectsFilter
 
   def with_tasks
     projects.select do |project|
-      project.tasks.any?
+      project.tasks.any? && !project.a_role?
     end
   end
 
   def individual
     projects.select(&:individual?)
+  end
+
+  def roles
+    projects.select(&:a_role?)
   end
 end
