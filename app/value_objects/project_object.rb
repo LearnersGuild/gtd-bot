@@ -5,6 +5,7 @@ class ProjectObject < BaseObject
   attribute :tasks, Array
   attribute :description, String
   IGNORED_PREFIX = '_'
+  INDIVIDUAL_NAME = "@Individual"
 
   def a_role?
     name_start_with?(RoleObject::NAME_PREFIX)
@@ -15,7 +16,7 @@ class ProjectObject < BaseObject
   end
 
   def individual?
-    name.present? && name == Strategies::IndividualRole::INDIVIDUAL_NAME
+    name.present? && name == INDIVIDUAL_NAME
   end
 
   private
