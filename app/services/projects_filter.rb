@@ -6,14 +6,14 @@ class ProjectsFilter
   end
 
   def without_tasks
-    projects.select do |project|
-      project.tasks.empty? && !project.a_role?
+    without_roles.select do |project|
+      project.tasks.empty?
     end
   end
 
   def with_tasks
-    projects.select do |project|
-      project.tasks.any? && !project.a_role?
+    without_roles.select do |project|
+      project.tasks.any?
     end
   end
 
@@ -26,6 +26,10 @@ class ProjectsFilter
   end
 
   def without_roles
-    projects.reject(&:role_present?)
+    projects.reject(&:a_role?)
+  end
+
+  def without_roles_assigned
+    without_roles.reject(&:role_present?)
   end
 end

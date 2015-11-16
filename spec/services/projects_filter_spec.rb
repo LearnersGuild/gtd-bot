@@ -63,11 +63,11 @@ describe ProjectsFilter do
     end
   end
 
-  describe '#without_roles' do
-    subject { project_filter.without_roles }
+  describe '#without_roles_assigned' do
+    subject { project_filter.without_roles_assigned }
 
     it 'returns projects without roles' do
-      expected_projects = projects - [underscored, with_role]
+      expected_projects = [project_with_tasks, project_without_tasks]
       expect(subject).to eq(expected_projects)
     end
   end
