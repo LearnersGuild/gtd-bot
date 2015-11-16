@@ -8,11 +8,11 @@ describe AssignRoleTaskFactory do
 
   describe "#create" do
     subject { factory.create(project) }
-    let(:project) { ProjectObject.new }
+    let(:project) { ProjectObject.new(name: 'Project', tasks: tasks) }
+    let(:tasks) { [] }
+    let(:expected_name) { "#{AssignRoleTaskFactory::TITLE} @Project" }
 
     it "delegates to Asana" do
-      expected_name =
-        "#{AssignRoleTaskFactory::TITLE} @#{project.name}"
       expect(asana_client).to receive(:create_task).with(
         A9n.asana[:workspace_id], project.asana_id,
         name: expected_name,
@@ -20,6 +20,15 @@ describe AssignRoleTaskFactory do
         notes: AssignRoleTaskFactory::DESCRIPTION
       )
       subject
+    end
+
+    context "tasks already created" do
+      let(:tasks) { [TaskObject.new(name: expected_name)] }
+
+      it "does not dupplicate task" do
+        expect(asana_client).not_to receive(:create_task)
+        subject
+      end
     end
   end
 end

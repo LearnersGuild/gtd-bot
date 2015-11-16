@@ -8,8 +8,11 @@ class AssignRoleTaskFactory < BaseService
 
   def create(project)
     name = "#{TITLE} @#{project.name}"
+    task = project.tasks.detect { |t| t.name == name }
+    return if task
+
     attributes = { name: name, assignee: project.owner_id, notes: DESCRIPTION }
-    asana_client.create_task(A9n.asana[:workspace_id], project.asana_id,
-                             attributes)
+    workspace_id = A9n.asana[:workspace_id]
+    asana_client.create_task(workspace_id, project.asana_id, attributes)
   end
 end
