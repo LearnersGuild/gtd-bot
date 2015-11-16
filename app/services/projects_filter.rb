@@ -24,4 +24,8 @@ class ProjectsFilter
   def roles
     projects.select(&:a_role?)
   end
+
+  def without_roles
+    projects.reject(&:role_present?)
+  end
 end

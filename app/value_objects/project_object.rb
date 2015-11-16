@@ -19,6 +19,14 @@ class ProjectObject < BaseObject
     name.present? && name == INDIVIDUAL_NAME
   end
 
+  def role_present?
+    return false unless description
+
+    parser = DescriptionParser.new
+    roles = parser.all_roles(description)
+    roles.any?
+  end
+
   private
 
   def name_start_with?(text)
