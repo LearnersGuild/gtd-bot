@@ -20,6 +20,7 @@ class DescriptionParser
   private
 
   def split(description)
+    return [[], 0] if description.empty?
     splitted = description.split(SPLIT_CHAR)
     index = splitted.index { |w| !w.match(PROJECT_MENTION) }
     [splitted, index]

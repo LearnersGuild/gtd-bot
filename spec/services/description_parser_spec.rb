@@ -8,6 +8,12 @@ describe DescriptionParser do
   describe "#plain_description" do
     subject { parser.plain_description(description) }
 
+    context "empty description" do
+      let(:description) { "" }
+
+      it { expect(subject).to eq('') }
+    end
+
     context "one role" do
       let(:description) { "#{role1} Plain Description" }
 
@@ -35,6 +41,12 @@ describe DescriptionParser do
   end
 
   shared_examples_for "roles" do
+    context "empty description" do
+      let(:description) { "" }
+
+      it { expect(subject).to eq([]) }
+    end
+
     context "one role" do
       let(:description) { "#{role1} Plain Description" }
 
