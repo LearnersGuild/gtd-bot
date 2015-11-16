@@ -24,7 +24,7 @@ module Strategies
           instance_double('ProjectsFilter', individual: [individual_project])
         end
         let(:individual_project) do
-          ProjectObject.new(name: Strategies::IndividualRole::INDIVIDUAL_NAME)
+          ProjectObject.new(name: ProjectObject::INDIVIDUAL_NAME)
         end
 
         it "doesn't create @Individual role" do

@@ -11,10 +11,12 @@ describe ProjectsFilter do
       individual_project
     ]
   end
-  let(:project_with_tasks) { ProjectObject.new(asana_id: 7, tasks: tasks) }
+  let(:project_with_tasks) do
+    ProjectObject.new(name: "Test1", asana_id: 7, tasks: tasks)
+  end
   let(:tasks) { [TaskObject.new] }
-  let(:project_without_tasks) { ProjectObject.new(asana_id: 8) }
-  let(:role) { ProjectObject.new(asana_id: 9) }
+  let(:project_without_tasks) { ProjectObject.new(name: "Test2", asana_id: 8) }
+  let(:role) { ProjectObject.new(name: "@Test3", asana_id: 9) }
   let(:individual_project) { ProjectObject.new(name: "@Individual") }
   let(:underscored) { ProjectObject.new(name: "_Test") }
 
@@ -47,6 +49,14 @@ describe ProjectsFilter do
 
     it 'returns projects with tasks' do
       expect(subject).to eq([individual_project])
+    end
+  end
+
+  describe '#roles' do
+    subject { project_filter.roles }
+
+    it 'returns projects with tasks' do
+      expect(subject).to eq([role, individual_project])
     end
   end
 end
