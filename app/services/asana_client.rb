@@ -44,14 +44,16 @@ class AsanaClient
   end
 
   def tasks_for_project(project_id)
+    fields = [:name, :assignee, :notes, :modified_at]
     build_project(project_id)
-      .tasks(options: { fields: [:name, :assignee, :notes] })
+      .tasks(options: { fields: fields })
       .map do |t|
         TaskObject.new(
           asana_id: t.id,
           name: t.name,
           assignee_id: t.assignee && t.assignee['id'],
-          description: t.notes
+          description: t.notes,
+          modified_at: t.modified_at.to_date
         )
       end
   end
