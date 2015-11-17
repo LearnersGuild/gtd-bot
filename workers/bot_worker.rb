@@ -1,6 +1,6 @@
 require File.expand_path('../../config/environment', __FILE__)
 
-class BotWorker < BaseWorker
+class BotWorker < BaseService
   inject :strategies_factory, :exception_handler
 
   def perform

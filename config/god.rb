@@ -1,4 +1,4 @@
-RAILS_ROOT = File.expand_path('../../', __FILE__)
+RAILS_ROOT = ENV['RAILS_ROOT'] || File.expand_path('../../', __FILE__)
 
 God.watch do |w|
   w.name = "bot"
