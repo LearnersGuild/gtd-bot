@@ -48,12 +48,14 @@ class AsanaClient
     build_project(project_id)
       .tasks(options: { fields: fields })
       .map do |t|
+        tags = t.tags.map { |tg| TagObject.new(asana_id: tg.id, name: tg.name) }
         TaskObject.new(
           asana_id: t.id,
           name: t.name,
           assignee_id: t.assignee && t.assignee['id'],
           description: t.notes,
-          modified_at: t.modified_at.to_date
+          modified_at: t.modified_at.to_date,
+          tags: tags
         )
       end
   end
