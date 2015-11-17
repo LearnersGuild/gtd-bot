@@ -64,6 +64,12 @@ class AsanaClient
     build_task(task_id).update(attributes)
   end
 
+  def all_tags(workspace_id)
+    Asana::Tag.find_all(client, workspace: workspace_id).map do |t|
+      TagObject.new(asana_id: t.id, name: t.name)
+    end
+  end
+
   private
 
   def build_project(id)

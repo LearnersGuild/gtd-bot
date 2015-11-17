@@ -6,7 +6,7 @@ module Strategies
       projects = projects_filter.with_tasks
       projects.each do |project|
         tasks_filter = tasks_filter_factory.new(project.tasks)
-        task_tagger.perform(tasks_filter.stale_tasks, :stale)
+        task_tagger.perform(tasks_filter.stale_tasks, 'stale')
       end
     end
   end

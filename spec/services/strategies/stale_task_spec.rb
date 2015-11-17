@@ -24,7 +24,7 @@ module Strategies
     describe '#perform' do
       subject { strategy.perform }
       it 'tags stale tasks' do
-        expect(task_tagger).to receive(:perform).with(stale_tasks, :stale)
+        expect(task_tagger).to receive(:perform).with(stale_tasks, 'stale')
         subject
       end
     end
