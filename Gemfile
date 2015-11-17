@@ -4,7 +4,6 @@ gem 'rails', '4.2.4'
 gem 'pg'
 gem 'a9n'
 gem 'honeybadger', '~> 2.0'
-gem 'god'
 gem 'glassfrog'
 gem 'asana'
 gem 'virtus'
@@ -29,6 +28,8 @@ group :development do
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
   gem 'capistrano3-unicorn'
+
+  gem 'god'
 end
 
 group :test do
