@@ -1,4 +1,4 @@
-require File.expand_path('../../../config/environment', __FILE__)
+require File.expand_path('../../config/environment', __FILE__)
 
 class BotWorker < BaseWorker
   inject :strategies_factory, :exception_handler
