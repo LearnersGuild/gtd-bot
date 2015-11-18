@@ -4,7 +4,7 @@ class Bot < BaseService
   def perform
     strategies.each do |strategy|
       begin
-        strategy.perform
+        strategy.perform_with_logging
       rescue StandardError => exception
         exception_handler.perform(exception)
       end

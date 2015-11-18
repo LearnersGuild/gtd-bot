@@ -1,5 +1,5 @@
 module Strategies
-  class UnassignedTask < BaseService
+  class UnassignedTask < BaseStrategy
     takes :projects_filter, :tasks_filter_factory, :tasks_assigner
 
     def perform

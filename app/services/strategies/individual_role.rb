@@ -1,5 +1,5 @@
 module Strategies
-  class IndividualRole < BaseService
+  class IndividualRole < BaseStrategy
     takes :projects_filter, :asana_client
 
     def perform

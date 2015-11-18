@@ -1,5 +1,5 @@
 module Strategies
-  class AssignRoleToTasks < BaseService
+  class AssignRoleToTasks < BaseStrategy
     takes :projects_filter, :task_filter_factory, :tasks_role_creator
 
     def perform

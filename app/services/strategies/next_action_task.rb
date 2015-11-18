@@ -1,5 +1,5 @@
 module Strategies
-  class NextActionTask < BaseService
+  class NextActionTask < BaseStrategy
     takes :projects_filter, :next_action_task_factory
 
     def perform

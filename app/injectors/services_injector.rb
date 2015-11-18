@@ -1,9 +1,18 @@
+require 'logger'
+
 class ServicesInjector
   include Dependor::AutoInject
 
   def projects_filter
+    logger.info("Fetching hierarchy...")
+    if @projects_filter
+      logger.info("Hierarchy fetched")
+      return @projects_filter 
+    end
+
     projects = asana_hierarchy_fetcher.projects
-    ProjectsFilter.new(projects)
+    logger.info("Hierarchy fetched")
+    @projects_filter = ProjectsFilter.new(projects)
   end
 
   def sync_role_strategy
@@ -36,6 +45,12 @@ class ServicesInjector
   def clean_projects_names
     Strategies::CleanProjectsNames.new(projects_filter, glass_frog_client,
                                        illegal_roles_renamer)
+  end
+
+  def logger
+    @logger ||= Logger.new($stdout).tap do |log|
+      log.progname = self.class
+    end
   end
 end
 

@@ -1,5 +1,5 @@
 module Strategies
-  class CleanProjectsNames < BaseService
+  class CleanProjectsNames < BaseStrategy
     takes :projects_filter, :glass_frog_client, :illegal_roles_renamer
 
     def perform

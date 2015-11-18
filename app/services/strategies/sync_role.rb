@@ -1,5 +1,5 @@
 module Strategies
-  class SyncRole < BaseService
+  class SyncRole < BaseStrategy
     takes :glass_frog_client, :asana_roles_updater, :roles_diff_factory,
       :roles_saver, :role_object_factory
 
