@@ -3,7 +3,7 @@ class TagFactory
 
   def initialize(asana_client)
     self.asana_client = asana_client
-    self.workspace = A9n.asana[:workspce_id]
+    self.workspace = A9n.asana[:workspace_id]
     self.existing_tags = asana_client.all_tags(workspace)
   end
 

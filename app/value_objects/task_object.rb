@@ -5,7 +5,7 @@ class TaskObject < BaseObject
   attribute :description, String
   attribute :modified_at, Date
   attribute :tags, Array
-  STALE_TIME = 4.weeks.ago
+  STALE_TIME = 8.minute.ago
 
   def stale_task?
     modified_at && modified_at < STALE_TIME

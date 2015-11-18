@@ -47,6 +47,10 @@ class ServicesInjector
                                        illegal_roles_renamer)
   end
 
+  def stale_task
+    Strategies::StaleTask.new(projects_filter, TasksFilter, task_tagger)
+  end
+
   def logger
     @logger ||= Logger.new($stdout).tap do |log|
       log.progname = self.class

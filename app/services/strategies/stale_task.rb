@@ -1,5 +1,5 @@
 module Strategies
-  class StaleTask
+  class StaleTask < BaseService
     takes :projects_filter, :tasks_filter_factory, :task_tagger
 
     def perform

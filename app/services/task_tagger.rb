@@ -1,4 +1,4 @@
-class TaskTagger
+class TaskTagger < BaseService
   takes :asana_client, :tag_factory
 
   def perform(tasks, tag_name)
