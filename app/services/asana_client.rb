@@ -25,14 +25,7 @@ class AsanaClient
       workspace: workspace_id,
       team: team_id,
       options: { fields: [:name, :owner, :notes] })
-    projects.map do |p|
-      ProjectObject.new(
-        asana_id: p.id,
-        name: p.name,
-        owner_id: p.owner['id'],
-        description: p.notes
-      )
-    end
+    projects.map { |p| build_project_object(p) }
   end
 
   def create_task(workspace_id, project_id, attributes)
@@ -44,20 +37,10 @@ class AsanaClient
   end
 
   def tasks_for_project(project_id)
-    fields = [:name, :assignee, :notes, :modified_at, :tags]
+    fields = [:name, :assignee, :notes, :modified_at, :tags, :due_at]
     build_project(project_id)
       .tasks(options: { fields: fields })
-      .map do |t|
-        tags = t.tags.map { |tg| TagObject.new(asana_id: tg.id, name: tg.name) }
-        TaskObject.new(
-          asana_id: t.id,
-          name: t.name,
-          assignee_id: t.assignee && t.assignee['id'],
-          description: t.notes,
-          modified_at: DateTime.parse(t.modified_at),
-          tags: tags
-        )
-      end
+      .map { |t| build_task_object(t) }
   end
 
   def update_task(task_id, attributes)
@@ -87,5 +70,27 @@ class AsanaClient
 
   def build_task(id)
     Asana::Task.new({ id: id }, { client: client })
+  end
+
+  def build_task_object(t)
+    tags = t.tags.map { |tg| TagObject.new(asana_id: tg.id, name: tg.name) }
+    TaskObject.new(
+      asana_id: t.id,
+      name: t.name,
+      assignee_id: t.assignee && t.assignee['id'],
+      description: t.notes,
+      modified_at: DateTime.parse(t.modified_at),
+      due_at: t.due_at && DateTime.parse(t.due_at),
+      tags: tags
+    )
+  end
+
+  def build_project_object(p)
+    ProjectObject.new(
+      asana_id: p.id,
+      name: p.name,
+      owner_id: p.owner['id'],
+      description: p.notes
+    )
   end
 end
