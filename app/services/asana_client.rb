@@ -54,7 +54,7 @@ class AsanaClient
           name: t.name,
           assignee_id: t.assignee && t.assignee['id'],
           description: t.notes,
-          modified_at: t.modified_at.to_date,
+          modified_at: DateTime.parse(t.modified_at),
           tags: tags
         )
       end

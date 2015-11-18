@@ -6,7 +6,9 @@ describe TasksFilter do
   let(:assigned_task) { TaskObject.new(assignee_id: assignee_id) }
   let(:unassigned_task) { TaskObject.new(assignee_id: nil) }
   let(:assignee_id) { '1111' }
-  let(:stale_task) { TaskObject.new(modified_at: 5.weeks.ago) }
+  let(:stale_task) do
+    TaskObject.new(modified_at: TaskObject::STALE_TIME - 1.minute)
+  end
 
   describe '#unassigned' do
     subject { tasks_filter.unassigned }
