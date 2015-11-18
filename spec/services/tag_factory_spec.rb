@@ -17,9 +17,7 @@ describe TagFactory do
       let(:name) { 'test1' }
 
       it 'returns tag' do
-        expect(tag_factory).not_to receive(:create)
         expect(asana_client).not_to receive(:create_tag)
-        expect(tag_factory).to receive(:find).with(name).and_return(tag1)
         expect(subject).to eq(tag1)
         subject
       end
@@ -29,10 +27,22 @@ describe TagFactory do
       let(:name) { 'test3' }
 
       it 'returns tag' do
-        expect(tag_factory).to receive(:find).with(name).and_return(nil)
-        expect(tag_factory).to receive(:create).with(name).and_return(new_tag)
+        expect(asana_client).to receive(:create_tag)
         expect(subject).to eq(new_tag)
         subject
+      end
+
+      context 'tag is not duplicated' do
+        subject do
+          tag_factory.find_or_create(name)
+          tag_factory.find_or_create(name)
+        end
+
+        it 'returns tag and does not create same tag' do
+          expect(asana_client).to receive(:create_tag).once
+          expect(subject).to eq(new_tag)
+          subject
+        end
       end
     end
   end

@@ -16,6 +16,8 @@ class TagFactory
   end
 
   def create(name)
-    name && asana_client.create_tag(workspace, name: name)
+    tag = name && asana_client.create_tag(workspace, name: name)
+    self.existing_tags += [tag]
+    tag
   end
 end

@@ -37,7 +37,7 @@ class AsanaClient
   end
 
   def tasks_for_project(project_id)
-    fields = [:name, :assignee, :notes, :modified_at, :tags, :due_at]
+    fields = [:name, :assignee, :notes, :modified_at, :tags, :due_at, :due_on]
     build_project(project_id)
       .tasks(options: { fields: fields })
       .map { |t| build_task_object(t) }
@@ -74,13 +74,15 @@ class AsanaClient
 
   def build_task_object(t)
     tags = t.tags.map { |tg| TagObject.new(asana_id: tg.id, name: tg.name) }
+    due = t.due_at || t.due_on
+    due_at = due && DateTime.parse(due)
     TaskObject.new(
       asana_id: t.id,
       name: t.name,
       assignee_id: t.assignee && t.assignee['id'],
       description: t.notes,
       modified_at: DateTime.parse(t.modified_at),
-      due_at: t.due_at && DateTime.parse(t.due_at),
+      due_at: due_at,
       tags: tags
     )
   end
