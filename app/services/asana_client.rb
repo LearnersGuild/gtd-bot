@@ -70,6 +70,15 @@ class AsanaClient
     end
   end
 
+  def add_tag_to_task(task_id, tag_id)
+    build_task(task_id).add_tag(tag: tag_id)
+  end
+
+  def create_tag(workspace_id, attributes)
+    merged_attributes = attributes.merge(workspace: workspace_id)
+    Asana::Tag.create(client, merged_attributes)
+  end
+
   private
 
   def build_project(id)
