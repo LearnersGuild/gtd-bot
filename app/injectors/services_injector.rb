@@ -7,7 +7,7 @@ class ServicesInjector
     logger.info("Fetching hierarchy...")
     if @projects_filter
       logger.info("Hierarchy fetched")
-      return @projects_filter 
+      return @projects_filter
     end
 
     projects = asana_hierarchy_fetcher.projects

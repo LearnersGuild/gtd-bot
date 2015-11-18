@@ -6,7 +6,7 @@ describe Bot do
   let(:exception_handler) { instance_double('ExceptionHandler') }
 
   let(:strategies) { [strategy] }
-  let(:strategy) { double(:strategy, perform: nil) }
+  let(:strategy) { double(:strategy, perform_with_logging: nil) }
 
   describe "#perform" do
     it "has method perform" do
@@ -14,7 +14,7 @@ describe Bot do
     end
 
     it "performs strategies" do
-      expect(strategy).to receive(:perform)
+      expect(strategy).to receive(:perform_with_logging)
       subject.perform
     end
   end
