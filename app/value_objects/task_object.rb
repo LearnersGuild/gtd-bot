@@ -4,6 +4,7 @@ class TaskObject < BaseObject
   attribute :assignee_id, String
   attribute :description, String
   attribute :modified_at, Date
+  attribute :tags, Array
   STALE_TIME = 4.weeks.ago
 
   def stale_task?

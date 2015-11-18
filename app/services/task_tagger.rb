@@ -4,7 +4,9 @@ class TaskTagger
   def perform(tasks, tag_name)
     tag = tag_factory.find_or_create(tag_name)
     tasks.each do |task|
-      asana_client.add_tag_to_task(task.asana_id, tag.asana_id)
+      unless task.tags.include?(tag)
+        asana_client.add_tag_to_task(task.asana_id, tag.asana_id)
+      end
     end
   end
 end
