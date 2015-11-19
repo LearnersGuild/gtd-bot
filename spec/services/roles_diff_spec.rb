@@ -7,12 +7,14 @@ describe RolesDiff do
   let(:role_object_factory) do
     instance_double('RoleObjectFactory')
   end
+  let(:existing_roles) { [existing_to_update, existing_to_delete] }
   before(:each) do
     expect(role_object_factory).to receive(:from_db)
       .and_return(existing_to_update, existing_to_delete)
   end
+  let(:team_id) { '1111' }
 
-  let(:roles_diff) { RolesDiff.new(roles, role_object_factory) }
+  let(:roles_diff) { RolesDiff.new(roles, existing_roles, role_object_factory) }
 
   describe "#perform" do
     subject { roles_diff.perform }
@@ -22,13 +24,19 @@ describe RolesDiff do
     end
     let(:existing_id) { 7 }
     let(:updated_in_glass_frog) do
-      RoleObject.new(glass_frog_id: existing_id, name: 'New name')
+      RoleObject.new(
+        glass_frog_id: existing_id,
+        name: 'New name',
+        asana_team_id: team_id
+      )
     end
     let!(:existing_to_update) do
-      RoleObjectFactory.new.from_db(create(:role, glass_frog_id: existing_id))
+      RoleObjectFactory.new.from_db(
+        create(:role, glass_frog_id: existing_id, asana_team_id: team_id))
     end
     let!(:existing_to_delete) do
-      RoleObjectFactory.new.from_db(create(:role, glass_frog_id: 9))
+      RoleObjectFactory.new.from_db(
+        create(:role, glass_frog_id: 9, asana_team_id: team_id))
     end
 
     it "returns roles to create" do

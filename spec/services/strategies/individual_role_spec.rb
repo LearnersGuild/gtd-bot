@@ -2,7 +2,8 @@ require 'rails_helper'
 
 module Strategies
   describe IndividualRole do
-    let(:strategy) { IndividualRole.new(projects_filter, asana_client) }
+    let(:strategy) { IndividualRole.new(team, projects_filter, asana_client) }
+    let(:team) { TeamObject.new(asana_id: '1111') }
     let(:asana_client) { instance_double('AsanaClient') }
 
     describe '#perform' do

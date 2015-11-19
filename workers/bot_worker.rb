@@ -1,17 +1,13 @@
 require File.expand_path('../../config/environment', __FILE__)
 
 class BotWorker < BaseService
-  inject :strategies_factory, :exception_handler
+  inject :bot
 
   def perform
     loop do
       logger.info("Starting bot...")
 
-      logger.info("Creating strategies")
-      strategies = strategies_factory.create
-      logger.info("Strategies created")
-
-      Bot.new(strategies, exception_handler).perform
+      bot.perform
 
       logger.info("Bot finished.")
       logger.info("Sleeping...")

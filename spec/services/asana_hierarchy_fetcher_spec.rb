@@ -14,9 +14,10 @@ describe AsanaHierarchyFetcher do
   let(:name) { 'Project' }
   let(:owner_id) { '8888' }
   let(:tasks) { [TaskObject.new(name: 'Task')] }
+  let(:team) { TeamObject.new(asana_id: '1111') }
 
   describe "#projects" do
-    subject { fetcher.projects }
+    subject { fetcher.projects(team) }
 
     it "fetches projects with their details and
     builds hierarchy of our domain objects " do

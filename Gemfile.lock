@@ -1,4 +1,13 @@
 GIT
+  remote: git@github.com:LunarLogic/glassfrog-ruby.git
+  revision: 1b704f5c90d1c4011f9d28529faef5a0d597ca9e
+  specs:
+    glassfrog (0.3.1)
+      addressable (~> 2.3)
+      http (~> 0.8.0)
+      rack-cache (~> 1.2)
+
+GIT
   remote: git@github.com:bbatsov/rubocop.git
   revision: 945a382ae40cf211c10bbfae441d33326679ef69
   specs:
@@ -105,10 +114,6 @@ GEM
       multi_json
     ffi (1.9.10)
     formatador (0.2.5)
-    glassfrog (0.3.1)
-      addressable (~> 2.3)
-      http (~> 0.8.0)
-      rack-cache (~> 1.2)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     god (0.13.7)
@@ -296,7 +301,7 @@ DEPENDENCIES
   capistrano3-unicorn
   dependor
   factory_girl
-  glassfrog
+  glassfrog!
   god
   guard-rspec
   guard-rubocop

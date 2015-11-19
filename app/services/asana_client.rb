@@ -1,10 +1,11 @@
-class AsanaClient
-  attr_accessor :client
+class AsanaClient < BaseService
+  attr_accessor :client, :team_object_factory
 
-  def initialize
+  def initialize(team_object_factory)
     self.client = Asana::Client.new do |c|
       c.authentication(:access_token, A9n.asana[:api_key])
     end
+    self.team_object_factory = team_object_factory
   end
 
   def create_project(attributes)
@@ -17,6 +18,11 @@ class AsanaClient
 
   def update_project(project_id, attributes)
     build_project(project_id).update(attributes)
+  end
+
+  def teams(workspace_id)
+    teams = Asana::Team.find_by_organization(client, organization: workspace_id)
+    teams.map { |t| team_object_factory.from_asana(t) }
   end
 
   def projects(workspace_id, team_id)

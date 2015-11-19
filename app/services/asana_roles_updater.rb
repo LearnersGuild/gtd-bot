@@ -13,7 +13,8 @@ class AsanaRolesUpdater < BaseService
 
   def to_create(diff)
     map(diff[:to_create]) do |r|
-      role_attributes = ProjectAttributes.new(decorate_role(r.name))
+      role_attributes = ProjectAttributes.new(decorate_role(r.name),
+                                              r.asana_team_id)
       project = asana_client.create_project(role_attributes)
       new_attributes = r.attributes.merge(asana_id: project.id)
       RoleObject.new(new_attributes)
