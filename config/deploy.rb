@@ -39,3 +39,6 @@ set :linked_dirs, %w{pids log public/assets public/uploads}
 after "deploy:publishing", "unicorn:restart"
 after "deploy:finishing", "deploy:cleanup"
 
+after 'deploy:finished', 'god:copy_configuration'
+after 'god:copy_configuration', 'god:restart'
+after 'god:restart', 'bot:restart'
