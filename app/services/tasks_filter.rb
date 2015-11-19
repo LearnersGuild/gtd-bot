@@ -6,6 +6,10 @@ class TasksFilter < BaseService
   end
 
   def assigned_to(assignee_id)
-    tasks.select { |t| t.assignee_id == assignee_id }
+    tasks.select { |t| t.assigned_to?(assignee_id) }
+  end
+
+  def stale_tasks
+    tasks.select(&:stale_task?)
   end
 end

@@ -25,14 +25,7 @@ class AsanaClient
       workspace: workspace_id,
       team: team_id,
       options: { fields: [:name, :owner, :notes] })
-    projects.map do |p|
-      ProjectObject.new(
-        asana_id: p.id,
-        name: p.name,
-        owner_id: p.owner['id'],
-        description: p.notes
-      )
-    end
+    projects.map { |p| ProjectObjectFactory.new.build_from_asana(p) }
   end
 
   def create_task(workspace_id, project_id, attributes)
@@ -44,20 +37,29 @@ class AsanaClient
   end
 
   def tasks_for_project(project_id)
+    fields = [:name, :assignee, :notes, :modified_at, :tags, :due_at, :due_on]
     build_project(project_id)
-      .tasks(options: { fields: [:name, :assignee, :notes] })
-      .map do |t|
-        TaskObject.new(
-          asana_id: t.id,
-          name: t.name,
-          assignee_id: t.assignee && t.assignee['id'],
-          description: t.notes
-        )
-      end
+      .tasks(options: { fields: fields })
+      .map { |t| TaskObjectFactory.new.build_from_asana(t) }
   end
 
   def update_task(task_id, attributes)
     build_task(task_id).update(attributes)
+  end
+
+  def all_tags(workspace_id)
+    Asana::Tag.find_all(client, workspace: workspace_id).map do |t|
+      TagObject.new(asana_id: t.id, name: t.name)
+    end
+  end
+
+  def add_tag_to_task(task_id, tag_id)
+    build_task(task_id).add_tag(tag: tag_id)
+  end
+
+  def create_tag(workspace_id, attributes)
+    merged_attributes = attributes.merge(workspace: workspace_id)
+    Asana::Tag.create(client, merged_attributes)
   end
 
   private
