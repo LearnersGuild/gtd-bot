@@ -73,18 +73,32 @@ describe TaskObject do
     subject { task_object.stale_task? }
     let(:task_object) { TaskObject.new(modified_at: modified_at) }
 
-    context 'task is stale' do
+    context 'tasks was modified before stale time' do
       let(:modified_at) { TaskObject::STALE_TIME - 10.minutes }
 
       it 'returns true' do
+        expect(task_object).to receive(:ignored_tags?)
+        expect(task_object).to receive(:due_at_in_future?)
         expect(subject).to be_truthy
       end
     end
 
-    context 'task does not have due_at in future' do
+    context 'task was modified after stale time' do
       let(:modified_at) { TaskObject::STALE_TIME + 10.minutes }
 
       it 'returns false' do
+        expect(task_object).not_to receive(:ignored_tags?)
+        expect(task_object).not_to receive(:due_at_in_future?)
+        expect(subject).to be_falsey
+      end
+    end
+
+    context 'modified_at is nil' do
+      let(:modified_at) { nil }
+
+      it 'returns false' do
+        expect(task_object).not_to receive(:ignored_tags?)
+        expect(task_object).not_to receive(:due_at_in_future?)
         expect(subject).to be_falsey
       end
     end

@@ -16,6 +16,7 @@ class TagFactory
   end
 
   def create(name)
+    return if name.blank?
     tag = name && asana_client.create_tag(workspace, name: name)
     self.existing_tags += [tag]
     tag
