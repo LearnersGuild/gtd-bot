@@ -2,9 +2,9 @@ class AssignRoleTaskFactory < BaseService
   takes :asana_client
 
   TITLE = "Assign role to the project"
-  DESCRIPTION = "Assign a role to this project by linking
-                 to it in the description field.
-                 Use the @ symbol to make it an active link"
+  DESCRIPTION = "Assign a role to this project by linking "\
+                "to it in the description field. "\
+                "Use the @ symbol to make it an active link"
 
   def create(project)
     name = "#{TITLE} @#{project.name}"
