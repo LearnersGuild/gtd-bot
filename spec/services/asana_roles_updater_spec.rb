@@ -9,7 +9,10 @@ describe AsanaRolesUpdater do
                     update_project: true)
   end
   let(:project) { double(:project, id: 7777) }
-  let(:role_attributes) { { glass_frog_id: 7, name: 'Role' } }
+  let(:role_attributes) do
+    { glass_frog_id: 7, name: 'Role', asana_team_id: team_id }
+  end
+  let(:team_id) { '1111' }
 
   describe "#perform" do
     subject { updater.perform(diff) }
@@ -21,7 +24,7 @@ describe AsanaRolesUpdater do
 
       it "updates Asana" do
         expect(asana_client).to receive(:create_project)
-          .with(ProjectAttributes.new('@Role'))
+          .with(ProjectAttributes.new('@Role', team_id))
         subject
       end
 
@@ -37,7 +40,12 @@ describe AsanaRolesUpdater do
 
     context "existing in db" do
       let(:role_attributes) do
-        { glass_frog_id: 7, name: 'Role', asana_id: '7777' }
+        {
+          glass_frog_id: 7,
+          name: 'Role',
+          asana_id: '7777',
+          asana_team_id: team_id
+        }
       end
       let(:existing_role) { RoleObject.new(role_attributes) }
 

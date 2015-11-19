@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 describe AsanaClient do
+  subject { AsanaClient.new(team_object_factory) }
+  let(:team_object_factory) { TeamObjectFactory.new(RoleObjectFactory.new) }
+
   describe "#create_project" do
     it "delegates to Asana::Client" do
       expect(subject).to respond_to(:create_project)
@@ -16,6 +19,12 @@ describe AsanaClient do
   describe "#create_project" do
     it "delegates to Asana::Client" do
       expect(subject).to respond_to(:update_project)
+    end
+  end
+
+  describe "#teams" do
+    it "delegates to Asana::Client" do
+      expect(subject).to respond_to(:teams)
     end
   end
 

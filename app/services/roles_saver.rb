@@ -12,7 +12,8 @@ class RolesSaver
       Role.create(
         glass_frog_id: role.glass_frog_id,
         name: role.name,
-        asana_id: role.asana_id
+        asana_id: role.asana_id,
+        asana_team_id: role.asana_team_id
       )
     end
   end

@@ -11,6 +11,7 @@ describe RoleObjectFactory do
     it { expect(subject.glass_frog_id).to eq(role.glass_frog_id) }
     it { expect(subject.name).to eq(role.name) }
     it { expect(subject.asana_id).to eq(role.asana_id) }
+    it { expect(subject.asana_team_id).to eq(role.asana_team_id) }
   end
 
   describe "#from_glass_frog" do

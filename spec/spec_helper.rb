@@ -8,4 +8,10 @@ RSpec.configure do |config|
   end
 
   config.order = :random
+
+  config.before(:each) do
+    mock_logger = Logger.new("/dev/null")
+    allow_any_instance_of(BaseService).to receive(:logger)
+      .and_return(mock_logger)
+  end
 end

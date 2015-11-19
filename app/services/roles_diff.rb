@@ -1,12 +1,12 @@
 class RolesDiff
-  attr_accessor :existing, :existing_ids, :roles_ids, :roles,
-    :role_object_factory
+  attr_accessor :existing, :existing_ids, :glass_frog_roles_ids,
+    :glass_frog_roles
 
-  def initialize(roles, role_object_factory)
-    self.roles = roles
-    self.existing = Role.all.map { |r| role_object_factory.from_db(r) }
+  def initialize(glass_frog_roles, existing_roles, role_object_factory)
+    self.glass_frog_roles = glass_frog_roles
+    self.existing = existing_roles.map { |r| role_object_factory.from_db(r) }
     self.existing_ids = existing.map(&:glass_frog_id)
-    self.roles_ids = roles.map(&:glass_frog_id)
+    self.glass_frog_roles_ids = glass_frog_roles.map(&:glass_frog_id)
   end
 
   def perform
@@ -16,11 +16,11 @@ class RolesDiff
   private
 
   def to_create
-    roles.select { |r| !existing_ids.include?(r.glass_frog_id) }
+    glass_frog_roles.select { |r| !existing_ids.include?(r.glass_frog_id) }
   end
 
   def to_delete
-    existing.select { |r| !roles_ids.include?(r.glass_frog_id) }
+    existing.select { |r| !glass_frog_roles_ids.include?(r.glass_frog_id) }
   end
 
   def to_update
@@ -30,7 +30,7 @@ class RolesDiff
   end
 
   def select_to_update(existing_hash)
-    roles.select do |r|
+    glass_frog_roles.select do |r|
       existing_hash[r.glass_frog_id] &&
         r.name != existing_hash[r.glass_frog_id].name
     end
@@ -38,8 +38,11 @@ class RolesDiff
 
   def map_to_update(roles, existing_hash)
     roles.map do |r|
-      asana_id = existing_hash[r.glass_frog_id].asana_id
-      merged_attributes = r.attributes.merge(asana_id: asana_id)
+      existing = existing_hash[r.glass_frog_id]
+      merged_attributes = r.attributes.merge(
+        asana_id: existing.asana_id,
+        asana_team_id: existing.asana_team_id
+      )
       RoleObject.new(merged_attributes)
     end
   end

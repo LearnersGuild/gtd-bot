@@ -9,7 +9,8 @@ describe RolesSaver do
       RoleObject.new(
         glass_frog_id: 7,
         name: 'Awesome Developer',
-        asana_id: "7777"
+        asana_id: "7777",
+        asana_team_id: "1111"
       )
     end
 
@@ -29,6 +30,7 @@ describe RolesSaver do
         expect(role.glass_frog_id).to eq(7)
         expect(role.name).to eq('Awesome Developer')
         expect(role.asana_id).to eq('7777')
+        expect(role.asana_team_id).to eq('1111')
       end
     end
 
