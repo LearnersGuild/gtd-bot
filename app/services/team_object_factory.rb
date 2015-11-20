@@ -16,4 +16,12 @@ class TeamObjectFactory
       name: team.name
     )
   end
+
+  def build_merged(circle, team)
+    circle.asana_id = team.asana_id
+    circle.roles.each do |r|
+      r.asana_team_id = team.asana_id
+    end
+    circle
+  end
 end

@@ -1,5 +1,5 @@
 class TeamsMatcher < BaseService
-  takes :glass_frog_client, :asana_client
+  takes :glass_frog_client, :asana_client, :team_object_factory
 
   def perform
     circles = glass_frog_client.circles
@@ -9,17 +9,7 @@ class TeamsMatcher < BaseService
       team = teams.detect { |t| t.name == circle.name }
       next unless team
 
-      merge(circle, team)
+      team_object_factory.build_merged(circle, team)
     end.compact
-  end
-
-  private
-
-  def merge(circle, team)
-    circle.asana_id = team.asana_id
-    circle.roles.each do |r|
-      r.asana_team_id = team.asana_id
-    end
-    circle
   end
 end

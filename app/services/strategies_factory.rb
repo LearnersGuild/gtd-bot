@@ -1,5 +1,5 @@
 class StrategiesFactory < BaseService
-  inject :asana_hierarchy_fetcher
+  takes :asana_hierarchy_fetcher
 
   def create(team)
     logger.info("Fetching hierarchy...")
