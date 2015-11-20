@@ -1,10 +1,9 @@
 require 'rails_helper'
 
 describe TaskTagger do
-  let(:task_tagger) { TaskTagger.new(asana_client, tag_factory) }
-  let(:asana_client) { instance_double('AsanaClient') }
+  let(:task_tagger) { TaskTagger.new(asana_client) }
+  let(:asana_client) { instance_double('AsanaClient', all_tags: [tag]) }
   let(:tasks) { [task] }
-  let(:tag_factory) { instance_double('TagFactory', find_or_create: tag) }
   let(:tag) { TagObject.new(asana_id: '1', name: 'test1') }
 
   describe '#perform' do

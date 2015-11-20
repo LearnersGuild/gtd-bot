@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe TagFactory do
-  let(:tag_factory) { TagFactory.new(asana_client) }
+  let(:tag_factory) { TagFactory.new(asana_client, tags) }
   let(:asana_client) do
     instance_double('AsanaClient', all_tags: tags, create_tag: new_tag)
   end

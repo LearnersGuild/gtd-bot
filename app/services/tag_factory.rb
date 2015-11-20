@@ -1,11 +1,5 @@
 class TagFactory
-  attr_accessor :asana_client, :existing_tags, :workspace
-
-  def initialize(asana_client)
-    self.asana_client = asana_client
-    self.workspace = A9n.asana[:workspace_id]
-    self.existing_tags = asana_client.all_tags(workspace)
-  end
+  takes :asana_client, :existing_tags
 
   def find_or_create(name)
     find(name) || create(name)
@@ -17,8 +11,9 @@ class TagFactory
 
   def create(name)
     return if name.blank?
-    tag = name && asana_client.create_tag(workspace, name: name)
-    self.existing_tags += [tag]
+
+    tag = name && asana_client.create_tag(A9n.asana[:workspace_id], name: name)
+    @existing_tags.push(tag)
     tag
   end
 end
