@@ -74,7 +74,7 @@ describe TaskObject do
     let(:task_object) { TaskObject.new(modified_at: modified_at) }
 
     context 'tasks was modified before stale time' do
-      let(:modified_at) { TaskObject::STALE_TIME - 10.minutes }
+      let(:modified_at) { TaskObject::STALE_TIME.ago - 10.minutes }
 
       it 'returns true' do
         expect(task_object).to receive(:ignored_tags?)
@@ -84,7 +84,7 @@ describe TaskObject do
     end
 
     context 'task was modified after stale time' do
-      let(:modified_at) { TaskObject::STALE_TIME + 10.minutes }
+      let(:modified_at) { TaskObject::STALE_TIME.ago + 10.minutes }
 
       it 'returns false' do
         expect(task_object).not_to receive(:ignored_tags?)

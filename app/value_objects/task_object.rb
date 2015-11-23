@@ -7,11 +7,11 @@ class TaskObject < BaseObject
   attribute :tags, Array
   attribute :due_at, DateTime
 
-  STALE_TIME = 10.minutes.ago
+  STALE_TIME = 10.minutes
   IGNORED_TAGS_NAMES = ['maybe later', 'blocked', 'waiting for']
 
   def stale_task?
-    modified_at && modified_at < STALE_TIME &&
+    modified_at && modified_at < STALE_TIME.ago &&
       !ignored_tags? && !due_at_in_future?
   end
 

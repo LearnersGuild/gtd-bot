@@ -4,7 +4,7 @@ class Bot < BaseService
   def perform
     teams = teams_matcher.perform
     teams.each do |team|
-      logger.info("Creating strategies")
+      logger.info("Creating strategies for #{team.name}")
       strategies = strategies_factory.create(team)
       logger.info("Strategies created")
 
