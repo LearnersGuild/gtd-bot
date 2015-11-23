@@ -12,4 +12,8 @@ class TasksFilter < BaseService
   def stale_tasks
     tasks.select(&:stale_task?)
   end
+
+  def forgotten_tasks
+    stale_tasks.select(&:forgotten_task?)
+  end
 end

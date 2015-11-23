@@ -8,6 +8,7 @@ class TaskObject < BaseObject
   attribute :due_at, DateTime
 
   STALE_TIME = 10.minutes
+  STALE_TAG_NAME = 'stale'
   IGNORED_TAGS_NAMES = ['maybe later', 'blocked', 'waiting for']
 
   def stale_task?
@@ -25,5 +26,13 @@ class TaskObject < BaseObject
 
   def due_at_in_future?
     due_at && due_at > DateTime.now
+  end
+
+  def forgotten_task?
+    stale_task? && stale_tag?
+  end
+
+  def stale_tag?
+    tags.map(&:name).include?(STALE_TAG_NAME)
   end
 end

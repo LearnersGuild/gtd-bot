@@ -43,5 +43,10 @@ class ServicesInjector
   def stale_task(projects_filter)
     Strategies::StaleTask.new(projects_filter, TasksFilter, task_tagger)
   end
+
+  def comment_forgotten_tasks(projects_filter)
+    Strategies::CommentForgottenTasks.new(projects_filter, TasksFilter,
+                                          asana_client)
+  end
 end
 

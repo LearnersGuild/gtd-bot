@@ -73,6 +73,10 @@ class AsanaClient < BaseService
     Asana::Tag.create(client, merged_attributes)
   end
 
+  def add_comment_to_task(task_id, text)
+    build_task(task_id).add_comment(text: text)
+  end
+
   private
 
   def build_project(id)
