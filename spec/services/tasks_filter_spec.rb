@@ -10,7 +10,7 @@ describe TasksFilter do
     TaskObject.new(modified_at: TaskObject::STALE_TIME.ago - 1.minute)
   end
   let(:forgotten_task) do
-    TaskObject.new(modified_at: TaskObject::STALE_TIME - 1.minute,
+    TaskObject.new(modified_at: TaskObject::STALE_TIME.ago - 1.minute,
                    tags: [TagObject.new(name: 'stale')])
   end
 
