@@ -22,6 +22,7 @@ describe ProjectsFilter do
   let(:underscored) { ProjectObject.new(name: "_Test") }
   let(:role_link) { 'https://app.asana.com/0/7777/8888' }
   let(:with_role) { ProjectObject.new(description: "#{role_link} description") }
+  let(:project) { ProjectObject.new(asana_id: '1111') }
 
   describe '#without tasks' do
     subject { projects_filter.without_tasks }
@@ -69,6 +70,36 @@ describe ProjectsFilter do
     it 'returns projects without roles' do
       expected_projects = [project_with_tasks, project_without_tasks]
       expect(subject).to eq(expected_projects)
+    end
+  end
+
+  describe "#create" do
+    subject { projects_filter.create(project) }
+    let(:projects) { [] }
+
+    it "adds projects to the list" do
+      subject
+      expect(projects_filter.projects).to eq([project])
+    end
+  end
+
+  describe "#update" do
+    subject { projects_filter.update(project) }
+
+    it "deletes project from the list and creates new one" do
+      expect(projects_filter).to receive(:delete).with(project)
+      expect(projects_filter).to receive(:create).with(project)
+      subject
+    end
+  end
+
+  describe "#delete" do
+    subject { projects_filter.delete(project) }
+    let(:projects) { [ProjectObject.new(asana_id: '1111', name: 'Name')] }
+
+    it "deletes project from the list" do
+      subject
+      expect(projects_filter.projects).to eq([])
     end
   end
 end

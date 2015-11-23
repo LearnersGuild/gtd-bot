@@ -1,23 +1,28 @@
 class AsanaClient < BaseService
-  attr_accessor :client, :team_object_factory
+  attr_accessor :client, :team_object_factory, :project_object_factory
 
-  def initialize(team_object_factory)
+  def initialize(team_object_factory, project_object_factory)
     self.client = Asana::Client.new do |c|
       c.authentication(:access_token, A9n.asana[:api_key])
     end
     self.team_object_factory = team_object_factory
+    self.project_object_factory = project_object_factory
   end
 
   def create_project(attributes)
-    Asana::Project.create(client, attributes)
+    project = Asana::Project.create(client, attributes)
+    project_object_factory.build_from_asana(project)
   end
 
   def delete_project(project_id)
-    build_project(project_id).delete
+    project = build_project(project_id)
+    project.delete
+    project_object_factory.build_from_asana(project)
   end
 
   def update_project(project_id, attributes)
-    build_project(project_id).update(attributes)
+    project = build_project(project_id).update(attributes)
+    project_object_factory.build_from_asana(project)
   end
 
   def teams(workspace_id)
@@ -31,7 +36,7 @@ class AsanaClient < BaseService
       workspace: workspace_id,
       team: team_id,
       options: { fields: [:name, :owner, :notes] })
-    projects.map { |p| ProjectObjectFactory.new.build_from_asana(p) }
+    projects.map { |p| project_object_factory.build_from_asana(p) }
   end
 
   def create_task(workspace_id, project_id, attributes)

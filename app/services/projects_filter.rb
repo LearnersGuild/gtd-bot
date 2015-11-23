@@ -32,4 +32,17 @@ class ProjectsFilter
   def without_roles_assigned
     without_roles.reject(&:role_present?)
   end
+
+  def create(project)
+    self.projects += [project]
+  end
+
+  def update(project)
+    delete(project)
+    create(project)
+  end
+
+  def delete(project)
+    projects.delete_if { |p| p.asana_id == project.asana_id }
+  end
 end
