@@ -48,11 +48,5 @@ class ServicesInjector
     Strategies::CommentForgottenTasks.new(projects_filter, TasksFilter,
                                           asana_client)
   end
-
-  def logger
-    @logger ||= Logger.new($stdout).tap do |log|
-      log.progname = self.class
-    end
-  end
 end
 

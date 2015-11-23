@@ -12,9 +12,7 @@ module Strategies
     let(:projects) { [project] }
     let(:project) { ProjectObject.new(tasks: tasks) }
     let(:tasks) { [TaskObject.new, forgotten_task] }
-    let(:forgotten_task) do
-      TaskObject.new(tag: tags, modified_at: TaskObject::STALE_TIME - 1.minute)
-    end
+    let(:forgotten_task) { TaskObject.new }
     let(:tags) { [TagObject.new(name: 'stale')] }
     let(:tasks_filter_factory) do
       double(:tasks_filter_factory, new: tasks_filter)
