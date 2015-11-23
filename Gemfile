@@ -16,6 +16,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'guard-rspec', require: false
   gem 'guard-rubocop'
+  gem 'awesome_print'
 end
 
 group :development do

@@ -67,6 +67,7 @@ GEM
     ast (2.1.0)
     astrolabe (1.3.1)
       parser (~> 2.2)
+    awesome_print (1.6.1)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
@@ -294,6 +295,7 @@ PLATFORMS
 DEPENDENCIES
   a9n
   asana
+  awesome_print
   capistrano (~> 3.3)
   capistrano-bundler
   capistrano-rails
