@@ -7,9 +7,10 @@ class ServicesInjector
                           team_object_factory)
   end
 
-  def sync_role_strategy(team)
-    Strategies::SyncRole.new(team, roles_repository, asana_roles_updater,
-                             RolesDiff, roles_saver, role_object_factory)
+  def sync_role_strategy(projects_filter, team)
+    Strategies::SyncRole.new(projects_filter, team, asana_client,
+                             roles_repository, AsanaRolesUpdater, RolesDiff,
+                             roles_saver, role_object_factory)
   end
 
   def next_action_task_strategy(projects_filter)

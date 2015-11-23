@@ -1,14 +1,24 @@
 require 'rails_helper'
 
 describe AsanaRolesUpdater do
-  let(:updater) { AsanaRolesUpdater.new(asana_client) }
+  let(:updater) { AsanaRolesUpdater.new(asana_client, projects_filter) }
+  let(:projects_filter) do
+    instance_double(
+      'ProjectsFilter',
+      create: project_object,
+      update: project_object,
+      delete: project_object
+    )
+  end
   let(:asana_client) do
     instance_double('AsanaClient',
-                    create_project: project,
-                    delete_project: true,
-                    update_project: true)
+                    create_project: project_object,
+                    delete_project: project_object,
+                    update_project: project_object)
   end
-  let(:project) { double(:project, id: 7777) }
+  let(:project_object) do
+    ProjectObject.new(role_attributes.merge(asana_id: '7777'))
+  end
   let(:role_attributes) do
     { glass_frog_id: 7, name: 'Role', asana_team_id: team_id }
   end
@@ -25,6 +35,11 @@ describe AsanaRolesUpdater do
       it "updates Asana" do
         expect(asana_client).to receive(:create_project)
           .with(ProjectAttributes.new('@Role', team_id))
+        subject
+      end
+
+      it "updates local cache" do
+        expect(projects_filter).to receive(:create).with(project_object)
         subject
       end
 
@@ -60,6 +75,11 @@ describe AsanaRolesUpdater do
           subject
         end
 
+        it "updates local cache" do
+          expect(projects_filter).to receive(:delete).with(project_object)
+          subject
+        end
+
         it "returns diff with roles to delete" do
           expect(subject).to eq(
             to_create: [],
@@ -80,6 +100,11 @@ describe AsanaRolesUpdater do
         it "updates Asana" do
           expect(asana_client).to receive(:update_project)
             .with('7777', role_attributes.merge(name: '@Role2'))
+          subject
+        end
+
+        it "updates local cache" do
+          expect(projects_filter).to receive(:update).with(project_object)
           subject
         end
 
