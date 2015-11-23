@@ -14,6 +14,18 @@ describe DescriptionParser do
       it { expect(subject).to eq('') }
     end
 
+    context "nil description" do
+      let(:description) { nil }
+
+      it { expect(subject).to eq('') }
+    end
+
+    context "only role" do
+      let(:description) { role1 }
+
+      it { expect(subject).to eq('') }
+    end
+
     context "one role" do
       let(:description) { "#{role1} Plain Description" }
 
@@ -45,6 +57,18 @@ describe DescriptionParser do
       let(:description) { "" }
 
       it { expect(subject).to eq([]) }
+    end
+
+    context "blank description" do
+      let(:description) { nil }
+
+      it { expect(subject).to eq([]) }
+    end
+
+    context "only role" do
+      let(:description) { role1 }
+
+      it { expect(subject).to eq([role1]) }
     end
 
     context "one role" do
