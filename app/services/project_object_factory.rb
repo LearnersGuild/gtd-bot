@@ -3,7 +3,7 @@ class ProjectObjectFactory < BaseService
     ProjectObject.new(
       asana_id: project.id,
       name: project.name,
-      owner_id: project.owner['id'],
+      owner_id: project.owner && project.owner['id'],
       description: project.notes
     )
   end

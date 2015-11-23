@@ -29,5 +29,22 @@ describe ProjectObjectFactory do
     it 'returns project object' do
       expect(subject).to eq(expected_project_object)
     end
+
+    context "owner is blank" do
+      let(:owner) { nil }
+
+      let(:expected_project_object) do
+        ProjectObject.new(
+          asana_id: id,
+          name: name,
+          owner_id: nil,
+          description: notes
+        )
+      end
+
+      it 'returns project object' do
+        expect(subject).to eq(expected_project_object)
+      end
+    end
   end
 end
