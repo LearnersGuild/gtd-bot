@@ -2,7 +2,15 @@ require 'rails_helper'
 
 describe TasksFilter do
   let(:tasks_filter) { TasksFilter.new(tasks) }
-  let(:tasks) { [assigned_task, unassigned_task, stale_task, forgotten_task] }
+  let(:tasks) do
+    [
+      assigned_task,
+      unassigned_task,
+      stale_task,
+      forgotten_task,
+      completed_task
+    ]
+  end
   let(:assigned_task) { TaskObject.new(assignee_id: assignee_id) }
   let(:unassigned_task) { TaskObject.new(assignee_id: nil) }
   let(:assignee_id) { '1111' }
@@ -13,12 +21,14 @@ describe TasksFilter do
     TaskObject.new(modified_at: TaskObject::STALE_TIME.ago - 1.minute,
                    tags: [TagObject.new(name: 'stale')])
   end
+  let(:completed_task) { TaskObject.new(completed: true) }
 
   describe '#unassigned' do
     subject { tasks_filter.unassigned }
+    let(:expected_tasks) { [unassigned_task, stale_task, forgotten_task] }
 
     it 'returns unassigned tasks' do
-      expect(subject).to eq([unassigned_task, stale_task, forgotten_task])
+      expect(subject).to eq(expected_tasks)
     end
   end
 
@@ -43,6 +53,15 @@ describe TasksFilter do
 
     it 'returns unassigned tasks' do
       expect(subject).to eq([forgotten_task])
+    end
+  end
+
+  describe '#uncompleted_tasks' do
+    subject { tasks_filter.uncompleted_tasks }
+    let(:expected_tasks) { tasks - [completed_task] }
+
+    it 'returns unassigned tasks' do
+      expect(subject).to eq(expected_tasks)
     end
   end
 end

@@ -7,7 +7,8 @@ class TaskObjectFactory < BaseService
       description: task.notes,
       modified_at: DateTime.parse(task.modified_at),
       due_at: parse_due_at(task),
-      tags: map_tags(task.tags)
+      tags: map_tags(task.tags),
+      completed: task.completed
     )
   end
 
