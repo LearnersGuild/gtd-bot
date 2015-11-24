@@ -6,6 +6,7 @@ class ProjectObject < BaseObject
   attribute :description, String
   IGNORED_PREFIX = '_'
   INDIVIDUAL_NAME = "@Individual"
+  PROJECT_LINK_BASE = "https://app.asana.com/0"
 
   def a_role?
     name_start_with?(RoleObject::NAME_PREFIX)
@@ -25,6 +26,10 @@ class ProjectObject < BaseObject
     parser = DescriptionParser.new
     roles = parser.all_roles(description)
     roles.any?
+  end
+
+  def link
+    "#{PROJECT_LINK_BASE}/#{asana_id}"
   end
 
   private

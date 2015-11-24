@@ -10,14 +10,14 @@ describe AssignRoleTaskFactory do
     subject { factory.create(project) }
     let(:project) { ProjectObject.new(name: 'Project', tasks: tasks) }
     let(:tasks) { [] }
-    let(:expected_name) { "#{AssignRoleTaskFactory::TITLE} @Project" }
+    let(:expected_name) { "#{AssignRoleTaskFactory::TITLE} Project" }
 
     it "delegates to Asana" do
       expect(asana_client).to receive(:create_task).with(
         A9n.asana[:workspace_id], project.asana_id,
         name: expected_name,
         assignee: project.owner_id,
-        notes: AssignRoleTaskFactory::DESCRIPTION
+        notes: AssignRoleTaskFactory::DESCRIPTION % project.link
       )
       subject
     end

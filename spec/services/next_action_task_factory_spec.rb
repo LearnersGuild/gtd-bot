@@ -13,10 +13,11 @@ describe NextActionTaskFactory do
 
     it "creates task in Asana" do
       expected_name =
-        "#{NextActionTaskFactory::TITLE} @#{project.name}"
+        "#{NextActionTaskFactory::TITLE} #{project.name}"
       expect(asana_client).to receive(:create_task)
         .with(A9n.asana[:workspace_id], project.asana_id,
-              name: expected_name, assignee: project.owner_id)
+              name: expected_name, assignee: project.owner_id,
+              notes: project.link)
       subject
     end
   end
