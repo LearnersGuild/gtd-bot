@@ -3,7 +3,7 @@ module Strategies
     takes :projects_filter, :tasks_filter_factory, :tasks_assigner
 
     def perform
-      projects_with_tasks = projects_filter.with_tasks
+      projects_with_tasks = projects_filter.without_roles_with_tasks
       projects_with_tasks.each do |project|
         tasks = project.tasks
         tasks_filter = tasks_filter_factory.new(tasks)

@@ -5,14 +5,20 @@ class ProjectsFilter
     self.projects = projects.reject(&:underscored?)
   end
 
-  def without_tasks
+  def without_roles_and_tasks
     without_roles.select do |project|
       project.tasks.empty?
     end
   end
 
-  def with_tasks
+  def without_roles_with_tasks
     without_roles.select do |project|
+      project.tasks.any?
+    end
+  end
+
+  def with_tasks
+    projects.select do |project|
       project.tasks.any?
     end
   end

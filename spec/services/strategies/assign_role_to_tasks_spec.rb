@@ -7,7 +7,7 @@ module Strategies
                             tasks_role_creator)
     end
     let(:projects_filter) do
-      instance_double('ProjectFilter', with_tasks: projects)
+      instance_double('ProjectFilter', without_roles_with_tasks: projects)
     end
     let(:projects) { [project] }
     let(:project) { ProjectObject.new(owner_id: owner_id, tasks: tasks) }
@@ -30,7 +30,7 @@ module Strategies
       subject { strategy.perform }
 
       it "assigns project role to the tasks assigned to project owner" do
-        expect(projects_filter).to receive(:with_tasks)
+        expect(projects_filter).to receive(:without_roles_with_tasks)
         expect(task_filter).to receive(:assigned_to).with(owner_id)
         expect(tasks_role_creator).to receive(:perform)
           .with(project, assigned_to_owner)
