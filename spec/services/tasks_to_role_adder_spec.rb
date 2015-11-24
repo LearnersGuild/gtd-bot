@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe TasksRoleCreator do
-  let(:creator) { TasksRoleCreator.new(description_parser, asana_client) }
+describe TasksToRoleAdder do
+  let(:creator) { TasksToRoleAdder.new(description_parser, asana_client) }
   let(:description_parser) do
     instance_double('DescriptionParser', roles: [role_id])
   end

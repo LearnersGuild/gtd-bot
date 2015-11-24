@@ -28,7 +28,7 @@ class ServicesInjector
 
   def assign_role_to_tasks_strategy(projects_filter)
     Strategies::AssignRoleToTasks.new(projects_filter, TasksFilter,
-                                     tasks_role_creator)
+                                     tasks_to_role_adder)
   end
 
   def assign_role_task_strategy(projects_filter)

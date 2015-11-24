@@ -1,4 +1,4 @@
-class TasksRoleCreator < BaseService
+class TasksToRoleAdder < BaseService
   takes :description_parser, :asana_client
 
   def perform(project, tasks)
