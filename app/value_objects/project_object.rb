@@ -24,7 +24,7 @@ class ProjectObject < BaseObject
     return false unless description
 
     parser = DescriptionParser.new
-    roles = parser.all_roles(description)
+    roles = parser.roles(description)
     roles.any?
   end
 

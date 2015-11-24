@@ -59,6 +59,10 @@ class AsanaClient < BaseService
     build_task(task_id).update(attributes)
   end
 
+  def add_project_to_task(task_id, project_id)
+    build_task(task_id).add_project(project: project_id)
+  end
+
   def all_tags(workspace_id)
     Asana::Tag.find_all(client, workspace: workspace_id).map do |t|
       TagObject.new(asana_id: t.id, name: t.name)
