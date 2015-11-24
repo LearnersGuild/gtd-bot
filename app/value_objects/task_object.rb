@@ -6,6 +6,7 @@ class TaskObject < BaseObject
   attribute :modified_at, DateTime
   attribute :tags, Array
   attribute :due_at, DateTime
+  attribute :completed, Boolean
 
   STALE_TIME = 4.weeks
   STALE_TAG_NAME = 'stale'
@@ -34,5 +35,9 @@ class TaskObject < BaseObject
 
   def stale_tag?
     tags.map(&:name).include?(STALE_TAG_NAME)
+  end
+
+  def uncompleted?
+    !completed
   end
 end

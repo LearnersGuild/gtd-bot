@@ -13,7 +13,8 @@ describe TaskObjectFactory do
         modified_at: modified_at,
         due_at: due_at,
         due_on: due_on,
-        tags: tags
+        tags: tags,
+        completed: completed
       )
     end
     let(:id) { '1' }
@@ -24,6 +25,7 @@ describe TaskObjectFactory do
     let(:modified_at) { 1.week.ago.to_s }
     let(:expected_modified_at) { DateTime.parse(modified_at) }
     let(:tags) { [double(id: tag_id, name: tag_name)] }
+    let(:completed) { true }
     let(:expected_tags) { [TagObject.new(asana_id: tag_id, name: tag_name)] }
     let(:tag_id) { '3' }
     let(:tag_name) { 'tag_name' }
@@ -40,7 +42,8 @@ describe TaskObjectFactory do
           description: notes,
           modified_at: expected_modified_at,
           due_at: expected_due_at,
-          tags: expected_tags
+          tags: expected_tags,
+          completed: completed
         )
       end
 
@@ -61,7 +64,8 @@ describe TaskObjectFactory do
           description: notes,
           modified_at: expected_modified_at,
           due_at: expected_due_at,
-          tags: expected_tags
+          tags: expected_tags,
+          completed: completed
         )
       end
 
@@ -82,7 +86,8 @@ describe TaskObjectFactory do
           description: notes,
           modified_at: expected_modified_at,
           due_at: expected_due_at,
-          tags: expected_tags
+          tags: expected_tags,
+          completed: completed
         )
       end
 

@@ -48,7 +48,8 @@ class AsanaClient < BaseService
   end
 
   def tasks_for_project(project_id)
-    fields = [:name, :assignee, :notes, :modified_at, :tags, :due_at, :due_on]
+    fields = [:name, :assignee, :notes, :modified_at, :tags, :due_at, :due_on,
+              :completed]
     build_project(project_id)
       .tasks(options: { fields: fields })
       .map { |t| TaskObjectFactory.new.build_from_asana(t) }
