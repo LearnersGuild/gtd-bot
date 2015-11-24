@@ -10,7 +10,7 @@ class AsanaHierarchyFetcher < BaseService
   end
 
   def map_project(project)
-    logger.info("Fetching tasks...")
+    logger.info("Fetching tasks for project #{project.name}...")
     tasks = asana_client.tasks_for_project(project.asana_id)
     logger.info("Tasks fetched")
     project.tasks = tasks
