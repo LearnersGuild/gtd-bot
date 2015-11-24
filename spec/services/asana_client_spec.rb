@@ -99,6 +99,12 @@ describe AsanaClient do
     end
   end
 
+  describe "#add_project_to_task" do
+    it "delegates to Asana::Client" do
+      expect(subject).to respond_to(:add_project_to_task)
+    end
+  end
+
   describe "#all_tags" do
     it "delegates to Asana::Client" do
       expect(subject).to respond_to(:all_tags)

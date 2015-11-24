@@ -56,7 +56,10 @@ class AsanaClient < BaseService
   end
 
   def update_task(task_id, attributes)
-    build_task(task_id).update(attributes)
+  end
+
+  def add_project_to_task(task_id, project_id)
+    build_task(task_id).add_project(project: project_id)
   end
 
   def all_tags(workspace_id)

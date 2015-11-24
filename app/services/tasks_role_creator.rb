@@ -1,11 +1,12 @@
 class TasksRoleCreator < BaseService
-  takes :task_description_builder, :asana_client
+  takes :description_parser, :asana_client
 
   def perform(project, tasks)
     tasks.each do |task|
-      new_description =
-        task_description_builder.with_project_roles(task, project)
-      asana_client.update_task(task.asana_id, notes: new_description)
+      roles = description_parser.roles(project.description)
+      roles.each do |project_id|
+        asana_client.add_project_to_task(task.asana_id, project_id)
+      end
     end
   end
 end

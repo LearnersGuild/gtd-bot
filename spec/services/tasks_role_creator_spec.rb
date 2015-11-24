@@ -1,28 +1,27 @@
 require 'rails_helper'
 
 describe TasksRoleCreator do
-  let(:creator) { TasksRoleCreator.new(task_description_builder, asana_client) }
-  let(:task_description_builder) do
-    instance_double('TaskDescriptionBuilder',
-                    with_project_roles: new_description)
+  let(:creator) { TasksRoleCreator.new(description_parser, asana_client) }
+  let(:description_parser) do
+    instance_double('DescriptionParser', roles: [role_id])
   end
+  let(:role_id) { '7777' }
   let(:asana_client) do
-    instance_double('AsanaClient', update_task: true)
+    instance_double('AsanaClient', add_project_to_task: true)
   end
-  let(:new_description) { '@Tester Very important task' }
 
   describe "#perform" do
     subject { creator.perform(project, tasks) }
 
-    let(:project) { ProjectObject.new }
+    let(:project) { ProjectObject.new(description: "role") }
     let(:tasks) { [task] }
     let(:task) { TaskObject.new(asana_id: '7777') }
 
     it "assigns tasks to project role" do
-      expect(task_description_builder).to receive(:with_project_roles)
-        .with(task, project)
-      expect(asana_client).to receive(:update_task)
-        .with(task.asana_id, notes: new_description)
+      expect(description_parser).to receive(:roles)
+        .with(project.description)
+      expect(asana_client).to receive(:add_project_to_task)
+        .with(task.asana_id, role_id)
       subject
     end
   end
