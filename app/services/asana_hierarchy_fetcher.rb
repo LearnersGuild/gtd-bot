@@ -2,12 +2,18 @@ class AsanaHierarchyFetcher < BaseService
   takes :asana_client
 
   def projects(team)
+    logger.info("Fetching projects...")
     projects =
       asana_client.projects(A9n.asana[:workspace_id], team.asana_id)
-    projects.map do |project|
-      tasks = asana_client.tasks_for_project(project.asana_id)
-      project.tasks = tasks
-      project
-    end
+    logger.info("Projects fetched")
+    projects.map { |project| map_project(project) }
+  end
+
+  def map_project(project)
+    logger.info("Fetching tasks...")
+    tasks = asana_client.tasks_for_project(project.asana_id)
+    logger.info("Tasks fetched")
+    project.tasks = tasks
+    project
   end
 end
