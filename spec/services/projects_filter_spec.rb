@@ -24,8 +24,8 @@ describe ProjectsFilter do
   let(:with_role) { ProjectObject.new(description: "#{role_link} description") }
   let(:project) { ProjectObject.new(asana_id: '1111') }
 
-  describe '#without tasks' do
-    subject { projects_filter.without_tasks }
+  describe '#without_roles_and_tasks' do
+    subject { projects_filter.without_roles_and_tasks }
 
     before do
       expect(role).to receive(:a_role?).and_return(true)

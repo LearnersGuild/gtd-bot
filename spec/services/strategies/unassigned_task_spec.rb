@@ -6,7 +6,7 @@ module Strategies
       UnassignedTask.new(projects_filter, tasks_filter_factory, tasks_assigner)
     end
     let(:projects_filter) do
-      instance_double('ProjectsFilter', with_tasks: projects)
+      instance_double('ProjectsFilter', without_roles_with_tasks: projects)
     end
     let(:tasks_filter_factory) do
       double(:tasks_filter_factory, new: tasks_filter)
@@ -26,7 +26,7 @@ module Strategies
       subject { strategy.perform }
 
       it 'assigns unnasigned task to project owner' do
-        expect(projects_filter).to receive(:with_tasks)
+        expect(projects_filter).to receive(:without_roles_with_tasks)
         expect(tasks_filter_factory).to receive(:new).with(tasks)
         expect(tasks_filter).to receive(:unassigned)
         expect(tasks_assigner).to receive(:perform).with(unassigned_tasks,
