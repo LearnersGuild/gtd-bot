@@ -26,6 +26,18 @@ describe DescriptionParser do
       it { expect(subject).to eq('') }
     end
 
+    context "only roles" do
+      let(:description) { "#{role1} #{role2}" }
+
+      it { expect(subject).to eq('') }
+    end
+
+    context "roles with weird space" do
+      let(:description) { "#{role1}\xC2\xA0#{role2}" }
+
+      it { expect(subject).to eq('') }
+    end
+
     context "one role" do
       let(:description) { "#{role1} Plain Description" }
 
@@ -69,6 +81,18 @@ describe DescriptionParser do
       let(:description) { role1 }
 
       it { expect(subject).to eq([role1]) }
+    end
+
+    context "only roles" do
+      let(:description) { "#{role1} #{role2}" }
+
+      it { expect(subject).to eq([role1, role2]) }
+    end
+
+    context "roles with weird space" do
+      let(:description) { "#{role1}\xC2\xA0#{role2}" }
+
+      it { expect(subject).to eq([role1, role2]) }
     end
 
     context "one role" do
