@@ -7,7 +7,7 @@ class TaskObject < BaseObject
   attribute :tags, Array
   attribute :due_at, DateTime
 
-  STALE_TIME = 10.minutes
+  STALE_TIME = 4.weeks
   STALE_TAG_NAME = 'stale'
   IGNORED_TAGS_NAMES = ['maybe later', 'blocked', 'waiting for']
 
