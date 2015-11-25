@@ -17,8 +17,8 @@ describe ProjectsFilter do
   end
   let(:tasks) { [TaskObject.new] }
   let(:project_without_tasks) { ProjectObject.new(name: "Test2", asana_id: 8) }
-  let(:role) { ProjectObject.new(name: "@Test3", asana_id: 9) }
-  let(:individual_project) { ProjectObject.new(name: "@Individual") }
+  let(:role) { ProjectObject.new(name: "&Test3", asana_id: 9) }
+  let(:individual_project) { ProjectObject.new(name: "&Individual") }
   let(:underscored) { ProjectObject.new(name: "_Test") }
   let(:role_link) { 'https://app.asana.com/0/7777/8888' }
   let(:with_role) { ProjectObject.new(description: "#{role_link} description") }

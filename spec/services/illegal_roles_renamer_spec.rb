@@ -9,12 +9,12 @@ describe IllegalRolesRenamer do
   let(:roles_from_glass_frog) { [RoleObject.new(name: 'Role')] }
   let(:roles_from_asana) do
     [
-      ProjectObject.new(name: "@Role"),
+      ProjectObject.new(name: "&Role"),
       ProjectObject.new(name: ProjectObject::INDIVIDUAL_NAME),
       project_to_rename
     ]
   end
-  let(:project_to_rename) { ProjectObject.new(asana_id: 1, name: "@Project") }
+  let(:project_to_rename) { ProjectObject.new(asana_id: 1, name: "&Project") }
 
   describe '#perform' do
     it 'changes illegal names' do

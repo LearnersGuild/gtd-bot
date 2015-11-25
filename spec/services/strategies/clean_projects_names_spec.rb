@@ -11,8 +11,8 @@ module Strategies
     end
     let(:projects_from_asana) do
       [
-        ProjectObject.new(name: "@Project"),
-        ProjectObject.new(name: "@Role")
+        ProjectObject.new(name: "&Project"),
+        ProjectObject.new(name: "&Role")
       ]
     end
     let(:team) do
