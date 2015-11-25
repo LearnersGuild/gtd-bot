@@ -5,7 +5,7 @@ class ProjectObject < BaseObject
   attribute :tasks, Array
   attribute :description, String
   IGNORED_PREFIX = '_'
-  INDIVIDUAL_NAME = "@Individual"
+  INDIVIDUAL_NAME = "&Individual"
   PROJECT_LINK_BASE = "https://app.asana.com/0"
 
   def a_role?

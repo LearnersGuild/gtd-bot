@@ -48,6 +48,6 @@ class AsanaRolesUpdater < BaseService
   end
 
   def decorate_role(name)
-    "@#{name}"
+    "&#{name}"
   end
 end

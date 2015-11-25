@@ -4,7 +4,7 @@ class AssignRoleTaskFactory < BaseService
   TITLE = "Assign role to the project"
   DESCRIPTION = "Assign a role to %s by linking "\
                 "to it in the description field. "\
-                "Use the @ symbol to make it an active link"
+                "Use the & symbol to make it an active link"
 
   def create(project)
     name = "#{TITLE} #{project.name}"

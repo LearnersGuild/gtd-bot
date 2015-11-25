@@ -9,18 +9,18 @@ module Strategies
     describe '#perform' do
       subject { strategy.perform }
 
-      context "@Individual role doesn't exist in Asana" do
+      context "&Individual role doesn't exist in Asana" do
         let(:projects_filter) do
           instance_double('ProjectsFilter', individual: [])
         end
 
-        it 'creates @Individual role' do
+        it 'creates &Individual role' do
           expect(asana_client).to receive(:create_project)
           subject
         end
       end
 
-      context "@Individual role exists in Asana" do
+      context "&Individual role exists in Asana" do
         let(:projects_filter) do
           instance_double('ProjectsFilter', individual: [individual_project])
         end
@@ -28,7 +28,7 @@ module Strategies
           ProjectObject.new(name: ProjectObject::INDIVIDUAL_NAME)
         end
 
-        it "doesn't create @Individual role" do
+        it "doesn't create &Individual role" do
           expect(asana_client).not_to receive(:create_project)
           subject
         end

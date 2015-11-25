@@ -4,8 +4,8 @@ describe ProjectObject do
   describe "#a_role?" do
     subject { ProjectObject.new(name: name).a_role? }
 
-    describe 'starts with "@"' do
-      let(:name) { '@Awesome Developer' }
+    describe 'starts with "&"' do
+      let(:name) { '&Awesome Developer' }
 
       it { expect(subject).to be true }
     end

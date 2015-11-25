@@ -56,7 +56,7 @@ describe DescriptionParser do
       it { expect(subject).to eq([]) }
     end
 
-    context "'@' in the description" do
+    context "'&' in the description" do
       let(:description) { "Notify #{role1} about this" }
 
       it { expect(subject).to eq(['7777']) }

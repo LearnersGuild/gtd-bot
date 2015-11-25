@@ -34,7 +34,7 @@ describe AsanaRolesUpdater do
 
       it "updates Asana" do
         expect(asana_client).to receive(:create_project)
-          .with(ProjectAttributes.new('@Role', team_id))
+          .with(ProjectAttributes.new('&Role', team_id))
         subject
       end
 
@@ -99,7 +99,7 @@ describe AsanaRolesUpdater do
 
         it "updates Asana" do
           expect(asana_client).to receive(:update_project)
-            .with('7777', role_attributes.merge(name: '@Role2'))
+            .with('7777', role_attributes.merge(name: '&Role2'))
           subject
         end
 
