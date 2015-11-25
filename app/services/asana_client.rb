@@ -30,11 +30,12 @@ class AsanaClient < BaseService
     teams.map { |t| team_object_factory.from_asana(t) }
   end
 
-  def projects(workspace_id, team_id)
+  def projects(workspace_id, team_id, archived = false)
     projects = Asana::Project.find_all(
       client,
       workspace: workspace_id,
       team: team_id,
+      archived: archived,
       options: { fields: [:name, :owner, :notes] })
     projects.map { |p| project_object_factory.build_from_asana(p) }
   end
@@ -53,6 +54,7 @@ class AsanaClient < BaseService
     build_project(project_id)
       .tasks(options: { fields: fields })
       .map { |t| TaskObjectFactory.new.build_from_asana(t) }
+      .select(&:uncompleted?)
   end
 
   def update_task(task_id, attributes)
