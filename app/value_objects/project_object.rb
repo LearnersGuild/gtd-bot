@@ -20,16 +20,18 @@ class ProjectObject < BaseObject
     name.present? && name == INDIVIDUAL_NAME
   end
 
-  def role_present?
-    return false unless description
-
-    parser = DescriptionParser.new
-    roles = parser.roles(description)
-    roles.any?
-  end
-
   def link
     "#{PROJECT_LINK_BASE}/#{asana_id}"
+  end
+
+  def description?
+    description.present?
+  end
+
+  def linked_role_ids(existing_roles)
+    parser = DescriptionParser.new
+    linked_ids = parser.linked_ids(description)
+    linked_ids & existing_roles.map(&:asana_id)
   end
 
   private

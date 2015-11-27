@@ -15,6 +15,14 @@ describe RolesRepository do
       let!(:existing_in_different_team) { create(:role, asana_team_id: '2222') }
 
       it { expect(subject).to eq([existing]) }
+
+      context 'does not return Individual roles' do
+        let!(:individual) do
+          create(:role, name: 'Individual', asana_team_id: '1111')
+        end
+
+        it { expect(subject).to eq([existing]) }
+      end
     end
   end
 end

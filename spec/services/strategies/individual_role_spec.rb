@@ -4,7 +4,10 @@ module Strategies
   describe IndividualRole do
     let(:strategy) { IndividualRole.new(team, projects_filter, asana_client) }
     let(:team) { TeamObject.new(asana_id: '1111') }
-    let(:asana_client) { instance_double('AsanaClient') }
+    let(:asana_client) do
+      instance_double('AsanaClient', create_project: project)
+    end
+    let(:project) { ProjectObject.new(name: "", asana_id: "") }
 
     describe '#perform' do
       subject { strategy.perform }
@@ -16,6 +19,7 @@ module Strategies
 
         it 'creates &Individual role' do
           expect(asana_client).to receive(:create_project)
+          expect(Role).to receive(:create)
           subject
         end
       end

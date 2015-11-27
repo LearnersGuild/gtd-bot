@@ -1,11 +1,12 @@
 require 'rails_helper'
 
 describe TasksToRoleAdder do
-  let(:creator) { TasksToRoleAdder.new(description_parser, asana_client) }
-  let(:description_parser) do
-    instance_double('DescriptionParser', roles: [role_id])
+  let(:creator) { TasksToRoleAdder.new(roles_repository, asana_client) }
+  let(:roles_repository) do
+    instance_double('RolesRepository', all: [role])
   end
   let(:role_id) { '7777' }
+  let(:role) { ProjectObject.new(id: role_id) }
   let(:asana_client) do
     instance_double('AsanaClient', add_project_to_task: true)
   end
@@ -18,8 +19,8 @@ describe TasksToRoleAdder do
     let(:task) { TaskObject.new(asana_id: '7777') }
 
     it "assigns tasks to project role" do
-      expect(description_parser).to receive(:roles)
-        .with(project.description)
+      expect(project).to receive(:linked_role_ids)
+        .with([role]).and_return([role_id])
       expect(asana_client).to receive(:add_project_to_task)
         .with(task.asana_id, role_id)
       subject

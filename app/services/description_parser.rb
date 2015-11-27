@@ -3,7 +3,7 @@ class DescriptionParser
   ASANA_SPACE_CODE = /\xC2\xA0/u
   PROJECT_MENTION = /^https:\/\/app.asana.com\/0\/(\d+)\/\d+$/
 
-  def roles(description)
+  def linked_ids(description)
     splitted, _ = split(description)
     splitted.map do |w|
       matched = w.match(PROJECT_MENTION)
