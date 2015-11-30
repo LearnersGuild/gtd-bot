@@ -10,7 +10,7 @@ module Strategies
 
     let(:team) { TeamObject.new(roles: roles) }
     let(:roles_repository) do
-      instance_double('RolesRepository', existing: [])
+      instance_double('RolesRepository', existing_without_individual: [])
     end
     let(:asana_roles_updater_factory) { double(new: asana_roles_updater) }
     let(:asana_roles_updater) do

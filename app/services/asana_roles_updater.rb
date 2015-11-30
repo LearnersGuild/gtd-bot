@@ -13,8 +13,8 @@ class AsanaRolesUpdater < BaseService
 
   def to_create(diff)
     map(diff[:to_create]) do |r|
-      role_attributes = ProjectAttributes.new(decorate_role(r.name),
-                                              r.asana_team_id)
+      role_attributes =
+        ProjectAttributes.new(r.name_with_prefix, r.asana_team_id)
       project = asana_client.create_project(role_attributes)
       projects_filter.create(project)
       new_attributes = r.attributes.merge(asana_id: project.asana_id)
@@ -32,8 +32,7 @@ class AsanaRolesUpdater < BaseService
 
   def to_update(diff)
     map(diff[:to_update]) do |r|
-      name = r.attributes[:name]
-      new_attributes = r.attributes.merge(name: decorate_role(name))
+      new_attributes = r.attributes.merge(name: r.name_with_prefix)
       project = asana_client.update_project(r.asana_id, new_attributes)
       projects_filter.update(project)
       r
@@ -45,9 +44,5 @@ class AsanaRolesUpdater < BaseService
     roles.map do |r|
       block.call(r)
     end
-  end
-
-  def decorate_role(name)
-    "&#{name}"
   end
 end

@@ -1,5 +1,7 @@
-class ProjectsFilter
+class ProjectsFilter < BaseService
   attr_accessor :projects
+
+  inject :roles_repository
 
   def initialize(projects)
     self.projects = projects.reject(&:underscored?)
@@ -36,7 +38,8 @@ class ProjectsFilter
   end
 
   def without_roles_assigned
-    without_roles.reject(&:role_present?)
+    existing_roles = roles_repository.all
+    without_roles.select { |p| p.linked_role_ids(existing_roles).empty? }
   end
 
   def create(project)

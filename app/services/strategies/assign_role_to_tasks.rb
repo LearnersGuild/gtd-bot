@@ -7,6 +7,7 @@ module Strategies
       projects_with_tasks.each do |project|
         task_filter = task_filter_factory.new(project.tasks)
         assigned_to_owner = task_filter.assigned_to(project.owner_id)
+
         logger.info("Adding roles to tasks")
         tasks_to_role_adder.perform(project, assigned_to_owner)
         logger.info("Roles to tasks added")

@@ -29,41 +29,39 @@ describe ProjectObject do
     end
   end
 
-  describe "#role_present?" do
+  describe "#linked_role_ids" do
     let(:project) { ProjectObject.new(description: description) }
-
-    subject { project.role_present? }
-
-    let(:role_link) { 'https://app.asana.com/0/7777/8888' }
-
-    context "description is nil" do
-      let(:description) { nil }
-
-      it { expect(subject).to be false }
+    let(:description) { "" }
+    let(:existing_roles) do
+      [
+        ProjectObject.new(asana_id: '7777')
+      ]
     end
 
-    context "description is empty" do
-      let(:description) { '' }
+    subject { project.linked_role_ids(existing_roles) }
 
-      it { expect(subject).to be false }
+    before do
+      expect(DescriptionParser).to receive(:new)
+        .and_return(description_parser)
+      expect(description_parser).to receive(:linked_ids)
+        .with(description)
+        .and_return(linked_ids)
+    end
+
+    let(:description_parser) do
+      instance_double('DescriptionParser')
     end
 
     context "description contains a role" do
-      let(:description) { "#{role_link} Description" }
+      let(:linked_ids) { ['7777'] }
 
-      it { expect(subject).to be true }
+      it { expect(subject).to eq(['7777']) }
     end
 
-    context "description contains a role in the description content" do
-      let(:description) { "Description #{role_link}" }
+    context "description contains a link but not a role" do
+      let(:linked_ids) { ['111'] }
 
-      it { expect(subject).to be true }
-    end
-
-    context "description does not contain a role" do
-      let(:description) { "Description" }
-
-      it { expect(subject).to be false }
+      it { expect(subject).to eq([]) }
     end
   end
 end

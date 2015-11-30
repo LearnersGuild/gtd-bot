@@ -4,11 +4,12 @@ module Strategies
   describe AssignRoleToTasks do
     let(:strategy) do
       AssignRoleToTasks.new(projects_filter, task_filter_factory,
-                            tasks_role_creator)
+                            tasks_to_role_adder)
     end
     let(:projects_filter) do
       instance_double('ProjectFilter', without_roles_with_tasks: projects)
     end
+    let(:asana_client) { instance_double('AsanaClient') }
     let(:projects) { [project] }
     let(:project) { ProjectObject.new(owner_id: owner_id, tasks: tasks) }
     let(:owner_id) { '7777' }
@@ -22,8 +23,8 @@ module Strategies
     end
     let(:assigned_to_owner) { [] }
 
-    let(:tasks_role_creator) do
-      instance_double('TasksRoleCreator', perform: true)
+    let(:tasks_to_role_adder) do
+      instance_double('TasksToRoleAdder', perform: true)
     end
 
     describe "#perform" do
@@ -32,7 +33,7 @@ module Strategies
       it "assigns project role to the tasks assigned to project owner" do
         expect(projects_filter).to receive(:without_roles_with_tasks)
         expect(task_filter).to receive(:assigned_to).with(owner_id)
-        expect(tasks_role_creator).to receive(:perform)
+        expect(tasks_to_role_adder).to receive(:perform)
           .with(project, assigned_to_owner)
         subject
       end

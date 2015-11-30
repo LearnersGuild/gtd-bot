@@ -5,11 +5,13 @@ class ProjectObject < BaseObject
   attribute :tasks, Array
   attribute :description, String
   IGNORED_PREFIX = '_'
-  INDIVIDUAL_NAME = "&Individual"
+  ROLE_PREFIX = '&'
+  INDIVIDUAL_NAME = "Individual"
+  INDIVIDUAL_ROLE = "#{ROLE_PREFIX}#{INDIVIDUAL_NAME}"
   PROJECT_LINK_BASE = "https://app.asana.com/0"
 
   def a_role?
-    name_start_with?(RoleObject::NAME_PREFIX)
+    name_start_with?(ROLE_PREFIX)
   end
 
   def underscored?
@@ -17,19 +19,17 @@ class ProjectObject < BaseObject
   end
 
   def individual?
-    name.present? && name == INDIVIDUAL_NAME
-  end
-
-  def role_present?
-    return false unless description
-
-    parser = DescriptionParser.new
-    roles = parser.roles(description)
-    roles.any?
+    name.present? && name == INDIVIDUAL_ROLE
   end
 
   def link
     "#{PROJECT_LINK_BASE}/#{asana_id}"
+  end
+
+  def linked_role_ids(existing_roles)
+    parser = DescriptionParser.new
+    linked_ids = parser.linked_ids(description)
+    linked_ids & existing_roles.map(&:asana_id)
   end
 
   private

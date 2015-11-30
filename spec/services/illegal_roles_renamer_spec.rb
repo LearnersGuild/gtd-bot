@@ -10,7 +10,7 @@ describe IllegalRolesRenamer do
   let(:roles_from_asana) do
     [
       ProjectObject.new(name: "&Role"),
-      ProjectObject.new(name: ProjectObject::INDIVIDUAL_NAME),
+      ProjectObject.new(name: ProjectObject::INDIVIDUAL_ROLE),
       project_to_rename
     ]
   end
