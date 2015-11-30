@@ -68,7 +68,7 @@ describe ProjectsFilter do
     subject { projects_filter.without_roles_assigned }
 
     it 'returns projects without roles' do
-      project = instance_double('Project', linked_role_ids: [])
+      project = instance_double('ProjectObject', linked_role_ids: [])
       expect(projects_filter).to receive(:without_roles)
         .and_return([project])
       expect(subject).to eq([project])

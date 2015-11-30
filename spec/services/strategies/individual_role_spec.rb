@@ -5,9 +5,12 @@ module Strategies
     let(:strategy) { IndividualRole.new(team, projects_filter, asana_client) }
     let(:team) { TeamObject.new(asana_id: '1111') }
     let(:asana_client) do
-      instance_double('AsanaClient', create_project: project)
+      instance_double('AsanaClient', create_project: individual_project)
     end
-    let(:project) { ProjectObject.new(name: "", asana_id: "") }
+
+    let(:individual_project) do
+      ProjectObject.new(name: ProjectObject::INDIVIDUAL_ROLE, asana_id: '7777')
+    end
 
     describe '#perform' do
       subject { strategy.perform }
@@ -17,19 +20,24 @@ module Strategies
           instance_double('ProjectsFilter', individual: [])
         end
 
-        it 'creates &Individual role' do
+        it 'creates &Individual role in Asana' do
           expect(asana_client).to receive(:create_project)
-          expect(Role).to receive(:create)
           subject
+        end
+
+        it 'creates &Individual role in DB' do
+          subject
+          individual_role = Role.where(
+            name: ProjectObject::INDIVIDUAL_NAME,
+            asana_team_id: team.asana_id
+          )
+          expect(individual_role).not_to be_blank
         end
       end
 
       context "&Individual role exists in Asana" do
         let(:projects_filter) do
           instance_double('ProjectsFilter', individual: [individual_project])
-        end
-        let(:individual_project) do
-          ProjectObject.new(name: ProjectObject::INDIVIDUAL_NAME)
         end
 
         it "doesn't create &Individual role" do

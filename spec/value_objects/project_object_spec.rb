@@ -29,7 +29,7 @@ describe ProjectObject do
     end
   end
 
-  describe "#linked_roles" do
+  describe "#linked_role_ids" do
     let(:project) { ProjectObject.new(description: description) }
     let(:description) { "" }
     let(:existing_roles) do
