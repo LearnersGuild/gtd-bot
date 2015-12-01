@@ -246,6 +246,7 @@ GEM
       rspec-mocks (~> 3.3.0)
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
+    ruby-prof (0.15.8)
     ruby-progressbar (1.7.5)
     shellany (0.0.1)
     simplecov (0.10.0)
@@ -313,6 +314,7 @@ DEPENDENCIES
   rails (= 4.2.4)
   rspec-rails (~> 3.0)
   rubocop!
+  ruby-prof
   simplecov
   spring
   spring-commands-rspec

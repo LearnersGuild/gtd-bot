@@ -41,3 +41,7 @@ end
 group :production do
   gem 'unicorn'
 end
+
+group :profile do
+  gem 'ruby-prof'
+end
