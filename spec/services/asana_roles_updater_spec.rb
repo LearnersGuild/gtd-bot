@@ -4,7 +4,7 @@ describe AsanaRolesUpdater do
   let(:updater) { AsanaRolesUpdater.new(asana_client, projects_filter) }
   let(:projects_filter) do
     instance_double(
-      'ProjectsFilter',
+      'ProjectsCollection',
       create: project_object,
       update: project_object,
       delete: project_object

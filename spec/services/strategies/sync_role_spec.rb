@@ -3,7 +3,7 @@ require 'rails_helper'
 module Strategies
   describe SyncRole do
     subject do
-      SyncRole.new(projects_filter, team, asana_client, roles_repository,
+      SyncRole.new(projects_collection, team, asana_client, roles_repository,
                    asana_roles_updater_factory, roles_diff_factory,
                    roles_saver, role_object_factory)
     end
@@ -19,7 +19,7 @@ module Strategies
     let(:asana_client) do
       instance_double('AsanaClient')
     end
-    let(:projects_filter) { instance_double('ProjectsFilter') }
+    let(:projects_collection) { instance_double('ProjectsCollection') }
     let(:roles_diff_factory) { double(:roles_diff_factory, new: roles_diff) }
     let(:roles_diff) { instance_double('RolesDiff', perform: diff) }
     let(:roles_saver) { instance_double('RolesSaver', perform: true) }

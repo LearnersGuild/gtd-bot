@@ -3,11 +3,11 @@ require 'rails_helper'
 module Strategies
   describe CleanProjectsNames do
     let(:strategy) do
-      CleanProjectsNames.new(projects_filter, team,
+      CleanProjectsNames.new(projects_collection, team,
                              illegal_roles_renamer)
     end
-    let(:projects_filter) do
-      instance_double('ProjectsFilter', roles: projects_from_asana)
+    let(:projects_collection) do
+      instance_double('ProjectsCollection', roles: projects_from_asana)
     end
     let(:projects_from_asana) do
       [

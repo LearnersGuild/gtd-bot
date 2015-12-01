@@ -2,7 +2,9 @@ require 'rails_helper'
 
 module Strategies
   describe IndividualRole do
-    let(:strategy) { IndividualRole.new(team, projects_filter, asana_client) }
+    let(:strategy) do
+      IndividualRole.new(team, projects_collection, asana_client)
+    end
     let(:team) { TeamObject.new(asana_id: '1111') }
     let(:asana_client) do
       instance_double('AsanaClient', create_project: individual_project)
@@ -16,8 +18,8 @@ module Strategies
       subject { strategy.perform }
 
       context "&Individual role doesn't exist in Asana" do
-        let(:projects_filter) do
-          instance_double('ProjectsFilter', individual: [])
+        let(:projects_collection) do
+          instance_double('ProjectsCollection', individual: [])
         end
 
         it 'creates &Individual role in Asana' do
@@ -36,8 +38,9 @@ module Strategies
       end
 
       context "&Individual role exists in Asana" do
-        let(:projects_filter) do
-          instance_double('ProjectsFilter', individual: [individual_project])
+        let(:projects_collection) do
+          instance_double('ProjectsCollection',
+                          individual: [individual_project])
         end
 
         it "doesn't create &Individual role" do

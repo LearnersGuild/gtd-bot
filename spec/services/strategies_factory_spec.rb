@@ -13,7 +13,7 @@ describe StrategiesFactory do
 
     it "creates strategies" do
       expect(asana_hierarchy_fetcher).to receive(:projects).with(team)
-      expect(ProjectsFilter).to receive(:new).with(projects)
+      expect(ProjectsCollection).to receive(:new).with(projects)
       expect(subject).not_to be_empty
     end
   end

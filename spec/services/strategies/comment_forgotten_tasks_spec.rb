@@ -3,11 +3,11 @@ require 'rails_helper'
 module Strategies
   describe CommentForgottenTasks do
     let(:strategy) do
-      CommentForgottenTasks.new(projects_filter, tasks_filter_factory,
+      CommentForgottenTasks.new(projects_collection, tasks_filter_factory,
                             asana_client)
     end
-    let(:projects_filter) do
-      instance_double('ProjectsFilter', with_tasks: projects)
+    let(:projects_collection) do
+      instance_double('ProjectsCollection', with_tasks: projects)
     end
     let(:projects) { [project] }
     let(:project) { ProjectObject.new(tasks: tasks) }
