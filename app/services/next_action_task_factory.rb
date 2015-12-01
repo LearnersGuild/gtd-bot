@@ -7,7 +7,7 @@ class NextActionTaskFactory < BaseService
     name = "#{TITLE} #{project.name}"
     attributes = { name: name, assignee: project.owner_id, notes: project.link }
 
-    logger.info("Creating next action task...")
+    logger.info("Creating next action task for project #{project.name}...")
     asana_client.create_task(A9n.asana[:workspace_id], project.asana_id,
                              attributes)
     logger.info("Next action task created")

@@ -8,7 +8,7 @@ module Strategies
         tasks = project.tasks
         tasks_filter = tasks_filter_factory.new(tasks)
         unassigned_tasks = tasks_filter.unassigned
-        logger.info("Updating unassigned tasks...")
+        logger.info("Updating unassigned tasks for project #{project.name}...")
         tasks_assigner.perform(unassigned_tasks, project.owner_id)
         logger.info("Updating unassigned tasks finished")
       end

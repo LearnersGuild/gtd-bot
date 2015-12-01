@@ -6,9 +6,17 @@ class TaskTagger < BaseService
     tag_creator = TagFactory.new(asana_client, all_tags)
     tag = tag_creator.find_or_create(tag_name)
     tasks.each do |task|
-      unless task.tags.include?(tag)
-        asana_client.add_tag_to_task(task.asana_id, tag.asana_id)
-      end
+      next if task.tags.include?(tag)
+
+      add_tag(task, tag)
     end
+  end
+
+  private
+
+  def add_tag(task, tag)
+    logger.info("Adding tags to task #{task.name}")
+    asana_client.add_tag_to_task(task.asana_id, tag.asana_id)
+    logger.info("Tag added")
   end
 end

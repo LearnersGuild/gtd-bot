@@ -6,7 +6,9 @@ class IllegalRolesRenamer < BaseService
     gf_names += [ProjectObject::INDIVIDUAL_ROLE]
     to_rename = roles_from_asana.reject { |r| gf_names.include?(r.name) }
     to_rename.each do |role|
+      logger.info("Updating illegal name for project #{role.name}...")
       asana_client.update_project(role.asana_id, name: rename(role.name))
+      logger.info("Project updated")
     end
   end
 

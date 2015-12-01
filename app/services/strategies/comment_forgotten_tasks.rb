@@ -9,7 +9,8 @@ module Strategies
       projects = projects_filter.with_tasks
       projects.each do |project|
         tasks_filter = tasks_filter_factory.new(project.tasks)
-        logger.info("Adding comments for forgotten tasks...")
+        logger.info(
+          "Adding comments for forgotten tasks for project #{project.name}...")
         tasks_filter.forgotten_tasks.each do |task|
           asana_client.add_comment_to_task(task.asana_id, COMMENT)
         end
