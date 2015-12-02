@@ -28,10 +28,10 @@ class BotWorker < BaseService
 
   def perform_with_profiler
     result = RubyProf.profile do
-      foo
+      perform_iteration
     end
 
-    printer = RubyProf::GraphPrinter.new(result)
+    printer = RubyProf::GraphHtmlPrinter.new(result)
     File.open(PROFILER_OUTPUT_PATH, "w") { |f| printer.print(f) }
   end
 end
