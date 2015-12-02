@@ -1,5 +1,5 @@
 class AsanaRolesUpdater < BaseService
-  takes :asana_client, :projects_filter
+  takes :projects_repository
 
   def perform(diff)
     {
@@ -15,8 +15,7 @@ class AsanaRolesUpdater < BaseService
     map(diff[:to_create]) do |r|
       role_attributes =
         ProjectAttributes.new(r.name_with_prefix, r.asana_team_id)
-      project = asana_client.create_project(role_attributes)
-      projects_filter.create(project)
+      project = projects_repository.create(role_attributes)
       new_attributes = r.attributes.merge(asana_id: project.asana_id)
       RoleObject.new(new_attributes)
     end
@@ -24,8 +23,7 @@ class AsanaRolesUpdater < BaseService
 
   def to_delete(diff)
     map(diff[:to_delete]) do |r|
-      project = asana_client.delete_project(r.asana_id)
-      projects_filter.delete(project)
+      projects_repository.delete(r.asana_id)
       r
     end
   end
@@ -33,8 +31,7 @@ class AsanaRolesUpdater < BaseService
   def to_update(diff)
     map(diff[:to_update]) do |r|
       new_attributes = r.attributes.merge(name: r.name_with_prefix)
-      project = asana_client.update_project(r.asana_id, new_attributes)
-      projects_filter.update(project)
+      projects_repository.update(r.asana_id, new_attributes)
       r
     end
   end

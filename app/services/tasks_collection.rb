@@ -1,6 +1,4 @@
-class TasksFilter < BaseService
-  takes :tasks
-
+class TasksCollection < BaseCollection
   def unassigned
     uncompleted_tasks.reject(&:assignee_id)
   end
@@ -18,6 +16,6 @@ class TasksFilter < BaseService
   end
 
   def uncompleted_tasks
-    tasks.select(&:uncompleted?)
+    select(&:uncompleted?)
   end
 end

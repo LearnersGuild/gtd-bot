@@ -96,33 +96,23 @@ describe ProjectsCollection do
     end
   end
 
-  describe "#create" do
-    subject { collection.create(project) }
+  describe "#add" do
+    subject { collection.add(project) }
     let(:projects) { [] }
 
     it "adds projects to the list" do
       subject
-      expect(collection.projects).to eq([project])
-    end
-  end
-
-  describe "#update" do
-    subject { collection.update(project) }
-
-    it "deletes project from the list and creates new one" do
-      expect(collection).to receive(:delete).with(project)
-      expect(collection).to receive(:create).with(project)
-      subject
+      expect(collection.items).to eq([project])
     end
   end
 
   describe "#delete" do
-    subject { collection.delete(project) }
+    subject { collection.delete('1111') }
     let(:projects) { [ProjectObject.new(asana_id: '1111', name: 'Name')] }
 
     it "deletes project from the list" do
       subject
-      expect(collection.projects).to eq([])
+      expect(collection.items).to eq([])
     end
   end
 end

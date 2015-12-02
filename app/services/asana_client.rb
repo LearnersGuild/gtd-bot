@@ -1,5 +1,6 @@
 class AsanaClient < BaseService
-  attr_accessor :client, :team_object_factory, :project_object_factory
+  attr_accessor :client, :team_object_factory, :project_object_factory,
+    :task_object_factory, :tag_object_factory
 
   def initialize(team_object_factory, project_object_factory)
     self.client = Asana::Client.new do |c|
@@ -17,7 +18,6 @@ class AsanaClient < BaseService
   def delete_project(project_id)
     project = build_project(project_id)
     project.delete
-    project_object_factory.build_from_asana(project)
   end
 
   def update_project(project_id, attributes)
@@ -45,7 +45,8 @@ class AsanaClient < BaseService
       workspace: workspace_id,
       projects: [project_id]
     )
-    Asana::Task.create(client, merged_attributes)
+    task = Asana::Task.create(client, merged_attributes)
+    task_object_factory.build_from_asana(task)
   end
 
   def tasks_for_project(project_id)
@@ -53,7 +54,7 @@ class AsanaClient < BaseService
               :completed]
     build_project(project_id)
       .tasks(options: { fields: fields })
-      .map { |t| TaskObjectFactory.new.build_from_asana(t) }
+      .map { |t| task_object_factory.build_from_asana(t) }
       .select(&:uncompleted?)
   end
 
@@ -67,7 +68,7 @@ class AsanaClient < BaseService
 
   def all_tags(workspace_id)
     Asana::Tag.find_all(client, workspace: workspace_id).map do |t|
-      TagObject.new(asana_id: t.id, name: t.name)
+      tag_object_factory.build_from_asana(t)
     end
   end
 
@@ -77,7 +78,8 @@ class AsanaClient < BaseService
 
   def create_tag(workspace_id, attributes)
     merged_attributes = attributes.merge(workspace: workspace_id)
-    Asana::Tag.create(client, merged_attributes)
+    tag = Asana::Tag.create(client, merged_attributes)
+    tag_object_factory.build_from_asana(tag)
   end
 
   def add_comment_to_task(task_id, text)

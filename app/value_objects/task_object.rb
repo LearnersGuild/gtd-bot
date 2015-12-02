@@ -7,6 +7,7 @@ class TaskObject < BaseObject
   attribute :tags, Array
   attribute :due_at, DateTime
   attribute :completed, Boolean
+  attribute :project_ids, Array, default: []
 
   STALE_TIME = 4.weeks
   STALE_TAG_NAME = 'stale'

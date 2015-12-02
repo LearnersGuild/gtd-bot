@@ -1,17 +1,17 @@
 module Strategies
   class CommentForgottenTasks < BaseStrategy
-    takes :projects_filter, :tasks_filter_factory, :asana_client
+    takes :projects_repository, :tasks_repository_factory
 
     COMMENT = "Wow, you really don't seem to want to do this. "\
               "Maybe it's time to delegate or delete it!"
 
     def perform
-      projects = projects_filter.with_tasks
+      projects = projects_repository.with_tasks
       projects.each do |project|
-        tasks_filter = tasks_filter_factory.new(project.tasks)
+        tasks_repository = tasks_repository_factory.new(project.tasks)
         logger.info("Adding comments for forgotten tasks...")
-        tasks_filter.forgotten_tasks.each do |task|
-          asana_client.add_comment_to_task(task.asana_id, COMMENT)
+        tasks_repository.forgotten_tasks.each do |task|
+          tasks_repository.add_comment_to_task(task.asana_id, COMMENT)
         end
         logger.info("Comments for forgotten tasks created")
       end

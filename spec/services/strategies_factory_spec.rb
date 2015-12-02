@@ -1,7 +1,12 @@
 require 'rails_helper'
 
 describe StrategiesFactory do
-  let(:strategies_factory) { StrategiesFactory.new(asana_hierarchy_fetcher) }
+  let(:strategies_factory) do
+    StrategiesFactory.new(asana_hierarchy_fetcher, asana_client)
+  end
+  let(:asana_client) do
+    instance_double('AsanaClient')
+  end
   let(:asana_hierarchy_fetcher) do
     instance_double('AsanaHierarchyFetcher', projects: projects)
   end
