@@ -18,13 +18,13 @@ class TasksRepository < BaseRepository
   def add_project_to_task(task, project_id)
     return if task.project_ids.include?(project_id)
 
-    asana_client.add_project_to_task(task, project_id)
+    asana_client.add_project_to_task(task.asana_id, project_id)
     task.project_ids.push(project_id)
   end
 
   private
 
   def default_collection
-    TasksRepository.new
+    TasksCollection.new
   end
 end

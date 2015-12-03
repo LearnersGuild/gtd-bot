@@ -13,6 +13,9 @@ describe ProjectsRepository do
   end
   let(:project) { ProjectObject.new(asana_id: '7777') }
 
+  it_behaves_like "BaseRepository", ProjectsRepository, ProjectsCollection,
+    ProjectObject
+
   describe "#create" do
     subject { repository.create(attributes) }
     let(:attributes) { {} }

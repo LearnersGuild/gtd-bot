@@ -1,7 +1,8 @@
 class TasksRepositoryFactory
   takes :asana_client
 
-  def new(collection)
+  def new(tasks)
+    collection = TasksCollection.new(tasks)
     TasksRepository.new(asana_client, collection)
   end
 end

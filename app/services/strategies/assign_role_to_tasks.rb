@@ -4,7 +4,7 @@ module Strategies
       :tasks_to_role_adder_factory, :parallel_iterator
 
     def perform
-      projects_with_tasks = projects_repository.without_roles_with_tasks
+      projects_with_tasks = projects_repository.without_roles.with_tasks
       projects_with_tasks.each do |project|
         perform_iteration(project)
       end

@@ -13,6 +13,15 @@ describe TagsRepository do
   let(:tag2) { TagObject.new(asana_id: '2', name: 'test2') }
   let(:new_tag) { TagObject.new(asana_id: '3', name: 'test3') }
 
+  describe "#initialize" do
+    subject { repository }
+
+    it "fetches all tags from Asana" do
+      expect(asana_client).to receive(:all_tags)
+      subject
+    end
+  end
+
   describe '#find_or_create' do
     subject { repository.find_or_create(name) }
     let(:tag) { TagObject.new(name: name) }

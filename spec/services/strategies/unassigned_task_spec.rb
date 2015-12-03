@@ -3,9 +3,13 @@ require 'rails_helper'
 module Strategies
   describe UnassignedTask do
     let(:strategy) do
-      UnassignedTask.new(projects_collection, tasks_filter_factory,
+      UnassignedTask.new(projects_repository, tasks_filter_factory,
                          tasks_assigner)
     end
+    let(:projects_repository) do
+      ProjectsRepository.new(asana_client, projects_collection)
+    end
+    let(:asana_client) { instance_double('AsanaClient') }
     let(:projects_collection) do
       ProjectsCollection.new(projects)
     end

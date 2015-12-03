@@ -5,10 +5,11 @@ describe TasksRepositoryFactory do
   let(:asana_client) { double }
 
   describe "#new" do
-    subject { factory.new(collection) }
-    let(:collection) { TasksCollection.new }
+    subject { factory.new(tasks) }
+    let(:tasks) { [TaskObject.new] }
 
     it "creates TasksRepository with asana_client and collection" do
+      collection = TasksCollection.new(tasks)
       expect(TasksRepository).to receive(:new).with(asana_client, collection)
       subject
     end

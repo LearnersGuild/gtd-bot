@@ -47,7 +47,7 @@ class ServicesInjector
 
   def stale_task(projects_repository, tasks_repository_factory, tags_repository)
     Strategies::StaleTask.new(projects_repository, tasks_repository_factory,
-                              TaskTagger, tags_repository)
+                              TaskTagger, tags_repository, parallel_iterator)
   end
 
   def comment_forgotten_tasks(projects_repository, tasks_repository_factory)

@@ -23,6 +23,8 @@ describe TasksCollection do
   end
   let(:completed_task) { TaskObject.new(completed: true) }
 
+  it_behaves_like "BaseCollection", TasksCollection, TaskObject
+
   describe '#unassigned' do
     subject { collection.unassigned }
     let(:expected_tasks) { [unassigned_task, stale_task, forgotten_task] }

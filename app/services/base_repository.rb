@@ -11,4 +11,8 @@ class BaseRepository
   def method_missing(method, *args, &block)
     @collection.send(method, *args, &block)
   end
+
+  def default_collection
+    fail "method: #{__method__} is not implemented"
+  end
 end

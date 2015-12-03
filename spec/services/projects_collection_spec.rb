@@ -22,6 +22,8 @@ describe ProjectsCollection do
   let(:with_role) { ProjectObject.new(description: "#{role_link} description") }
   let(:project) { ProjectObject.new(asana_id: '1111') }
 
+  it_behaves_like "BaseCollection", ProjectsCollection, ProjectObject
+
   describe '#without_roles_and_tasks' do
     subject { collection.without_roles.without_tasks }
 

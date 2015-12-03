@@ -2,12 +2,15 @@ class AsanaClient < BaseService
   attr_accessor :client, :team_object_factory, :project_object_factory,
     :task_object_factory, :tag_object_factory
 
-  def initialize(team_object_factory, project_object_factory)
+  def initialize(team_object_factory, project_object_factory,
+                 task_object_factory, tag_object_factory)
     self.client = Asana::Client.new do |c|
       c.authentication(:access_token, A9n.asana[:api_key])
     end
     self.team_object_factory = team_object_factory
     self.project_object_factory = project_object_factory
+    self.task_object_factory = task_object_factory
+    self.tag_object_factory = tag_object_factory
   end
 
   def create_project(attributes)
