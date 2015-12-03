@@ -9,7 +9,8 @@ module Strategies
       projects = projects_repository.with_tasks
       projects.each do |project|
         tasks_repository = tasks_repository_factory.new(project.tasks)
-        logger.info("Adding comments for forgotten tasks...")
+        logger.info(
+          "Adding comments for forgotten tasks for project #{project.name}...")
         tasks_repository.forgotten_tasks.each do |task|
           tasks_repository.add_comment_to_task(task.asana_id, COMMENT)
         end

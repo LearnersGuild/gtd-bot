@@ -4,11 +4,12 @@ module Strategies
   describe AssignRoleToTasks do
     let(:strategy) do
       AssignRoleToTasks.new(projects_repository, tasks_repository_factory,
-                            tasks_to_role_adder_factory)
+                            tasks_to_role_adder_factory, parallel_iterator)
     end
     let(:projects_repository) do
       double('ProjectsRepository', without_roles_with_tasks: projects)
     end
+    let(:parallel_iterator) { ParallelIterator.new }
     let(:projects) { [project] }
     let(:project) { ProjectObject.new(owner_id: owner_id, tasks: tasks) }
     let(:owner_id) { '7777' }

@@ -1,8 +1,11 @@
 require 'rails_helper'
 
 describe TasksAssigner do
-  let(:tasks_assigner) { TasksAssigner.new(tasks_repository) }
+  let(:tasks_assigner) do
+    TasksAssigner.new(tasks_repository, parallel_iterator)
+  end
   let(:tasks_repository) { double('TasksRepository') }
+  let(:parallel_iterator) { ParallelIterator.new }
   let(:assignee_id) { double }
   let(:tasks) { [task] }
   let(:task) { TaskObject.new(id: double) }

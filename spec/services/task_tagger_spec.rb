@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 describe TaskTagger do
-  let(:task_tagger) { TaskTagger.new(tags_repository) }
+  let(:task_tagger) { TaskTagger.new(tags_repository, parallel_iterator) }
+  let(:parallel_iterator) { ParallelIterator.new }
   let(:tags_repository) do
     instance_double('TagsRepository', find_or_create: tag)
   end

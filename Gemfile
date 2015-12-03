@@ -8,6 +8,7 @@ gem 'glassfrog', git: 'git@github.com:LunarLogic/glassfrog-ruby.git'
 gem 'asana'
 gem 'virtus'
 gem 'dependor'
+gem 'parallel'
 
 group :development, :test do
   gem 'spring'
@@ -40,4 +41,8 @@ end
 
 group :production do
   gem 'unicorn'
+end
+
+group :profile do
+  gem 'ruby-prof'
 end
