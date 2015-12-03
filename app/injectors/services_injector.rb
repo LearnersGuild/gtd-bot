@@ -28,11 +28,12 @@ class ServicesInjector
 
   def assign_role_to_tasks_strategy(projects_filter)
     Strategies::AssignRoleToTasks.new(projects_filter, TasksFilter,
-                                      tasks_to_role_adder)
+                                      tasks_to_role_adder, parallel_iterator)
   end
 
   def assign_role_task_strategy(projects_filter)
-    Strategies::AssignRoleTask.new(projects_filter, assign_role_task_factory)
+    Strategies::AssignRoleTask.new(projects_filter, assign_role_task_factory,
+                                   parallel_iterator)
   end
 
   def clean_projects_names(projects_filter, team)

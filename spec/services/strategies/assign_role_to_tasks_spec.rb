@@ -4,12 +4,13 @@ module Strategies
   describe AssignRoleToTasks do
     let(:strategy) do
       AssignRoleToTasks.new(projects_filter, task_filter_factory,
-                            tasks_to_role_adder)
+                            tasks_to_role_adder, parallel_iterator)
     end
     let(:projects_filter) do
       instance_double('ProjectFilter', without_roles_with_tasks: projects)
     end
     let(:asana_client) { instance_double('AsanaClient') }
+    let(:parallel_iterator) { ParallelIterator.new }
     let(:projects) { [project] }
     let(:project) { ProjectObject.new(owner_id: owner_id, tasks: tasks) }
     let(:owner_id) { '7777' }

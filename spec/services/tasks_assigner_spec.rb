@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 describe TasksAssigner do
-  let(:tasks_assigner) { TasksAssigner.new(asana_client) }
+  let(:tasks_assigner) { TasksAssigner.new(asana_client, parallel_iterator) }
   let(:asana_client) { instance_double('AsanaClient') }
+  let(:parallel_iterator) { ParallelIterator.new }
   let(:assignee_id) { double }
   let(:tasks) { [task] }
   let(:task) { TaskObject.new(id: double) }

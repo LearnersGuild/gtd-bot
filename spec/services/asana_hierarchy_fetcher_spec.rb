@@ -1,15 +1,17 @@
 require 'rails_helper'
 
 describe AsanaHierarchyFetcher do
-  let(:fetcher) { AsanaHierarchyFetcher.new(asana_client) }
+  let(:fetcher) { AsanaHierarchyFetcher.new(asana_client, parallel_iterator) }
   let(:asana_client) do
     instance_double('AsanaClient',
                     projects: projects,
                     tasks_for_project: tasks)
   end
+  let(:parallel_iterator) { ParallelIterator.new }
   let(:projects) do
     [ProjectObject.new(asana_id: asana_id, name: name, owner_id: owner_id)]
   end
+  let(:projects_with_tasks) {}
   let(:asana_id) { '7777' }
   let(:name) { 'Project' }
   let(:owner_id) { '8888' }

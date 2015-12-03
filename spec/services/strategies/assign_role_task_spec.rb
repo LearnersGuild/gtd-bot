@@ -3,7 +3,8 @@ require 'rails_helper'
 module Strategies
   describe AssignRoleTask do
     let(:strategy) do
-      AssignRoleTask.new(projects_filter, assign_role_task_factory)
+      AssignRoleTask.new(projects_filter, assign_role_task_factory,
+                         parallel_iterator)
     end
     let(:projects_filter) do
       instance_double('ProjectsFilter', without_roles_assigned: projects)
@@ -11,6 +12,7 @@ module Strategies
     let(:assign_role_task_factory) do
       instance_double('AssignRoleTaskFactory')
     end
+    let(:parallel_iterator) { ParallelIterator.new }
     let(:projects) { [project] }
     let(:project) { ProjectObject.new }
 
