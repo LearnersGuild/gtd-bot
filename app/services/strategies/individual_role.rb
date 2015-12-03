@@ -8,7 +8,7 @@ module Strategies
         role_attributes =
           ProjectAttributes.new(ProjectObject::INDIVIDUAL_ROLE, team.asana_id)
         project = projects_repository.create(role_attributes)
-        roles_repository.create_from_project(project)
+        roles_repository.create_from(project, team)
       end
       logger.info("Individual role created")
     end

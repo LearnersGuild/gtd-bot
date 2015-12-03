@@ -12,7 +12,7 @@ module Strategies
              individual: individual)
     end
     let(:roles_repository) do
-      instance_double('RolesRepository', create_from_project: true)
+      instance_double('RolesRepository', create_from: true)
     end
 
     let(:individual_project) do
@@ -31,8 +31,8 @@ module Strategies
         end
 
         it 'creates &Individual role in DB' do
-          expect(roles_repository).to receive(:create_from_project)
-            .with(individual_project)
+          expect(roles_repository).to receive(:create_from)
+            .with(individual_project, team)
           subject
         end
       end

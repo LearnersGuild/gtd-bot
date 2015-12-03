@@ -8,7 +8,7 @@ class RolesRepository
       .where.not(name: ProjectObject::INDIVIDUAL_NAME)
   end
 
-  def create_from_project(project)
+  def create_from(project, team)
     name = project.name.gsub(/^#{ProjectObject::ROLE_PREFIX}/, "")
     Role.create(
       name: name,

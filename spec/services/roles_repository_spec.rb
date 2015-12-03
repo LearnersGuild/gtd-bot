@@ -3,6 +3,14 @@ require 'rails_helper'
 describe RolesRepository do
   let(:repository) { RolesRepository.new }
 
+  describe "#all" do
+    subject { repository.all }
+
+    let!(:all_roles) { [create(:role)] }
+
+    it { expect(subject).to eq(all_roles) }
+  end
+
   describe "#existing_without_individual" do
     let(:team) { TeamObject.new(asana_id: '1111') }
 
@@ -23,6 +31,27 @@ describe RolesRepository do
 
         it { expect(subject).to eq([existing]) }
       end
+    end
+  end
+
+  describe "#create_from" do
+    subject { repository.create_from(project, team) }
+    let(:project) do
+      ProjectObject.new(
+        name: 'Project',
+        asana_id: '7777'
+      )
+    end
+    let(:team) { TeamObject.new(asana_id: '8888') }
+
+    it 'creates role in DB' do
+      subject
+      role = Role.where(
+        name: project.name,
+        asana_id: '7777',
+        asana_team_id: '8888'
+      )
+      expect(role).not_to be_blank
     end
   end
 end

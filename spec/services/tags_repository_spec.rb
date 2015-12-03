@@ -1,9 +1,12 @@
 require 'rails_helper'
 
 describe TagsRepository do
-  let(:tags_repository) { TagsRepository.new(asana_client) }
+  let(:repository) { TagsRepository.new(asana_client) }
   let(:asana_client) do
-    instance_double('AsanaClient', all_tags: tags, create_tag: new_tag)
+    instance_double('AsanaClient',
+                    all_tags: tags,
+                    create_tag: new_tag,
+                    add_tag_to_task: true)
   end
   let(:tags) { [tag1, tag2] }
   let(:tag1) { TagObject.new(asana_id: '1', name: 'test1') }
@@ -11,39 +14,92 @@ describe TagsRepository do
   let(:new_tag) { TagObject.new(asana_id: '3', name: 'test3') }
 
   describe '#find_or_create' do
-    subject { tags_repository.find_or_create(name) }
+    subject { repository.find_or_create(name) }
+    let(:tag) { TagObject.new(name: name) }
+    let(:name) { 'tag' }
 
-    context 'tag already exisits' do
-      let(:name) { 'test1' }
+    context "tag found" do
+      before do
+        expect(repository).to receive(:find).and_return(tag)
+      end
 
-      it 'returns tag' do
-        expect(asana_client).not_to receive(:create_tag)
-        expect(subject).to eq(tag1)
+      it { expect(subject).to eq(tag) }
+    end
+
+    context "tag not found" do
+      before do
+        expect(repository).to receive(:find).and_return(nil)
+      end
+
+      it do
+        expect(repository).to receive(:create).with(name)
         subject
       end
     end
+  end
 
-    context 'tag does not exisit' do
-      let(:name) { 'test3' }
+  describe "#find" do
+    subject { repository.find(name) }
 
-      it 'returns tag' do
-        expect(asana_client).to receive(:create_tag)
-        expect(subject).to eq(new_tag)
+    context "tag found" do
+      let(:name) { 'test1' }
+
+      it { expect(subject).to eq(tag1) }
+    end
+
+    context "tag not found" do
+      let(:name) { 'not existing tag' }
+
+      it { expect(subject).to be nil }
+    end
+  end
+
+  describe "#create" do
+    subject { repository.create(name) }
+
+    let(:name) { 'test3' }
+
+    it "creates tag in Asana" do
+      expect(asana_client).to receive(:create_tag)
+        .with(A9n.asana[:workspace_id], name: name)
+      subject
+    end
+
+    it "creates tag in local cache" do
+      subject
+      expect(repository.find(name)).to eq(new_tag)
+    end
+
+    context "name is blank" do
+      let(:name) { "" }
+
+      it "creates tag in Asana" do
+        expect(asana_client).not_to receive(:create_tag)
         subject
       end
 
-      context 'tag is not duplicated' do
-        subject do
-          tags_repository.find_or_create(name)
-          tags_repository.find_or_create(name)
-        end
-
-        it 'returns tag and does not create same tag' do
-          expect(asana_client).to receive(:create_tag).once
-          expect(subject).to eq(new_tag)
-          subject
-        end
+      it "creates tag in local cache" do
+        subject
+        expect(repository.find(name)).to be nil
       end
+    end
+  end
+
+  describe "#add_to_task" do
+    subject { repository.add_to_task(task, tag) }
+    let(:task) { TaskObject.new(asana_id: '7777') }
+    let(:tag) { TagObject.new(asana_id: '8888', name: name) }
+    let(:name) { 'tag' }
+
+    it "updates Asana" do
+      expect(asana_client).to receive(:add_tag_to_task)
+        .with(task.asana_id, tag.asana_id)
+      subject
+    end
+
+    it "updates local cache" do
+      subject
+      expect(task.tags.first).to eq(tag)
     end
   end
 end
