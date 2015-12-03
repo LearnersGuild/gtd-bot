@@ -1,10 +1,15 @@
 class BaseCollection < BaseService
-  takes :items
+  attr_accessor :items
 
-  delegate :include?, :each, to: :items
+  def initialize(items = [])
+    self.items = items
+  end
+
+  delegate :include?, :each, :detect, to: :items
 
   def add(item)
     @items.push(item)
+    item
   end
 
   def delete(asana_id)

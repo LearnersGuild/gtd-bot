@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe TagFactory do
-  let(:tag_factory) { TagFactory.new(asana_client, tags) }
+describe TagsRepository do
+  let(:tags_repository) { TagsRepository.new(asana_client) }
   let(:asana_client) do
     instance_double('AsanaClient', all_tags: tags, create_tag: new_tag)
   end
@@ -11,7 +11,7 @@ describe TagFactory do
   let(:new_tag) { TagObject.new(asana_id: '3', name: 'test3') }
 
   describe '#find_or_create' do
-    subject { tag_factory.find_or_create(name) }
+    subject { tags_repository.find_or_create(name) }
 
     context 'tag already exisits' do
       let(:name) { 'test1' }
@@ -34,8 +34,8 @@ describe TagFactory do
 
       context 'tag is not duplicated' do
         subject do
-          tag_factory.find_or_create(name)
-          tag_factory.find_or_create(name)
+          tags_repository.find_or_create(name)
+          tags_repository.find_or_create(name)
         end
 
         it 'returns tag and does not create same tag' do

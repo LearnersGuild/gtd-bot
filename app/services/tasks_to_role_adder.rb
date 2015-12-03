@@ -1,5 +1,6 @@
 class TasksToRoleAdder < BaseService
-  takes :roles_repository, :tasks_repository
+  takes :tasks_repository
+  inject :roles_repository
 
   def perform(project, tasks)
     tasks.each do |task|

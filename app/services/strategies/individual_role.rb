@@ -4,7 +4,7 @@ module Strategies
 
     def perform
       logger.info("Creating individual role...")
-      if projects_filter.individual.empty?
+      if projects_repository.individual.empty?
         role_attributes =
           ProjectAttributes.new(ProjectObject::INDIVIDUAL_ROLE, team.asana_id)
         project = projects_repository.create(role_attributes)

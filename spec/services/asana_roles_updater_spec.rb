@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 describe AsanaRolesUpdater do
-  let(:updater) { AsanaRolesUpdater.new(asana_client, projects_filter) }
-  let(:projects_filter) do
+  let(:updater) { AsanaRolesUpdater.new(projects_repository) }
+  let(:projects_repository) do
     instance_double(
-      'ProjectsCollection',
+      'ProjectsRepository',
       create: project_object,
       update: project_object,
       delete: project_object
@@ -32,14 +32,9 @@ describe AsanaRolesUpdater do
         { to_create: [RoleObject.new(role_attributes)] }
       end
 
-      it "updates Asana" do
-        expect(asana_client).to receive(:create_project)
+      it "updates repository" do
+        expect(projects_repository).to receive(:create)
           .with(ProjectAttributes.new('&Role', team_id))
-        subject
-      end
-
-      it "updates local cache" do
-        expect(projects_filter).to receive(:create).with(project_object)
         subject
       end
 
@@ -69,14 +64,9 @@ describe AsanaRolesUpdater do
           { to_delete: [existing_role] }
         end
 
-        it "updates Asana" do
-          expect(asana_client).to receive(:delete_project)
+        it "updates repository" do
+          expect(projects_repository).to receive(:delete)
             .with('7777')
-          subject
-        end
-
-        it "updates local cache" do
-          expect(projects_filter).to receive(:delete).with(project_object)
           subject
         end
 
@@ -97,14 +87,9 @@ describe AsanaRolesUpdater do
           RoleObject.new(role_attributes.merge(name: 'Role2'))
         end
 
-        it "updates Asana" do
-          expect(asana_client).to receive(:update_project)
+        it "updates repository" do
+          expect(projects_repository).to receive(:update)
             .with('7777', role_attributes.merge(name: '&Role2'))
-          subject
-        end
-
-        it "updates local cache" do
-          expect(projects_filter).to receive(:update).with(project_object)
           subject
         end
 

@@ -38,9 +38,7 @@ describe AsanaClient do
         .with({ id: '7777' }, { client: client })
         .and_return(asana_project)
       expect(asana_project).to receive(:delete).and_return(true)
-      expect(project_object_factory).to receive(:build_from_asana)
-        .with(asana_project)
-      expect(subject).to eq(project_object)
+      subject
     end
   end
 

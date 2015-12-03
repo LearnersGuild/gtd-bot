@@ -1,13 +1,15 @@
 module Strategies
   class StaleTask < BaseStrategy
-    takes :projects_filter, :tasks_filter_factory, :task_tagger
+    takes :projects_repository, :tasks_repository_factory,
+      :task_tagger_factory, :tags_repository
 
     def perform
-      projects = projects_filter.with_tasks
+      projects = projects_repository.with_tasks
       projects.each do |project|
-        tasks_filter = tasks_filter_factory.new(project.tasks)
+        tasks_repository = tasks_repository_factory.new(project.tasks)
         logger.info("Creating tags for stale tasks...")
-        task_tagger.perform(tasks_filter.stale_tasks,
+        task_tagger = task_tagger_factory.new(tags_repository)
+        task_tagger.perform(tasks_repository.stale_tasks,
                             TaskObject::STALE_TAG_NAME)
         logger.info("Tags for stale tasks created")
       end

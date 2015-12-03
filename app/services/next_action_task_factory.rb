@@ -1,9 +1,7 @@
 class NextActionTaskFactory < BaseService
-  takes :tasks_repository
-
   TITLE = "Add next action to"
 
-  def create(project)
+  def create(tasks_repository, project)
     name = "#{TITLE} #{project.name}"
     attributes = { name: name, assignee: project.owner_id, notes: project.link }
 
