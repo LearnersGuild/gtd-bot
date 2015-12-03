@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 describe TaskTagger do
-  let(:task_tagger) { TaskTagger.new(asana_client) }
+  let(:task_tagger) { TaskTagger.new(asana_client, parallel_iterator) }
   let(:asana_client) { instance_double('AsanaClient', all_tags: [tag]) }
+  let(:parallel_iterator) { ParallelIterator.new }
   let(:tasks) { [task] }
   let(:tag) { TagObject.new(asana_id: '1', name: 'test1') }
 
