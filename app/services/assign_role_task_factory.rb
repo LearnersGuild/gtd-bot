@@ -1,5 +1,5 @@
 class AssignRoleTaskFactory < BaseService
-  takes :asana_client
+  takes :tasks_repository
 
   TITLE = "Assign role to the project"
   DESCRIPTION = "Assign a role to %s by linking "\
@@ -11,13 +11,12 @@ class AssignRoleTaskFactory < BaseService
     task = project.tasks.detect { |t| t.name == name }
     return if task
 
-    attributes = {
+    task_attributes = {
       name: name,
       assignee: project.owner_id,
       notes: description(project)
     }
-    workspace_id = A9n.asana[:workspace_id]
-    asana_client.create_task(workspace_id, project.asana_id, attributes)
+    tasks_repository.create(project, task_attributes)
   end
 
   private

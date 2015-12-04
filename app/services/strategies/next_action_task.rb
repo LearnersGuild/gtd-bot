@@ -1,12 +1,14 @@
 module Strategies
   class NextActionTask < BaseStrategy
-    takes :projects_filter, :next_action_task_factory
+    takes :projects_repository, :next_action_task_factory,
+      :tasks_repository_factory
 
     def perform
-      projects_without_tasks = projects_filter.without_roles_and_tasks
+      projects_without_tasks = projects_repository.without_roles.without_tasks
       projects_without_tasks.each do |project|
         logger.info("Creating next action task for #{project.name}")
-        next_action_task_factory.create(project)
+        tasks_repository = tasks_repository_factory.new
+        next_action_task_factory.create(tasks_repository, project)
         logger.info("Created")
       end
     end

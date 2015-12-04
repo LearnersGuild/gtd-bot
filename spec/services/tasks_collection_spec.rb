@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe TasksFilter do
-  let(:tasks_filter) { TasksFilter.new(tasks) }
+describe TasksCollection do
+  let(:collection) { TasksCollection.new(tasks) }
   let(:tasks) do
     [
       assigned_task,
@@ -23,45 +23,47 @@ describe TasksFilter do
   end
   let(:completed_task) { TaskObject.new(completed: true) }
 
+  it_behaves_like "BaseCollection", TasksCollection, TaskObject
+
   describe '#unassigned' do
-    subject { tasks_filter.unassigned }
+    subject { collection.unassigned }
     let(:expected_tasks) { [unassigned_task, stale_task, forgotten_task] }
 
     it 'returns unassigned tasks' do
-      expect(subject).to eq(expected_tasks)
+      expect(subject).to eq(TasksCollection.new(expected_tasks))
     end
   end
 
   describe '#assigned_to' do
-    subject { tasks_filter.assigned_to(assignee_id) }
+    subject { collection.assigned_to(assignee_id) }
 
     it 'returns unassigned tasks' do
-      expect(subject).to eq([assigned_task])
+      expect(subject).to eq(TasksCollection.new([assigned_task]))
     end
   end
 
   describe '#stale_tasks' do
-    subject { tasks_filter.stale_tasks }
+    subject { collection.stale_tasks }
 
     it 'returns unassigned tasks' do
-      expect(subject).to eq([stale_task, forgotten_task])
+      expect(subject).to eq(TasksCollection.new([stale_task, forgotten_task]))
     end
   end
 
   describe '#forgotten_tasks' do
-    subject { tasks_filter.forgotten_tasks }
+    subject { collection.forgotten_tasks }
 
     it 'returns unassigned tasks' do
-      expect(subject).to eq([forgotten_task])
+      expect(subject).to eq(TasksCollection.new([forgotten_task]))
     end
   end
 
   describe '#uncompleted_tasks' do
-    subject { tasks_filter.uncompleted_tasks }
+    subject { collection.uncompleted_tasks }
     let(:expected_tasks) { tasks - [completed_task] }
 
     it 'returns unassigned tasks' do
-      expect(subject).to eq(expected_tasks)
+      expect(subject).to eq(TasksCollection.new(expected_tasks))
     end
   end
 end

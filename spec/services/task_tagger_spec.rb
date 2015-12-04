@@ -1,34 +1,24 @@
 require 'rails_helper'
 
 describe TaskTagger do
-  let(:task_tagger) { TaskTagger.new(asana_client, parallel_iterator) }
-  let(:asana_client) { instance_double('AsanaClient', all_tags: [tag]) }
+  let(:task_tagger) { TaskTagger.new(tags_repository, parallel_iterator) }
   let(:parallel_iterator) { ParallelIterator.new }
+  let(:tags_repository) do
+    instance_double('TagsRepository', find_or_create: tag)
+  end
   let(:tasks) { [task] }
   let(:tag) { TagObject.new(asana_id: '1', name: 'test1') }
 
   describe '#perform' do
     subject { task_tagger.perform(tasks, tag_name) }
 
-    context 'task already has specified tag' do
-      let(:tag_name) { 'test1' }
-      let(:task) { TaskObject.new(asana_id: '1', tags: [tag]) }
+    let(:tag_name) { 'test1' }
+    let(:task) { TaskObject.new(asana_id: '1') }
 
-      it 'does not add tag to tasks' do
-        expect(asana_client).not_to receive(:add_tag_to_task)
-        subject
-      end
-    end
-
-    context 'task does not have specified tag' do
-      let(:tag_name) { 'test1' }
-      let(:task) { TaskObject.new(asana_id: '1') }
-
-      it 'adds tag to tasks' do
-        expect(asana_client).to receive(:add_tag_to_task)
-          .with(task.asana_id, tag.asana_id)
-        subject
-      end
+    it 'adds tag to tasks' do
+      expect(tags_repository).to receive(:add_to_task)
+        .with(task, tag)
+      subject
     end
   end
 end

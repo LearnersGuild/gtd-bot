@@ -1,4 +1,6 @@
 class TaskObjectFactory < BaseService
+  inject :tag_object_factory
+
   def build_from_asana(task)
     TaskObject.new(
       asana_id: task.id,
@@ -15,7 +17,7 @@ class TaskObjectFactory < BaseService
   private
 
   def map_tags(tags)
-    tags.map { |tg| TagObject.new(asana_id: tg.id, name: tg.name) }
+    tags.map { |tg| tag_object_factory.build_from_asana(tg) }
   end
 
   def parse_due_at(task)

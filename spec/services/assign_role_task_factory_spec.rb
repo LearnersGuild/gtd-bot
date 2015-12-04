@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe AssignRoleTaskFactory do
-  let(:factory) { AssignRoleTaskFactory.new(asana_client) }
-  let(:asana_client) do
-    instance_double('AsanaClient', create_task: true)
+  let(:factory) { AssignRoleTaskFactory.new(tasks_repository) }
+  let(:tasks_repository) do
+    double('TasksRepository', create: TaskObject.new)
   end
 
   describe "#create" do
@@ -13,8 +13,8 @@ describe AssignRoleTaskFactory do
     let(:expected_name) { "#{AssignRoleTaskFactory::TITLE} Project" }
 
     it "delegates to Asana" do
-      expect(asana_client).to receive(:create_task).with(
-        A9n.asana[:workspace_id], project.asana_id,
+      expect(tasks_repository).to receive(:create).with(
+        project,
         name: expected_name,
         assignee: project.owner_id,
         notes: AssignRoleTaskFactory::DESCRIPTION % project.link
@@ -26,7 +26,7 @@ describe AssignRoleTaskFactory do
       let(:tasks) { [TaskObject.new(name: expected_name)] }
 
       it "does not dupplicate task" do
-        expect(asana_client).not_to receive(:create_task)
+        expect(tasks_repository).not_to receive(:create)
         subject
       end
     end

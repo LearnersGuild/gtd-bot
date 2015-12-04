@@ -3,11 +3,14 @@ require 'rails_helper'
 describe AsanaClient do
   subject { asana_client }
   let(:asana_client) do
-    AsanaClient.new(team_object_factory, project_object_factory)
+    AsanaClient.new(team_object_factory, project_object_factory,
+                    task_object_factory, tag_object_factory)
   end
   let(:client) { asana_client.client }
 
   let(:team_object_factory) { TeamObjectFactory.new(RoleObjectFactory.new) }
+  let(:task_object_factory) { TaskObjectFactory.new }
+  let(:tag_object_factory) { TagObjectFactory.new }
   let(:project_object_factory) do
     instance_double('ProjectObjectFactory', build_from_asana: project_object)
   end
@@ -38,9 +41,7 @@ describe AsanaClient do
         .with({ id: '7777' }, { client: client })
         .and_return(asana_project)
       expect(asana_project).to receive(:delete).and_return(true)
-      expect(project_object_factory).to receive(:build_from_asana)
-        .with(asana_project)
-      expect(subject).to eq(project_object)
+      subject
     end
   end
 

@@ -1,13 +1,12 @@
 module Strategies
   class UnassignedTask < BaseStrategy
-    takes :projects_filter, :tasks_filter_factory, :tasks_assigner
+    takes :projects_repository, :tasks_repository_factory, :tasks_assigner
 
     def perform
-      projects_with_tasks = projects_filter.without_roles_with_tasks
+      projects_with_tasks = projects_repository.without_roles.with_tasks
       projects_with_tasks.each do |project|
-        tasks = project.tasks
-        tasks_filter = tasks_filter_factory.new(tasks)
-        unassigned_tasks = tasks_filter.unassigned
+        tasks_repository = tasks_repository_factory.new(project.tasks)
+        unassigned_tasks = tasks_repository.unassigned
         logger.info("Updating unassigned tasks for project #{project.name}...")
         tasks_assigner.perform(unassigned_tasks, project.owner_id)
         logger.info("Updating unassigned tasks finished")

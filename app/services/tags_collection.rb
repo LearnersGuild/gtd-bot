@@ -1,0 +1,2 @@
+class TagsCollection < BaseCollection
+end
