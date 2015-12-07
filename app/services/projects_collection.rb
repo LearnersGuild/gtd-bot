@@ -17,6 +17,10 @@ class ProjectsCollection < BaseCollection
     select(&:individual?)
   end
 
+  def everyone
+    select(&:everyone?)
+  end
+
   def roles
     select(&:a_role?)
   end

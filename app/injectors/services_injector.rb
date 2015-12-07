@@ -28,6 +28,10 @@ class ServicesInjector
     Strategies::IndividualRole.new(team, projects_repository, roles_repository)
   end
 
+  def everyone_role_strategy(projects_repository, team)
+    Strategies::EveryoneRole.new(team, projects_repository, roles_repository)
+  end
+
   def assign_role_to_tasks_strategy(projects_repository,
                                     tasks_repository_factory)
     Strategies::AssignRoleToTasks.new(
