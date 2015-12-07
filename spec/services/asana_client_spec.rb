@@ -22,6 +22,7 @@ describe AsanaClient do
   let(:project_name) { 'Project name' }
   let(:attributes) { { name: project_name } }
   let(:asana_project) { double(:asana_project, id: '7777') }
+  let(:asana_task) { double(:asana_task, id: '8888') }
 
   describe "#create_project" do
     subject { asana_client.create_project(workspace_id, team_id, attributes) }
@@ -98,6 +99,18 @@ describe AsanaClient do
   describe "#create_task" do
     it "delegates to Asana::Client" do
       expect(subject).to respond_to(:create_task)
+    end
+  end
+
+  describe "#delete_task" do
+    subject { asana_client.delete_task('8888') }
+
+    it "delegates to Asana::Client" do
+      expect(Asana::Task).to receive(:new)
+        .with({ id: '8888' }, { client: client })
+        .and_return(asana_task)
+      expect(asana_task).to receive(:delete).and_return(true)
+      subject
     end
   end
 

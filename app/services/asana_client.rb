@@ -54,11 +54,17 @@ class AsanaClient < BaseService
 
   def create_task(workspace_id, project_id, attributes)
     merged_attributes = attributes.merge(
-      workspace: workspace_id,
-      projects: [project_id]
+      workspace: workspace_id
     )
+    merged_attributes =
+      merged_attributes.merge(projects: [project_id]) if project_id
     task = Asana::Task.create(client, merged_attributes)
     task_object_factory.build_from_asana(task)
+  end
+
+  def delete_task(task_id)
+    task = build_task(task_id)
+    task.delete
   end
 
   def tasks_for_project(project_id)

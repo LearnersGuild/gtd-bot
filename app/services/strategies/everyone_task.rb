@@ -4,15 +4,26 @@ module Strategies
 
     def perform
       projects_repository.everyone.each do |project|
-        task_repository = tasks_repository_factory.new(project.tasks)
+        tasks_repository = tasks_repository_factory.new(project.tasks)
         tasks_repository.uncompleted_tasks.each do |task|
           team.users.each do |user|
-            task_attributes = task.attributes.merge(assignee_id: user)
-            task_repository.create(project, task_attributes)
+            tasks_repository.create(nil, task_attributes(task, user, project))
           end
+          tasks_repository.delete(task.asana_id)
         end
-        delete(task)
       end
+    end
+
+    private
+
+    def task_attributes(task, user, project)
+      {
+        name: task.name,
+        tags: task.tags.map(&:asana_id),
+        assignee: user.asana_id,
+        due_at: task.due_at,
+        projects: task.project_ids - [project.asana_id]
+      }
     end
   end
 end
