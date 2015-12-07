@@ -7,7 +7,9 @@ class ProjectObject < BaseObject
   IGNORED_PREFIX = '_'
   ROLE_PREFIX = '&'
   INDIVIDUAL_NAME = "Individual"
+  EVERYONE_NAME = "Everyone"
   INDIVIDUAL_ROLE = "#{ROLE_PREFIX}#{INDIVIDUAL_NAME}"
+  EVERYONE_ROLE = "#{ROLE_PREFIX}#{EVERYONE_NAME}"
   PROJECT_LINK_BASE = "https://app.asana.com/0"
 
   def a_role?
@@ -19,7 +21,11 @@ class ProjectObject < BaseObject
   end
 
   def individual?
-    name.present? && name == INDIVIDUAL_ROLE
+    with_name?(INDIVIDUAL_ROLE)
+  end
+
+  def everyone?
+    with_name?(EVERYONE_ROLE)
   end
 
   def link
@@ -36,5 +42,9 @@ class ProjectObject < BaseObject
 
   def name_start_with?(text)
     name.present? && name.start_with?(text)
+  end
+
+  def with_name?(expected_name)
+    name.present? && name == expected_name
   end
 end
