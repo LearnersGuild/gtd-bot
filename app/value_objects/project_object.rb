@@ -11,6 +11,7 @@ class ProjectObject < BaseObject
   INDIVIDUAL_ROLE = "#{ROLE_PREFIX}#{INDIVIDUAL_NAME}"
   EVERYONE_ROLE = "#{ROLE_PREFIX}#{EVERYONE_NAME}"
   PROJECT_LINK_BASE = "https://app.asana.com/0"
+  SPECIAL_NAMES = [INDIVIDUAL_NAME, EVERYONE_NAME]
 
   def a_role?
     name_start_with?(ROLE_PREFIX)

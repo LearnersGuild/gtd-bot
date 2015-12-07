@@ -16,10 +16,13 @@ module Strategies
       ProjectsCollection.new(projects)
     end
     let(:projects) { [project] }
-    let(:project) { ProjectObject.new }
+    let(:project) { ProjectObject.new(tasks: tasks) }
+    let(:tasks) { [TaskObject.new] }
 
-    let(:tasks_repository_factory) { double(new: tasks_repository) }
-    let(:tasks_repository) { double(:tasks_repository) }
+    let(:tasks_repository_factory) do
+      instance_double('TasksRepositoryFactory', new: tasks_repository)
+    end
+    let(:tasks_repository) { instance_double('TasksRepository') }
 
     describe '#perform' do
       subject { strategy.perform }
@@ -31,6 +34,7 @@ module Strategies
           .and_return(projects_collection)
         expect(next_action_task_factory).to receive(:create)
           .with(tasks_repository, project)
+        expect(tasks_repository_factory).to receive(:new).with(tasks)
         subject
       end
     end

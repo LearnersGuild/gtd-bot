@@ -1,10 +1,11 @@
 class IllegalRolesRenamer < BaseService
   takes :projects_repository
 
-  def perform(roles_from_glass_frog, roles_from_asana)
-    gf_names = roles_from_glass_frog.map(&:name_with_prefix)
-    gf_names += [ProjectObject::INDIVIDUAL_ROLE]
-    to_rename = roles_from_asana.reject { |r| gf_names.include?(r.name) }
+  def perform(exisiting_roles, roles_from_asana)
+    exitising_ids = exisiting_roles.map(&:asana_id)
+    to_rename = roles_from_asana.reject do |r|
+      exitising_ids.include?(r.asana_id)
+    end
     to_rename.each do |role|
       logger.info("Updating illegal name for project #{role.name}...")
       projects_repository.update(role.asana_id, name: rename(role.name))

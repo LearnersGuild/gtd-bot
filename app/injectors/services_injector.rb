@@ -46,7 +46,7 @@ class ServicesInjector
 
   def clean_projects_names(projects_repository, team)
     Strategies::CleanProjectsNames.new(projects_repository, team,
-                                       IllegalRolesRenamer)
+                                       IllegalRolesRenamer, roles_repository)
   end
 
   def stale_task(projects_repository, tasks_repository_factory, tags_repository)
@@ -59,8 +59,9 @@ class ServicesInjector
                                           tasks_repository_factory)
   end
 
-  def everyone_task(projects_filter, team)
-    Strategies::EveryoneTask.new(projects_filter, team, asana_client)
+  def everyone_task(projects_repository, team)
+    Strategies::EveryoneTask.new(projects_repository, tasks_repository_factory,
+                                 team)
   end
 end
 

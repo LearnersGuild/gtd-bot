@@ -1,5 +1,5 @@
 module Strategies
-  class EveryoneTask
+  class EveryoneTask < BaseStrategy
     takes :projects_repository, :tasks_repository_factory, :team
 
     def perform

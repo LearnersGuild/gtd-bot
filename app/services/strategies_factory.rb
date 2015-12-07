@@ -14,6 +14,7 @@ class StrategiesFactory < BaseService
 
     [
       injector.sync_role_strategy(projects_repository, team),
+      injector.clean_projects_names(projects_repository, team),
       injector.next_action_task_strategy(projects_repository,
                                          tasks_repository_factory),
       injector.unassigned_task_strategy(projects_repository,
@@ -23,12 +24,12 @@ class StrategiesFactory < BaseService
       injector.assign_role_to_tasks_strategy(projects_repository,
                                              tasks_repository_factory),
       injector.assign_role_task_strategy(projects_repository),
-      injector.clean_projects_names(projects_repository, team),
       injector.stale_task(projects_repository, tasks_repository_factory,
                           tags_repository),
       injector.comment_forgotten_tasks(projects_repository,
-                                       tasks_repository_factory),
-      injector.everyone_task(projects_repository, team)
+                                       tasks_repository_factory)
+      #injector.everyone_task(projects_repository, team)
+
     ]
   end
 end

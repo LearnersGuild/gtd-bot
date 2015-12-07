@@ -11,10 +11,10 @@ describe RolesRepository do
     it { expect(subject).to eq(all_roles) }
   end
 
-  describe "#existing_without_individual" do
+  describe "#existing_without_special" do
     let(:team) { TeamObject.new(asana_id: '1111') }
 
-    subject { repository.existing_without_individual(team) }
+    subject { repository.existing_without_special(team) }
 
     it { expect(subject).to eq([]) }
 
@@ -27,6 +27,14 @@ describe RolesRepository do
       context 'does not return Individual roles' do
         let!(:individual) do
           create(:role, name: 'Individual', asana_team_id: '1111')
+        end
+
+        it { expect(subject).to eq([existing]) }
+      end
+
+      context 'does not return Everyone roles' do
+        let!(:everyone) do
+          create(:role, name: 'Everyone', asana_team_id: '1111')
         end
 
         it { expect(subject).to eq([existing]) }

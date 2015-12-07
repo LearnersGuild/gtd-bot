@@ -6,7 +6,7 @@ module Strategies
       logger.info("Creating #{name} role...")
       if exists?
         role_attributes = { name: name }
-        project = projects_repository.create(role_attributes)
+        project = projects_repository.create(team.asana_id, role_attributes)
         roles_repository.create_from(project, team)
       end
       logger.info("#{name} role created")

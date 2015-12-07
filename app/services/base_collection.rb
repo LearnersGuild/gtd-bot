@@ -5,7 +5,7 @@ class BaseCollection < BaseService
     self.items = items
   end
 
-  delegate :include?, :each, :detect, :to_a, :empty?, to: :items
+  delegate :include?, :each, :detect, :to_a, :empty?, :reject, to: :items
 
   def add(item)
     @items.push(item)
