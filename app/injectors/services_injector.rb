@@ -54,5 +54,9 @@ class ServicesInjector
     Strategies::CommentForgottenTasks.new(projects_repository,
                                           tasks_repository_factory)
   end
+
+  def everyone_task(projects_filter, team)
+    Strategies::EveryoneTask.new(projects_filter, team, asana_client)
+  end
 end
 
