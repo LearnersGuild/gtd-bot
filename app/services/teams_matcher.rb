@@ -1,8 +1,8 @@
 class TeamsMatcher < BaseService
-  takes :glass_frog_client, :asana_client, :team_object_factory
+  takes :circles_fetcher, :asana_client, :team_object_factory
 
   def perform
-    circles = glass_frog_client.circles
+    circles = circles_fetcher.perform
     teams = asana_client.teams(A9n.asana[:workspace_id])
 
     circles.map do |circle|

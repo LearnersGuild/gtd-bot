@@ -32,7 +32,7 @@ class RolesDiff
   def select_to_update(existing_hash)
     glass_frog_roles.select do |r|
       existing_hash[r.glass_frog_id] &&
-        r.name != existing_hash[r.glass_frog_id].name
+        r != existing_hash[r.glass_frog_id]
     end
   end
 

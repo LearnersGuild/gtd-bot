@@ -1,6 +1,6 @@
 GIT
   remote: git@github.com:LunarLogic/glassfrog-ruby.git
-  revision: 1b704f5c90d1c4011f9d28529faef5a0d597ca9e
+  revision: 425a94e6ddc0605fa10ba03ad70e1472014236cc
   specs:
     glassfrog (0.3.1)
       addressable (~> 2.3)
@@ -57,7 +57,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    addressable (2.3.8)
+    addressable (2.4.0)
     arel (6.0.3)
     asana (0.4.0)
       faraday (~> 0.9)

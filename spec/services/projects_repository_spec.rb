@@ -17,11 +17,13 @@ describe ProjectsRepository do
     ProjectObject
 
   describe "#create" do
-    subject { repository.create(attributes) }
+    subject { repository.create(team_id, attributes) }
+    let(:team_id) { '7777' }
     let(:attributes) { {} }
 
     it "updates Asana" do
-      expect(asana_client).to receive(:create_project).with(attributes)
+      expect(asana_client).to receive(:create_project)
+        .with(A9n.asana[:workspace_id], team_id, attributes)
       subject
     end
 
