@@ -10,8 +10,7 @@ class TeamObjectFactory
     )
   end
 
-  def from_asana(team)
-    users = team.users.map { |u| u.id.to_s }
+  def from_asana(team, users = [])
     TeamObject.new(
       asana_id: team.id,
       name: team.name,
