@@ -13,7 +13,11 @@ class AsanaClient < BaseService
     self.tag_object_factory = tag_object_factory
   end
 
-  def create_project(attributes)
+  def create_project(workspace_id, team_id, project_attributes)
+    attributes = project_attributes.merge(
+      workspace: workspace_id,
+      team: team_id
+    )
     project = Asana::Project.create(client, attributes)
     project_object_factory.build_from_asana(project)
   end

@@ -13,9 +13,7 @@ class AsanaRolesUpdater < BaseService
 
   def to_create(diff)
     map(diff[:to_create]) do |r|
-      role_attributes =
-        ProjectAttributes.new(r.name_with_prefix, r.asana_team_id)
-      project = projects_repository.create(role_attributes)
+      project = projects_repository.create(r.asana_team_id, r.role_attributes)
       new_attributes = r.attributes.merge(asana_id: project.asana_id)
       RoleObject.new(new_attributes)
     end
@@ -30,8 +28,7 @@ class AsanaRolesUpdater < BaseService
 
   def to_update(diff)
     map(diff[:to_update]) do |r|
-      new_attributes = r.attributes.merge(name: r.name_with_prefix)
-      projects_repository.update(r.asana_id, new_attributes)
+      projects_repository.update(r.asana_id, r.role_attributes)
       r
     end
   end

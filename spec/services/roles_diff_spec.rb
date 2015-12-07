@@ -11,6 +11,7 @@ describe RolesDiff do
   before(:each) do
     expect(role_object_factory).to receive(:from_db)
       .and_return(existing_to_update, existing_to_delete)
+    expect(updated_in_glass_frog).to receive(:==).and_return(false)
   end
   let(:team_id) { '1111' }
 
@@ -18,25 +19,37 @@ describe RolesDiff do
 
   describe "#perform" do
     subject { roles_diff.perform }
+    let(:to_create_glass_frog_id) { 7 }
+    let(:to_update_glass_frog_id) { 8 }
+    let(:to_delete_glass_frog_id) { 9 }
 
     let(:created_in_glass_frog) do
-      RoleObject.new(glass_frog_id: 8, name: 'Awesome Developer')
+      RoleObject.new(glass_frog_id: to_create_glass_frog_id,
+                     name: 'Awesome Developer')
     end
-    let(:existing_id) { 7 }
     let(:updated_in_glass_frog) do
       RoleObject.new(
-        glass_frog_id: existing_id,
+        glass_frog_id: to_update_glass_frog_id,
         name: 'New name',
+        asana_team_id: team_id
+      )
+    end
+    let(:updated_in_details_in_glass_frog) do
+      RoleObject.new(
+        glass_frog_id: 10,
+        name: existing_with_details_to_update.name,
         asana_team_id: team_id
       )
     end
     let!(:existing_to_update) do
       RoleObjectFactory.new.from_db(
-        create(:role, glass_frog_id: existing_id, asana_team_id: team_id))
+        create(:role, glass_frog_id: to_update_glass_frog_id,
+                      asana_team_id: team_id))
     end
     let!(:existing_to_delete) do
       RoleObjectFactory.new.from_db(
-        create(:role, glass_frog_id: 9, asana_team_id: team_id))
+        create(:role, glass_frog_id: to_delete_glass_frog_id,
+                      asana_team_id: team_id))
     end
 
     it "returns roles to create" do

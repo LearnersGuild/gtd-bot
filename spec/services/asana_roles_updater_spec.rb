@@ -19,9 +19,14 @@ describe AsanaRolesUpdater do
   let(:project_object) do
     ProjectObject.new(role_attributes.merge(asana_id: '7777'))
   end
-  let(:role_attributes) do
-    { glass_frog_id: 7, name: 'Role', asana_team_id: team_id }
+  let(:role) do
+    RoleObject.new(
+      glass_frog_id: 7,
+      name: 'Role',
+      asana_team_id: team_id
+    )
   end
+  let(:role_attributes) { role.attributes }
   let(:team_id) { '1111' }
 
   describe "#perform" do
@@ -29,12 +34,14 @@ describe AsanaRolesUpdater do
 
     context "to_create" do
       let(:diff) do
-        { to_create: [RoleObject.new(role_attributes)] }
+        { to_create: [role] }
       end
 
       it "updates repository" do
+        role_attributes = double(:role_attributes)
+        expect(role).to receive(:role_attributes).and_return(role_attributes)
         expect(projects_repository).to receive(:create)
-          .with(ProjectAttributes.new('&Role', team_id))
+          .with(team_id, role_attributes)
         subject
       end
 
@@ -49,15 +56,15 @@ describe AsanaRolesUpdater do
     end
 
     context "existing in db" do
-      let(:role_attributes) do
-        {
+      let(:existing_role) do
+        RoleObject.new(
           glass_frog_id: 7,
           name: 'Role',
           asana_id: '7777',
           asana_team_id: team_id
-        }
+        )
       end
-      let(:existing_role) { RoleObject.new(role_attributes) }
+      let(:role_attributes) { existing_role.attributes }
 
       context "to_delete" do
         let(:diff) do
@@ -88,8 +95,11 @@ describe AsanaRolesUpdater do
         end
 
         it "updates repository" do
+          role_attributes = double(:role_attributes)
+          expect(to_update_from_glass_frog).to receive(:role_attributes)
+            .and_return(role_attributes)
           expect(projects_repository).to receive(:update)
-            .with('7777', role_attributes.merge(name: '&Role2'))
+            .with('7777', role_attributes)
           subject
         end
 

@@ -22,10 +22,17 @@ describe AsanaClient do
   let(:asana_project) { double(:asana_project, id: '7777') }
 
   describe "#create_project" do
-    subject { asana_client.create_project(attributes) }
+    subject { asana_client.create_project(workspace_id, team_id, attributes) }
+    let(:workspace_id) { '1111' }
+    let(:team_id) { '2222' }
 
     it "delegates to Asana::Client" do
-      expect(Asana::Project).to receive(:create).with(client, attributes)
+      project_attributes = attributes.merge(
+        workspace: workspace_id,
+        team: team_id
+      )
+      expect(Asana::Project).to receive(:create)
+        .with(client, project_attributes)
         .and_return(asana_project)
       expect(project_object_factory).to receive(:build_from_asana)
         .with(asana_project)

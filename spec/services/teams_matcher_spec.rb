@@ -2,10 +2,10 @@ require 'rails_helper'
 
 describe TeamsMatcher do
   let(:matcher) do
-    TeamsMatcher.new(glass_frog_client, asana_client, team_object_factory)
+    TeamsMatcher.new(circles_fetcher, asana_client, team_object_factory)
   end
-  let(:glass_frog_client) do
-    instance_double('GlassFrogClient', circles: circles)
+  let(:circles_fetcher) do
+    instance_double('CirclesFetcher', perform: circles)
   end
   let(:asana_client) do
     instance_double('AsanaClient', teams: teams)
