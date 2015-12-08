@@ -14,12 +14,14 @@ describe PersonalTaskDuplicator do
                    name: name,
                    tags: tags,
                    due_at: due_at,
+                   due_on: due_on,
                    project_ids: project_ids)
   end
   let(:name) { 'test' }
   let(:tags) { [tag] }
   let(:tag) { TagObject.new(asana_id: '222') }
   let(:due_at) { double }
+  let(:due_on) { nil }
   let(:project_ids) { [project.asana_id, another_project.asana_id] }
   let(:project) { ProjectObject.new(asana_id: '9999') }
   let(:another_project) { ProjectObject.new(asana_id: '8888') }
@@ -34,6 +36,7 @@ describe PersonalTaskDuplicator do
       tags: [tag.asana_id],
       assignee: user_asana_id,
       due_at: due_at,
+      due_on: due_on,
       projects: [another_project.asana_id]
     }
   end

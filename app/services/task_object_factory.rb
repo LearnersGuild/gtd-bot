@@ -8,7 +8,8 @@ class TaskObjectFactory < BaseService
       assignee_id: task.assignee && task.assignee['id'],
       description: task.notes,
       modified_at: DateTime.parse(task.modified_at),
-      due_at: parse_due_at(task),
+      due_at: parse_due_at(task.due_at),
+      due_on: parse_due_on(task.due_on),
       tags: map_tags(task.tags),
       completed: task.completed,
       project_ids: map_projects(task.projects)
@@ -25,9 +26,12 @@ class TaskObjectFactory < BaseService
     projects.map(&:id).map(&:to_s)
   end
 
-  def parse_due_at(task)
-    due = task.due_at || task.due_on
-    due && DateTime.parse(due)
+  def parse_due_at(due_at)
+    due_at && DateTime.parse(due_at)
+  end
+
+  def parse_due_on(due_on)
+    due_on && Date.parse(due_on)
   end
 end
 
