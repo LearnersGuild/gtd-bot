@@ -28,11 +28,11 @@ describe TaskObjectFactory do
     let(:tags) { [double(id: tag_id, name: tag_name)] }
     let(:completed) { true }
     let(:expected_tags) { [TagObject.new(asana_id: tag_id, name: tag_name)] }
-    let(:expected_project_ids) { [project_id] }
+    let(:expected_project_ids) { [project_id.to_s] }
     let(:tag_id) { '3' }
     let(:tag_name) { 'tag_name' }
     let(:projects) { [double(:project, id: project_id)] }
-    let(:project_id) { '123' }
+    let(:project_id) { 123 }
 
     context 'task does not have due_at and due_on' do
       let(:due_on) { nil }

@@ -22,7 +22,7 @@ class TaskObjectFactory < BaseService
   end
 
   def map_projects(projects)
-    projects.map(&:id)
+    projects.map(&:id).map(&:to_s)
   end
 
   def parse_due_at(task)

@@ -18,7 +18,7 @@ class PersonalTaskDuplicator < BaseService
       tags: task.tags.map(&:asana_id),
       assignee: user.asana_id,
       due_at: task.due_at,
-      projects: task.project_ids - [project.asana_id]
+      projects: task.project_ids.reject { |id| id == project.asana_id }
     }
   end
 end
