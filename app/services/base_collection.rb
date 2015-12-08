@@ -2,10 +2,10 @@ class BaseCollection < BaseService
   attr_accessor :items
 
   def initialize(items = [])
-    self.items = items
+    self.items = items.reject(&:underscored?)
   end
 
-  delegate :include?, :each, :detect, :to_a, :empty?, :reject, to: :items
+  delegate :include?, :each, :detect, :to_a, :empty?, to: :items
 
   def add(item)
     @items.push(item)

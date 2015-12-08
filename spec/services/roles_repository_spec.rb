@@ -42,6 +42,24 @@ describe RolesRepository do
     end
   end
 
+  describe "#for_team" do
+    subject { repository.for_team(team) }
+
+    let(:team) { TeamObject.new(asana_id: '1111') }
+
+    it { expect(subject).to eq([]) }
+
+    context 'exists id db' do
+      let!(:existing) { create(:role, asana_team_id: '1111') }
+      let!(:existing_special) do
+        create(:role, asana_team_id: '1111', name: 'Individual')
+      end
+      let!(:existing_in_different_team) { create(:role, asana_team_id: '2222') }
+
+      it { expect(subject).to eq([existing, existing_special]) }
+    end
+  end
+
   describe "#create_from" do
     subject { repository.create_from(project, team) }
     let(:project) do

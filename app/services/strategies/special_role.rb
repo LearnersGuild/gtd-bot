@@ -4,7 +4,7 @@ module Strategies
 
     def perform
       logger.info("Creating #{name} role...")
-      if exists?
+      if empty?
         role_attributes = { name: name }
         project = projects_repository.create(team.asana_id, role_attributes)
         roles_repository.create_from(project, team)
@@ -14,7 +14,7 @@ module Strategies
 
     private
 
-    def exists?
+    def empty?
       fail "method: #{__method__} is not implemented"
     end
 

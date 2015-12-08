@@ -1,17 +1,11 @@
 class AsanaClient < BaseService
-  attr_accessor :client, :team_object_factory, :project_object_factory,
-    :task_object_factory, :tag_object_factory, :user_object_factory
+  attr_accessor :client, :factories_injector
 
-  def initialize(team_object_factory, project_object_factory,
-                 task_object_factory, tag_object_factory, user_object_factory)
+  def initialize(factories_injector)
     self.client = Asana::Client.new do |c|
       c.authentication(:access_token, A9n.asana[:api_key])
     end
-    self.team_object_factory = team_object_factory
-    self.project_object_factory = project_object_factory
-    self.task_object_factory = task_object_factory
-    self.tag_object_factory = tag_object_factory
-    self.user_object_factory = user_object_factory
+    self.factories_injector = factories_injector
   end
 
   def create_project(workspace_id, team_id, project_attributes)
@@ -20,7 +14,7 @@ class AsanaClient < BaseService
       team: team_id
     )
     project = Asana::Project.create(client, attributes)
-    project_object_factory.build_from_asana(project)
+    factories_injector.project_object_factory.build_from_asana(project)
   end
 
   def delete_project(project_id)
@@ -30,15 +24,15 @@ class AsanaClient < BaseService
 
   def update_project(project_id, attributes)
     project = build_project(project_id).update(attributes)
-    project_object_factory.build_from_asana(project)
+    factories_injector.project_object_factory.build_from_asana(project)
   end
 
   def teams(workspace_id)
     teams = Asana::Team.find_by_organization(client, organization: workspace_id)
     teams.map do |t|
       users = t.users(options: { fields: [:email] })
-        .map { |u| user_object_factory.from_asana(u) }
-      team_object_factory.from_asana(t, users)
+        .map { |u| factories_injector.user_object_factory.from_asana(u) }
+      factories_injector.team_object_factory.from_asana(t, users)
     end
   end
 
@@ -49,7 +43,9 @@ class AsanaClient < BaseService
       team: team_id,
       archived: archived,
       options: { fields: [:name, :owner, :notes] })
-    projects.map { |p| project_object_factory.build_from_asana(p) }
+    projects.map do |p|
+      factories_injector.project_object_factory.build_from_asana(p)
+    end
   end
 
   def create_task(workspace_id, project_id, attributes)
@@ -59,7 +55,7 @@ class AsanaClient < BaseService
     merged_attributes =
       merged_attributes.merge(projects: [project_id]) if project_id
     task = Asana::Task.create(client, merged_attributes)
-    task_object_factory.build_from_asana(task)
+    factories_injector.task_object_factory.build_from_asana(task)
   end
 
   def delete_task(task_id)
@@ -72,7 +68,7 @@ class AsanaClient < BaseService
               :completed]
     build_project(project_id)
       .tasks(options: { fields: fields })
-      .map { |t| task_object_factory.build_from_asana(t) }
+      .map { |t| factories_injector.task_object_factory.build_from_asana(t) }
       .select(&:uncompleted?)
   end
 
@@ -86,7 +82,7 @@ class AsanaClient < BaseService
 
   def all_tags(workspace_id)
     Asana::Tag.find_all(client, workspace: workspace_id).map do |t|
-      tag_object_factory.build_from_asana(t)
+      factories_injector.tag_object_factory.build_from_asana(t)
     end
   end
 
@@ -97,7 +93,7 @@ class AsanaClient < BaseService
   def create_tag(workspace_id, attributes)
     merged_attributes = attributes.merge(workspace: workspace_id)
     tag = Asana::Tag.create(client, merged_attributes)
-    tag_object_factory.build_from_asana(tag)
+    factories_injector.tag_object_factory.build_from_asana(tag)
   end
 
   def add_comment_to_task(task_id, text)

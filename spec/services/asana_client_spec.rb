@@ -3,11 +3,14 @@ require 'rails_helper'
 describe AsanaClient do
   subject { asana_client }
   let(:asana_client) do
-    AsanaClient.new(team_object_factory, project_object_factory,
-                    task_object_factory, tag_object_factory,
-                    user_object_factory)
+    AsanaClient.new(factories_injector)
   end
   let(:client) { asana_client.client }
+  let(:factories_injector) do
+    FactoriesInjector.new(team_object_factory, project_object_factory,
+                          task_object_factory, tag_object_factory,
+                          user_object_factory)
+  end
 
   let(:team_object_factory) { TeamObjectFactory.new(RoleObjectFactory.new) }
   let(:task_object_factory) { TaskObjectFactory.new }

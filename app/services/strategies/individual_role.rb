@@ -2,7 +2,7 @@ module Strategies
   class IndividualRole < SpecialRole
     private
 
-    def exists?
+    def empty?
       projects_repository.individual.empty?
     end
 

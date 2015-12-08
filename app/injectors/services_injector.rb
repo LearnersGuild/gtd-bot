@@ -61,7 +61,7 @@ class ServicesInjector
 
   def everyone_task(projects_repository, team)
     Strategies::EveryoneTask.new(projects_repository, tasks_repository_factory,
-                                 team)
+                                 team, PersonalTaskDuplicator)
   end
 end
 

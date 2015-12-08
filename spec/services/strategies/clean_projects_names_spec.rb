@@ -19,7 +19,7 @@ module Strategies
       TeamObject.new(roles: roles_from_glass_frog)
     end
     let(:roles_repository) do
-      instance_double('RolesRepository', all_for_team: existing_roles)
+      instance_double('RolesRepository', for_team: existing_roles)
     end
     let(:existing_roles) { [double(asana_id: id)] }
     let(:id) { '111' }

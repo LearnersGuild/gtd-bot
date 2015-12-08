@@ -4,7 +4,6 @@ class ProjectObject < BaseObject
   attribute :owner_id, String
   attribute :tasks, Array
   attribute :description, String
-  IGNORED_PREFIX = '_'
   ROLE_PREFIX = '&'
   INDIVIDUAL_NAME = "Individual"
   EVERYONE_NAME = "Everyone"
@@ -15,10 +14,6 @@ class ProjectObject < BaseObject
 
   def a_role?
     name_start_with?(ROLE_PREFIX)
-  end
-
-  def underscored?
-    name_start_with?(IGNORED_PREFIX)
   end
 
   def individual?
@@ -40,10 +35,6 @@ class ProjectObject < BaseObject
   end
 
   private
-
-  def name_start_with?(text)
-    name.present? && name.start_with?(text)
-  end
 
   def with_name?(expected_name)
     name.present? && name == expected_name

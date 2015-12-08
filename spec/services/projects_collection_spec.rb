@@ -90,7 +90,9 @@ describe ProjectsCollection do
     subject { collection.without_roles_assigned }
 
     it 'returns projects without roles' do
-      project = instance_double('ProjectObject', linked_role_ids: [])
+      project = instance_double('ProjectObject',
+                                linked_role_ids: [],
+                                underscored?: false)
       expected = ProjectsCollection.new([project])
       expect(collection).to receive(:without_roles)
         .and_return(expected)

@@ -8,7 +8,7 @@ class RolesRepository
       .where.not(name: ProjectObject::SPECIAL_NAMES)
   end
 
-  def all_for_team(team)
+  def for_team(team)
     Role.where(asana_team_id: team.asana_id)
   end
 

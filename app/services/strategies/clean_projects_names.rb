@@ -4,7 +4,7 @@ module Strategies
       :roles_repository
 
     def perform
-      existing_roles = roles_repository.all_for_team(team)
+      existing_roles = roles_repository.for_team(team)
       roles_from_asana = projects_repository.roles
       logger.info("Renaming illegal project names...")
       illegal_roles_renamer =
