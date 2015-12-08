@@ -6,6 +6,17 @@ class UserObjectFactory
     )
   end
 
+  def from_glass_frog(user)
+    UserObject.new(
+      glass_frog_id: user.id,
+      email: user.email
+    )
+  end
+
+  def from_db(attributes)
+    UserObject.new(attributes)
+  end
+
   def merge_users(glass_frog_users, asana_users)
     glass_frog_users.map do |glass_frog_user|
       asana_user = asana_users.detect { |u| u.matches?(glass_frog_user) }

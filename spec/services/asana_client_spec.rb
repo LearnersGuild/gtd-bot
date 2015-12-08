@@ -10,7 +10,10 @@ describe AsanaClient do
   let(:client) { asana_client.client }
 
   let(:team_object_factory) do
-    TeamObjectFactory.new(RoleObjectFactory.new, user_object_factory)
+    TeamObjectFactory.new(role_object_factory, user_object_factory)
+  end
+  let(:role_object_factory) do
+    RoleObjectFactory.new(RoleLinksFactory.new, user_object_factory)
   end
   let(:task_object_factory) { TaskObjectFactory.new }
   let(:tag_object_factory) { TagObjectFactory.new }

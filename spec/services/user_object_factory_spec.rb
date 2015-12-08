@@ -15,6 +15,39 @@ describe UserObjectFactory do
     )
   end
 
+  describe "#from_glass_frog" do
+    subject { factory.from_glass_frog(user) }
+
+    let(:user) { double(id: 7, email: 'test@test.pl') }
+
+    it do
+      expected = UserObject.new(glass_frog_id: 7, email: 'test@test.pl')
+      expect(subject).to eq(expected)
+    end
+  end
+
+  describe "#from_asana" do
+    subject { factory.from_asana(user) }
+
+    let(:user) { double(id: '7777', email: 'test@test.pl') }
+
+    it do
+      expected = UserObject.new(asana_id: '7777', email: 'test@test.pl')
+      expect(subject).to eq(expected)
+    end
+  end
+
+  describe "#from_db" do
+    subject { factory.from_db(attributes) }
+
+    let(:attributes) { {} }
+
+    it do
+      expect(UserObject).to receive(:new).with(attributes)
+      subject
+    end
+  end
+
   describe "#merge_users" do
     subject { factory.merge_users(glass_frog_users, asana_users) }
     let(:glass_frog_users) { [glass_frog_user] }
