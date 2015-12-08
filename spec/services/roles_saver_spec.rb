@@ -15,7 +15,15 @@ describe RolesSaver do
         purpose: "Purpose",
         accountabilities: [AccountabilityObject.new(
           description: "Accountability")],
-        domains: [DomainObject.new(description: "Domain")]
+        domains: [DomainObject.new(description: "Domain")],
+        users: [user_object]
+      )
+    end
+    let(:user_object) do
+      UserObject.new(
+        email: 'user@example.org',
+        asana_id: '7777',
+        glass_frog_id: 7
       )
     end
 
@@ -32,6 +40,11 @@ describe RolesSaver do
         expect(role.accountabilities.first).to eq(
           'description' => 'Accountability')
         expect(role.domains.first).to eq('description' => 'Domain')
+        expect(role.users.first).to eq(
+          'email' => 'user@example.org',
+          'asana_id' => '7777',
+          'glass_frog_id' => 7
+        )
       end
     end
 
@@ -61,7 +74,15 @@ describe RolesSaver do
           purpose: "Old Purpose",
           accountabilities: [AccountabilityObject.new(
             description: "Old Accountability")],
-          domains: [DomainObject.new(description: "Old Domain")]
+          domains: [DomainObject.new(description: "Old Domain")],
+          users: [old_user_object]
+        )
+      end
+      let(:old_user_object) do
+        UserObject.new(
+          email: 'old.user@example.org',
+          asana_id: 'old',
+          glass_frog_id: 6
         )
       end
 

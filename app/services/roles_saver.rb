@@ -37,7 +37,8 @@ class RolesSaver
       name: role.name,
       purpose: role.purpose,
       accountabilities: role.accountabilities,
-      domains: role.domains
+      domains: role.domains,
+      users: role.users
     }
   end
 end

@@ -29,6 +29,15 @@ describe UserObjectFactory do
 
       expect(subject).to eq([merged])
     end
+
+    context "asana user not found" do
+      it "does not include user" do
+        expect(asana_user).to receive(:matches?).and_return(false)
+        expect(factory).not_to receive(:build_merged)
+
+        expect(subject).to eq([])
+      end
+    end
   end
 
   describe "#build_merged" do
