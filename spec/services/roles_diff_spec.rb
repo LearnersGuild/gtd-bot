@@ -41,16 +41,18 @@ describe RolesDiff do
         asana_team_id: team_id
       )
     end
-    let!(:existing_to_update) do
-      RoleObjectFactory.new.from_db(
-        create(:role, glass_frog_id: to_update_glass_frog_id,
-                      asana_team_id: team_id))
+
+    def existing_role(id)
+      attributes = attributes_for(:role).merge(
+        glass_frog_id: id,
+        asana_team_id: team_id
+      )
+      role_object = RoleObject.new(attributes)
+      create(:role, attributes)
+      role_object
     end
-    let!(:existing_to_delete) do
-      RoleObjectFactory.new.from_db(
-        create(:role, glass_frog_id: to_delete_glass_frog_id,
-                      asana_team_id: team_id))
-    end
+    let!(:existing_to_update) { existing_role(to_update_glass_frog_id) }
+    let!(:existing_to_delete) { existing_role(to_delete_glass_frog_id) }
 
     it "returns roles to create" do
       expect(subject[:to_create]).to eq([created_in_glass_frog])
