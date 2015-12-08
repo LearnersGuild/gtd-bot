@@ -5,7 +5,7 @@ module Strategies
       :roles_saver, :role_object_factory
 
     def perform
-      existing_roles = roles_repository.existing_without_individual(team)
+      existing_roles = roles_repository.existing_without_special(team)
       roles_diff = roles_diff_factory.new(team.roles, existing_roles,
                                           role_object_factory)
       diff = roles_diff.perform

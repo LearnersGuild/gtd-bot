@@ -28,6 +28,10 @@ class ServicesInjector
     Strategies::IndividualRole.new(team, projects_repository, roles_repository)
   end
 
+  def everyone_role_strategy(projects_repository, team)
+    Strategies::EveryoneRole.new(team, projects_repository, roles_repository)
+  end
+
   def assign_role_to_tasks_strategy(projects_repository,
                                     tasks_repository_factory)
     Strategies::AssignRoleToTasks.new(
@@ -42,7 +46,7 @@ class ServicesInjector
 
   def clean_projects_names(projects_repository, team)
     Strategies::CleanProjectsNames.new(projects_repository, team,
-                                       IllegalRolesRenamer)
+                                       IllegalRolesRenamer, roles_repository)
   end
 
   def stale_task(projects_repository, tasks_repository_factory, tags_repository)
@@ -55,8 +59,9 @@ class ServicesInjector
                                           tasks_repository_factory)
   end
 
-  def everyone_task(projects_filter, team)
-    Strategies::EveryoneTask.new(projects_filter, team, asana_client)
+  def everyone_task(projects_repository, team)
+    Strategies::EveryoneTask.new(projects_repository, tasks_repository_factory,
+                                 team, PersonalTaskDuplicator)
   end
 end
 

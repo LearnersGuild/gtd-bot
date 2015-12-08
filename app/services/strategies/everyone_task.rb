@@ -1,17 +1,16 @@
 module Strategies
-  class EveryoneTask
-    takes :projects_repository, :tasks_repository_factory, :team
+  class EveryoneTask < BaseStrategy
+    takes :projects_repository, :tasks_repository_factory, :team,
+      :personal_task_duplicator_factory
 
     def perform
       projects_repository.everyone.each do |project|
-        task_repository = tasks_repository_factory.new(project.tasks)
-        tasks_repository.uncompleted_tasks.each do |task|
-          team.users.each do |user|
-            task_attributes = task.attributes.merge(assignee_id: user)
-            task_repository.create(project, task_attributes)
-          end
-        end
-        delete(task)
+        logger.info("Duplicating tasks for #{project.name}")
+        tasks_repository = tasks_repository_factory.new(project.tasks)
+        personal_task_duplicator =
+          personal_task_duplicator_factory.new(tasks_repository, team, project)
+        personal_task_duplicator.perform
+        logger.info("Duplicated")
       end
     end
   end

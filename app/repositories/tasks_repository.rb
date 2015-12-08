@@ -1,8 +1,8 @@
 class TasksRepository < BaseRepository
   def create(project, task_attributes)
-    task = asana_client.create_task(A9n.asana[:workspace_id], project.asana_id,
-                                    task_attributes)
-    project.tasks.push(task)
+    task = asana_client.create_task(A9n.asana[:workspace_id],
+                                    project.try(:asana_id), task_attributes)
+    project && project.tasks.push(task)
   end
 
   def update(task, attributes)
@@ -20,6 +20,11 @@ class TasksRepository < BaseRepository
 
     asana_client.add_project_to_task(task.asana_id, project_id)
     task.project_ids.push(project_id)
+  end
+
+  def delete(task_id)
+    asana_client.delete_task(task_id)
+    collection.delete(task_id)
   end
 
   private
