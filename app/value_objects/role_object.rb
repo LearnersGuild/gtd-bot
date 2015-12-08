@@ -6,6 +6,7 @@ class RoleObject < BaseObject
   attribute :purpose, String, default: ""
   attribute :domains, Array, default: []
   attribute :accountabilities, Array, default: []
+  attribute :users, Array, default: []
 
   DESCRIPTION_PATTERN = "Purpose: %s\nDomains: %s\nAccountabilities: %s"
 

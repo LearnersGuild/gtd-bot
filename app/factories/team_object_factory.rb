@@ -1,5 +1,5 @@
 class TeamObjectFactory
-  takes :role_object_factory
+  takes :role_object_factory, :user_object_factory
 
   def from_glass_frog(circle)
     roles = circle.roles.map { |r| role_object_factory.from_glass_frog(r) }
@@ -23,6 +23,7 @@ class TeamObjectFactory
     circle.users = team.users
     circle.roles.each do |r|
       r.asana_team_id = team.asana_id
+      r.users = user_object_factory.merge_users(r.users, team.users)
     end
     circle
   end

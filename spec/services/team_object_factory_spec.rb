@@ -1,9 +1,14 @@
 require 'rails_helper'
 
 describe TeamObjectFactory do
-  let(:factory) { TeamObjectFactory.new(role_object_factory) }
+  let(:factory) do
+    TeamObjectFactory.new(role_object_factory, user_object_factory)
+  end
   let(:role_object_factory) do
     instance_double('RoleObjectFactory', from_glass_frog: role)
+  end
+  let(:user_object_factory) do
+    instance_double('UserObjectFactory')
   end
   let(:role) { double(:role) }
 
@@ -61,11 +66,14 @@ describe TeamObjectFactory do
     let(:role) { RoleObject.new }
 
     it "merges data from Asana to the one from GF" do
+      users = double(:users)
+      expect(user_object_factory).to receive(:merge_users)
+        .and_return(users)
       expected = TeamObject.new(
         name: name,
         asana_id: asana_id,
         glass_frog_id: glass_frog_id,
-        roles: [RoleObject.new(asana_team_id: asana_id)]
+        roles: [RoleObject.new(asana_team_id: asana_id, users: users)]
       )
       expect(subject).to eq(expected)
     end
