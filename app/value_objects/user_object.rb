@@ -6,4 +6,8 @@ class UserObject < BaseObject
   def matches?(other)
     email == other.email
   end
+
+  def description
+    email
+  end
 end

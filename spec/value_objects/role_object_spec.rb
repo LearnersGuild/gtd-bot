@@ -30,16 +30,22 @@ describe RoleObject do
         purpose: "Purpose",
         domains: [DomainObject.new(description: 'Domain')],
         accountabilities: [AccountabilityObject.new(
-          description: 'Accountability')]
+          description: 'Accountability')],
+        users: [user]
       )
     end
+    let(:user) { UserObject.new(asana_id: '7777', email: 'test@test.pl') }
 
     it "returns name with prefix and description" do
       expected_description =
-        "Purpose: Purpose\nDomains: Domain\nAccountabilities: Accountability"
+        "Purpose: Purpose\n" \
+        "Domains: Domain\n" \
+        "Accountabilities: Accountability\n" \
+        "Users: test@test.pl"
       expect(subject).to eq(
         name: '&RoleName',
-        notes: expected_description
+        notes: expected_description,
+        owner: user.asana_id
       )
     end
 
@@ -49,7 +55,8 @@ describe RoleObject do
       it "returns name with prefix and description" do
         expect(subject).to eq(
           name: '&RoleName',
-          notes: "Purpose: \nDomains: \nAccountabilities: "
+          notes: "Purpose: \nDomains: \nAccountabilities: \nUsers: ",
+          owner: nil
         )
       end
     end
