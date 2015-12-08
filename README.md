@@ -2,7 +2,7 @@
 
 To run server:
 ```
-bundle exec rake db:crate db:migrate
+bundle exec rake db:create db:migrate
 bundle exec rails s
 ```
 
