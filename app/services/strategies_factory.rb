@@ -26,8 +26,8 @@ class StrategiesFactory < BaseService
       injector.stale_task(projects_repository, tasks_repository_factory,
                           tags_repository),
       injector.comment_forgotten_tasks(projects_repository,
-                                       tasks_repository_factory)
-      #injector.everyone_task(projects_repository, team)
+                                       tasks_repository_factory),
+      injector.everyone_task(projects_repository, team)
     ]
   end
 end
