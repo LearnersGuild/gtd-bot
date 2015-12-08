@@ -10,12 +10,12 @@ class RolesSaver
   def create_roles(roles)
     roles ||= []
     roles.each do |role|
-      Role.create(
+      attributes = attributes_to_update(role).merge(
         glass_frog_id: role.glass_frog_id,
-        name: role.name,
         asana_id: role.asana_id,
         asana_team_id: role.asana_team_id
       )
+      Role.create(attributes)
     end
   end
 
@@ -28,7 +28,16 @@ class RolesSaver
     roles ||= []
     roles.each do |role|
       role_from_db = Role.where(glass_frog_id: role.glass_frog_id).first
-      role_from_db && role_from_db.update(name: role.name)
+      role_from_db && role_from_db.update(attributes_to_update(role))
     end
+  end
+
+  def attributes_to_update(role)
+    {
+      name: role.name,
+      purpose: role.purpose,
+      accountabilities: role.accountabilities,
+      domains: role.domains
+    }
   end
 end
