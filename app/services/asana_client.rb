@@ -65,7 +65,7 @@ class AsanaClient < BaseService
 
   def tasks_for_project(project_id)
     fields = [:name, :assignee, :notes, :modified_at, :tags, :due_at, :due_on,
-              :completed]
+              :completed, :projects]
     build_project(project_id)
       .tasks(options: { fields: fields })
       .map { |t| factories_injector.task_object_factory.build_from_asana(t) }

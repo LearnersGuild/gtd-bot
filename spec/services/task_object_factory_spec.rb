@@ -14,7 +14,8 @@ describe TaskObjectFactory do
         due_at: due_at,
         due_on: due_on,
         tags: tags,
-        completed: completed
+        completed: completed,
+        projects: projects
       )
     end
     let(:id) { '1' }
@@ -27,8 +28,11 @@ describe TaskObjectFactory do
     let(:tags) { [double(id: tag_id, name: tag_name)] }
     let(:completed) { true }
     let(:expected_tags) { [TagObject.new(asana_id: tag_id, name: tag_name)] }
+    let(:expected_project_ids) { [project_id] }
     let(:tag_id) { '3' }
     let(:tag_name) { 'tag_name' }
+    let(:projects) { [double(:project, id: project_id)] }
+    let(:project_id) { '123' }
 
     context 'task does not have due_at and due_on' do
       let(:due_on) { nil }
@@ -43,7 +47,8 @@ describe TaskObjectFactory do
           modified_at: expected_modified_at,
           due_at: expected_due_at,
           tags: expected_tags,
-          completed: completed
+          completed: completed,
+          project_ids: expected_project_ids
         )
       end
 
@@ -65,7 +70,8 @@ describe TaskObjectFactory do
           modified_at: expected_modified_at,
           due_at: expected_due_at,
           tags: expected_tags,
-          completed: completed
+          completed: completed,
+          project_ids: expected_project_ids
         )
       end
 
@@ -87,7 +93,8 @@ describe TaskObjectFactory do
           modified_at: expected_modified_at,
           due_at: expected_due_at,
           tags: expected_tags,
-          completed: completed
+          completed: completed,
+          project_ids: expected_project_ids
         )
       end
 

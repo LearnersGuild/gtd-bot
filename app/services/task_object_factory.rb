@@ -10,7 +10,8 @@ class TaskObjectFactory < BaseService
       modified_at: DateTime.parse(task.modified_at),
       due_at: parse_due_at(task),
       tags: map_tags(task.tags),
-      completed: task.completed
+      completed: task.completed,
+      project_ids: map_projects(task.projects)
     )
   end
 
@@ -18,6 +19,10 @@ class TaskObjectFactory < BaseService
 
   def map_tags(tags)
     tags.map { |tg| tag_object_factory.build_from_asana(tg) }
+  end
+
+  def map_projects(projects)
+    projects.map(&:id)
   end
 
   def parse_due_at(task)
