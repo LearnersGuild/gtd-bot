@@ -6,6 +6,7 @@ class TaskObject < BaseObject
   attribute :modified_at, DateTime
   attribute :tags, Array
   attribute :due_at, DateTime
+  attribute :due_on, Date
   attribute :completed, Boolean
   attribute :project_ids, Array, default: []
 
@@ -27,7 +28,8 @@ class TaskObject < BaseObject
   end
 
   def due_at_in_future?
-    due_at && due_at > DateTime.now
+    time = due_at || due_on
+    time && time > DateTime.now
   end
 
   def forgotten_task?

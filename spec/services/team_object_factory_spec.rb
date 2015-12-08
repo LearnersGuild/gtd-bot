@@ -29,16 +29,18 @@ describe TeamObjectFactory do
   end
 
   describe "#from_asana" do
-    subject { factory.from_asana(team) }
+    subject { factory.from_asana(team, users) }
 
     let(:team) { double(:team, id: id, name: name) }
+    let(:users) { [UserObject.new(asana_id: 'test', email: 'test@test.com')] }
     let(:id) { '1111' }
     let(:name) { 'Short name' }
 
     it "returns team object build properly" do
       expected = TeamObject.new(
         asana_id: id,
-        name: name
+        name: name,
+        users: users
       )
       expect(subject).to eq(expected)
     end

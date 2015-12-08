@@ -3,10 +3,10 @@ require 'rails_helper'
 describe IllegalRolesRenamer do
   subject do
     IllegalRolesRenamer.new(projects_repository)
-      .perform(roles_from_glass_frog, roles_from_asana)
+      .perform(exisiting_roles, roles_from_asana)
   end
   let(:projects_repository) { double('ProjectsRepository') }
-  let(:roles_from_glass_frog) { [RoleObject.new(name: 'Role')] }
+  let(:exisiting_roles) { [RoleObject.new(name: 'Role')] }
   let(:roles_from_asana) do
     [
       ProjectObject.new(name: "&Role"),

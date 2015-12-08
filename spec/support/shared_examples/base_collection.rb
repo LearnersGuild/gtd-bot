@@ -1,6 +1,16 @@
 shared_examples_for "BaseCollection" do |collection_class, object_class|
   let(:collection) do
-    collection_class.new([object_class.new(asana_id: '7777')])
+    collection_class.new([object, underscored])
+  end
+  let(:object) { object_class.new(asana_id: '7777') }
+  let(:underscored) { object_class.new(asana_id: '1111', name: "_Test") }
+
+  describe "default scope" do
+    subject { collection.items }
+
+    it 'rejects undescored items' do
+      expect(subject).to eq([object])
+    end
   end
 
   describe "#add" do

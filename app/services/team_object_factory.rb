@@ -10,15 +10,17 @@ class TeamObjectFactory
     )
   end
 
-  def from_asana(team)
+  def from_asana(team, users = [])
     TeamObject.new(
       asana_id: team.id,
-      name: team.name
+      name: team.name,
+      users: users
     )
   end
 
   def build_merged(circle, team)
     circle.asana_id = team.asana_id
+    circle.users = team.users
     circle.roles.each do |r|
       r.asana_team_id = team.asana_id
     end

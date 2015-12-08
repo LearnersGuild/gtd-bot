@@ -3,10 +3,14 @@ require 'rails_helper'
 describe AsanaClient do
   subject { asana_client }
   let(:asana_client) do
-    AsanaClient.new(team_object_factory, project_object_factory,
-                    task_object_factory, tag_object_factory)
+    AsanaClient.new(factories_injector)
   end
   let(:client) { asana_client.client }
+  let(:factories_injector) do
+    FactoriesInjector.new(team_object_factory, project_object_factory,
+                          task_object_factory, tag_object_factory,
+                          user_object_factory)
+  end
 
   let(:team_object_factory) { TeamObjectFactory.new(RoleObjectFactory.new) }
   let(:task_object_factory) { TaskObjectFactory.new }
@@ -14,12 +18,14 @@ describe AsanaClient do
   let(:project_object_factory) do
     instance_double('ProjectObjectFactory', build_from_asana: project_object)
   end
+  let(:user_object_factory) { UserObjectFactory.new }
   let(:project_object) do
     ProjectObject.new(asana_id: '7777', name: project_name)
   end
   let(:project_name) { 'Project name' }
   let(:attributes) { { name: project_name } }
   let(:asana_project) { double(:asana_project, id: '7777') }
+  let(:asana_task) { double(:asana_task, id: '8888') }
 
   describe "#create_project" do
     subject { asana_client.create_project(workspace_id, team_id, attributes) }
@@ -68,14 +74,18 @@ describe AsanaClient do
 
   describe "#teams" do
     subject { asana_client.teams('8888') }
-    let(:asana_team) { double(:asana_team) }
-    let(:team_object) { TeamObject.new }
+    let(:asana_team) { double(:asana_team, users: users) }
+    let(:users) { [double(id: id, email: email)] }
+    let(:users_objects) { [UserObject.new(asana_id: id, email: email)] }
+    let(:id) { '111' }
+    let(:email) { 'test@test.com' }
+    let(:team_object) { TeamObject.new(users: users_objects) }
 
     it "delegates to Asana::Client" do
       expect(Asana::Team).to receive(:find_by_organization)
         .and_return([asana_team])
-      expect(team_object_factory).to receive(:from_asana).with(asana_team)
-        .and_return(team_object)
+      expect(team_object_factory).to receive(:from_asana)
+        .with(asana_team, users_objects).and_return(team_object)
       expect(subject).to eq([team_object])
     end
   end
@@ -92,6 +102,18 @@ describe AsanaClient do
   describe "#create_task" do
     it "delegates to Asana::Client" do
       expect(subject).to respond_to(:create_task)
+    end
+  end
+
+  describe "#delete_task" do
+    subject { asana_client.delete_task('8888') }
+
+    it "delegates to Asana::Client" do
+      expect(Asana::Task).to receive(:new)
+        .with({ id: '8888' }, { client: client })
+        .and_return(asana_task)
+      expect(asana_task).to receive(:delete).and_return(true)
+      subject
     end
   end
 

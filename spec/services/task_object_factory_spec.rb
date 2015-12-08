@@ -14,7 +14,8 @@ describe TaskObjectFactory do
         due_at: due_at,
         due_on: due_on,
         tags: tags,
-        completed: completed
+        completed: completed,
+        projects: projects
       )
     end
     let(:id) { '1' }
@@ -27,13 +28,17 @@ describe TaskObjectFactory do
     let(:tags) { [double(id: tag_id, name: tag_name)] }
     let(:completed) { true }
     let(:expected_tags) { [TagObject.new(asana_id: tag_id, name: tag_name)] }
+    let(:expected_project_ids) { [project_id.to_s] }
     let(:tag_id) { '3' }
     let(:tag_name) { 'tag_name' }
+    let(:projects) { [double(:project, id: project_id)] }
+    let(:project_id) { 123 }
 
     context 'task does not have due_at and due_on' do
       let(:due_on) { nil }
       let(:due_at) { nil }
       let(:expected_due_at) { nil }
+      let(:expected_due_on) { nil }
       let(:expected_task_object) do
         TaskObject.new(
           asana_id: id,
@@ -42,8 +47,10 @@ describe TaskObjectFactory do
           description: notes,
           modified_at: expected_modified_at,
           due_at: expected_due_at,
+          due_on: expected_due_on,
           tags: expected_tags,
-          completed: completed
+          completed: completed,
+          project_ids: expected_project_ids
         )
       end
 
@@ -55,7 +62,8 @@ describe TaskObjectFactory do
     context 'task does not have due_at and has due_on' do
       let(:due_on) { 1.day.from_now.to_date.to_s }
       let(:due_at) { nil }
-      let(:expected_due_at) { DateTime.parse(due_on) }
+      let(:expected_due_at) { nil }
+      let(:expected_due_on) { Date.parse(due_on) }
       let(:expected_task_object) do
         TaskObject.new(
           asana_id: id,
@@ -64,8 +72,10 @@ describe TaskObjectFactory do
           description: notes,
           modified_at: expected_modified_at,
           due_at: expected_due_at,
+          due_on: expected_due_on,
           tags: expected_tags,
-          completed: completed
+          completed: completed,
+          project_ids: expected_project_ids
         )
       end
 
@@ -78,6 +88,7 @@ describe TaskObjectFactory do
       let(:due_on) { nil }
       let(:due_at) { 1.day.from_now.to_s }
       let(:expected_due_at) { DateTime.parse(due_at) }
+      let(:expected_due_on) { due_on }
       let(:expected_task_object) do
         TaskObject.new(
           asana_id: id,
@@ -86,8 +97,10 @@ describe TaskObjectFactory do
           description: notes,
           modified_at: expected_modified_at,
           due_at: expected_due_at,
+          due_on: expected_due_on,
           tags: expected_tags,
-          completed: completed
+          completed: completed,
+          project_ids: expected_project_ids
         )
       end
 
