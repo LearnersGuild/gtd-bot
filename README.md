@@ -32,6 +32,11 @@ or via cron (whenever):
 ```
 whenever --update-crontab
 ```
+See your crontab:
+
+```
+crontab -e
+```
 
 And Later, to clear crontab:
 
