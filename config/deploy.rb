@@ -36,6 +36,9 @@ set :linked_files, %w{config/database.yml config/configuration.yml
                       config/unicorn.rb config/secrets.yml}
 set :linked_dirs, %w{pids log public/assets public/uploads}
 
+set :whenever_command, "bundle exec whenever"
+set :whenever_environment, -> { fetch(:stage) }
+
 after "deploy:publishing", "unicorn:restart"
 after "deploy:finishing", "deploy:cleanup"
 

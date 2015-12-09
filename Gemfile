@@ -9,6 +9,7 @@ gem 'asana'
 gem 'virtus'
 gem 'dependor'
 gem 'parallel'
+gem 'whenever', require: false
 
 group :development, :test do
   gem 'spring'
