@@ -38,10 +38,10 @@ describe RoleObject do
 
     it "returns name with prefix and description" do
       expected_description =
-        "Purpose: Purpose\n" \
-        "Domains: Domain\n" \
-        "Accountabilities: Accountability\n" \
-        "Users: test@test.pl"
+        "Purpose:\nPurpose\n\n" \
+        "Domains:\nDomain\n\n" \
+        "Accountabilities:\nAccountability\n\n" \
+        "Users:\ntest@test.pl"
       expect(subject).to eq(
         name: '&RoleName',
         notes: expected_description,
@@ -55,7 +55,7 @@ describe RoleObject do
       it "returns name with prefix and description" do
         expect(subject).to eq(
           name: '&RoleName',
-          notes: "Purpose: \nDomains: \nAccountabilities: \nUsers: ",
+          notes: "Purpose:\n\n\nDomains:\n\n\nAccountabilities:\n\n\nUsers:\n",
           owner: nil
         )
       end

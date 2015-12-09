@@ -6,8 +6,8 @@ class TasksRepository < BaseRepository
   end
 
   def update(task, attributes)
+    asana_client.update_task(task.asana_id, attributes)
     new_attributes = task.attributes.merge(attributes)
-    asana_client.update_task(task.asana_id, new_attributes)
     task.update(new_attributes)
   end
 

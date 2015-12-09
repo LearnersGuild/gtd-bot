@@ -35,16 +35,17 @@ describe TasksRepository do
 
   describe "#update" do
     subject { repository.update(task, attributes) }
-    let(:attributes) { {} }
+    let(:attributes) { { name: 'New name' } }
 
     it "updates Asana" do
       expect(asana_client).to receive(:update_task)
-        .with(task.asana_id, task.attributes)
+        .with(task.asana_id, attributes)
       subject
     end
 
     it "updates local cache" do
-      expect(task).to receive(:update).with(task.attributes)
+      new_attributes = task.attributes.merge(attributes)
+      expect(task).to receive(:update).with(new_attributes)
       subject
     end
   end
