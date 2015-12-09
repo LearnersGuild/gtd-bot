@@ -20,3 +20,21 @@ god status
 god start/stop/restart bot
 god terminate
 ```
+
+To generate reports run:
+
+```
+Reports::Runner.perform
+```
+
+or via cron (whenever):
+
+```
+whenever --update-crontab
+```
+
+And Later, to clear crontab:
+
+```
+whenever --clear-crontab
+```
