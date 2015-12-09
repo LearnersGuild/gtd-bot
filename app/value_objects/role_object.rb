@@ -9,7 +9,7 @@ class RoleObject < BaseObject
   attribute :users, Array, default: []
 
   DESCRIPTION_PATTERN =
-    "Purpose: %s\nDomains: %s\nAccountabilities: %s\nUsers: %s"
+    "Purpose:\n%s\n\nDomains:\n%s\n\nAccountabilities:\n%s\n\nUsers:\n%s"
 
   def name_with_prefix
     "#{ProjectObject::ROLE_PREFIX}#{name}"
