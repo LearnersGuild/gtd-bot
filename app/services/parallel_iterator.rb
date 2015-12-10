@@ -31,7 +31,13 @@ class ParallelIterator < BaseService
     block_result
   end
 
-  def check_results
-    File.open(PROFILER_OUTPUT_PATH) { |f| c = f.read; c.split("\n").map { |l| m = l.match(/Total allocated: (\d+)/); m && m[1].to_i/1024.0/1024.0  } }.compact
+  def self.check_results
+    File.open(PROFILER_OUTPUT_PATH) do |f|
+      content = f.read
+      content.split("\n").map do |line|
+        matched = line.match(/Total allocated: (\d+)/)
+        matched && matched[1].to_i / 1024.0 / 1024.0
+      end
+    end.compact
   end
 end
