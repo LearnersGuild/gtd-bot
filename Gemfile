@@ -41,3 +41,5 @@ end
 group :profile do
   gem 'ruby-prof'
 end
+
+gem 'memory_profiler'
