@@ -10,7 +10,7 @@ class TaskObject < BaseObject
   attribute :completed, Boolean
   attribute :project_ids, Array, default: []
 
-  STALE_TIME = 4.weeks
+  STALE_TIME = A9n.stale_time_count.to_i.send(A9n.stale_time_unit)
   STALE_TAG_NAME = 'stale'
   IGNORED_TAGS_NAMES = ['maybe later', 'blocked', 'waiting for']
 

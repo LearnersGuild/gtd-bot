@@ -1,4 +1,6 @@
 defaults: &defaults
+  stale_time_count: 4
+  stale_time_unit: weeks
   glass_frog:
     api_key:
   asana:
