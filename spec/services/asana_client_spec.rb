@@ -2,12 +2,15 @@ require 'rails_helper'
 
 describe AsanaClient do
   subject { asana_client }
-  let(:asana_client) { AsanaClient.new(factories_injector) }
+  let(:asana_client) { AsanaClient.new(factories_injector, exceptions_handler) }
   let(:client) { asana_client.client }
   let(:factories_injector) do
     FactoriesInjector.new(team_object_factory, project_object_factory,
                           task_object_factory, tag_object_factory,
                           user_object_factory)
+  end
+  let(:exceptions_handler) do
+    instance_double('ExceptionsHandler')
   end
 
   let(:team_object_factory) do
