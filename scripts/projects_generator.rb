@@ -5,7 +5,7 @@ class ProjectsGenerator < BaseService
 
   API_KEY = A9n.asana[:api_key]
   WORKSPACE = A9n.asana[:workspace_id]
-  PROJECTS_NUMBER = 3
+  PROJECTS_NUMBER = 100
   TASKS_NUMBER = 3
 
   def perform
@@ -20,7 +20,8 @@ class ProjectsGenerator < BaseService
   def generate_projects(team)
     parallel_iterator.each((1..PROJECTS_NUMBER).to_a) do |n|
       name = "Project_#{n}"
-      project = asana_client.create_project(WORKSPACE, team.asana_id, name: name)
+      project = asana_client.create_project(WORKSPACE,
+                                            team.asana_id, name: name)
       generate_tasks(project)
       logger.info("#{project.name} created")
     end
