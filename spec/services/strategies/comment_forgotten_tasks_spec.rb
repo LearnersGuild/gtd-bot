@@ -30,7 +30,7 @@ module Strategies
         expect(tasks_repository_factory).to receive(:new).with(tasks)
         expect(tasks_repository).to receive(:forgotten_tasks)
         expect(tasks_repository).to receive(:add_comment_to_task)
-          .with(forgotten_task.asana_id, comment)
+          .with(forgotten_task, comment)
         subject
       end
     end

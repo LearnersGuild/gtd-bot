@@ -12,7 +12,7 @@ module Strategies
         logger.info(
           "Adding comments for forgotten tasks for project #{project.name}...")
         tasks_repository.forgotten_tasks.each do |task|
-          tasks_repository.add_comment_to_task(task.asana_id, COMMENT)
+          tasks_repository.add_comment_to_task(task, COMMENT)
         end
         logger.info("Comments for forgotten tasks created")
       end
