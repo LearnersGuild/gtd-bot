@@ -29,7 +29,6 @@ group :development do
   gem 'capistrano-rvm'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
-  gem 'capistrano3-unicorn'
 
   gem 'god'
 end
@@ -37,10 +36,6 @@ end
 group :test do
   gem 'factory_girl'
   gem 'simplecov'
-end
-
-group :production do
-  gem 'unicorn'
 end
 
 group :profile do

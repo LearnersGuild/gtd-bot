@@ -33,10 +33,9 @@ set :bundle_binstubs, -> { File.join(fetch(:bundle_path), 'bin') }
 set :keep_releases, 5
 
 set :linked_files, %w{config/database.yml config/configuration.yml
-                      config/unicorn.rb config/secrets.yml}
+                      config/secrets.yml}
 set :linked_dirs, %w{pids log public/assets public/uploads}
 
-after "deploy:publishing", "unicorn:restart"
 after "deploy:finishing", "deploy:cleanup"
 
 after 'deploy:finished', 'god:copy_configuration'

@@ -6,7 +6,6 @@ require 'capistrano/deploy'
 require 'capistrano/console'
 
 require 'capistrano/rvm'
-require 'capistrano3/unicorn'
 require 'capistrano/bundler'
 require 'capistrano/rails'
 require 'capistrano/honeybadger'
