@@ -35,7 +35,12 @@ describe TasksRepository do
 
   describe "#update" do
     subject { repository.update(task, attributes) }
-    let(:attributes) { { name: 'New name' } }
+    let(:attributes) { { name: updated_name } }
+    let(:updated_name) { 'New name' }
+    let(:updated_modified_at) { DateTime.parse("10.07.1987") }
+    let(:updated_task) do
+      TaskObject.new(attributes.merge(modified_at: updated_modified_at))
+    end
 
     it "updates Asana" do
       expect(asana_client).to receive(:update_task)
@@ -44,9 +49,12 @@ describe TasksRepository do
     end
 
     it "updates local cache" do
-      new_attributes = task.attributes.merge(attributes)
-      expect(task).to receive(:update).with(new_attributes)
+      expect(asana_client).to receive(:update_task)
+        .with(task.asana_id, attributes)
+        .and_return(updated_task)
       subject
+      expect(task.name).to eq(updated_name)
+      expect(task.modified_at).to eq(updated_modified_at)
     end
   end
 

@@ -103,4 +103,30 @@ describe TaskObject do
       end
     end
   end
+
+  describe "#attributes_to_update_from_asana" do
+    subject { task_object.attributes_to_update_from_asana }
+
+    let(:task_object) do
+      TaskObject.new(
+        name: 'Name',
+        modified_at: modified_at,
+        project_ids: [],
+        tags: []
+      )
+    end
+    let(:name) { 'Name' }
+    let(:modified_at) { DateTime.parse('10.07.1987') }
+
+    context "ignores attribues that we don't get" \
+             "while doing update call to Asana" do
+      it { expect(subject[:project_ids]).to be nil }
+      it { expect(subject[:tags]).to be nil }
+    end
+
+    context "returns other attributes" do
+      it { expect(subject[:name]).to eq(name) }
+      it { expect(subject[:modified_at]).to eq(modified_at) }
+    end
+  end
 end

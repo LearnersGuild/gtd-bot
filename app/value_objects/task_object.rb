@@ -13,6 +13,7 @@ class TaskObject < BaseObject
   STALE_TIME = A9n.stale_time_count.to_i.send(A9n.stale_time_unit)
   STALE_TAG_NAME = 'stale'
   IGNORED_TAGS_NAMES = ['maybe later', 'blocked', 'waiting for']
+  IGNORE_DURING_UPDATE_FROM_ASANA = [:project_ids, :tags]
 
   def stale_task?
     modified_at && modified_at < STALE_TIME.ago &&
@@ -42,5 +43,9 @@ class TaskObject < BaseObject
 
   def uncompleted?
     !completed
+  end
+
+  def attributes_to_update_from_asana
+    attributes.reject { |k, _| IGNORE_DURING_UPDATE_FROM_ASANA.include?(k) }
   end
 end

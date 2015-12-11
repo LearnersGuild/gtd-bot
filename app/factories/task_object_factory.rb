@@ -1,7 +1,7 @@
 class TaskObjectFactory < BaseService
   inject :tag_object_factory
 
-  def build_from_asana(task)
+  def build_from_asana(task, tags = [], projects = [])
     TaskObject.new(
       asana_id: task.id,
       name: task.name,
@@ -10,9 +10,9 @@ class TaskObjectFactory < BaseService
       modified_at: DateTime.parse(task.modified_at),
       due_at: parse_due_at(task.due_at),
       due_on: parse_due_on(task.due_on),
-      tags: map_tags(task.tags),
+      tags: map_tags(tags),
       completed: task.completed,
-      project_ids: map_projects(task.projects)
+      project_ids: map_projects(projects)
     )
   end
 

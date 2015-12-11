@@ -3,7 +3,8 @@ require 'rails_helper'
 describe TaskObjectFactory do
   let(:task_object_factory) { TaskObjectFactory.new }
   describe 'build_from_asana' do
-    subject { task_object_factory.build_from_asana(task) }
+    subject { task_object_factory.build_from_asana(task, tags, projects) }
+
     let(:task) do
       double(
         id: id,
@@ -13,9 +14,7 @@ describe TaskObjectFactory do
         modified_at: modified_at,
         due_at: due_at,
         due_on: due_on,
-        tags: tags,
-        completed: completed,
-        projects: projects
+        completed: completed
       )
     end
     let(:id) { '1' }
