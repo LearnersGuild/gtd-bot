@@ -11,7 +11,8 @@ describe ProjectsRepository do
   let(:collection) do
     instance_double('ProjectsCollection', add: project, delete: true)
   end
-  let(:project) { ProjectObject.new(asana_id: '7777') }
+  let(:project) { ProjectObject.new(asana_id: '7777', name: name) }
+  let(:name) { 'Name' }
 
   it_behaves_like "BaseRepository", ProjectsRepository, ProjectsCollection,
     ProjectObject
@@ -31,11 +32,24 @@ describe ProjectsRepository do
       expect(collection).to receive(:add).with(project)
       subject
     end
+
+    context "AsanaClient returns with nil" do
+      before do
+        expect(asana_client).to receive(:create_project).and_return(nil)
+      end
+
+      it "does not update local cache" do
+        expect(collection).not_to receive(:add).with(project)
+        subject
+      end
+    end
   end
 
   describe "#update" do
-    subject { repository.update(project.asana_id, attributes) }
-    let(:attributes) { {} }
+    subject { repository.update(project, attributes) }
+    let(:attributes) { { name: updated_name } }
+    let(:updated_name) { 'New name' }
+    let(:updated_project) { ProjectObject.new(attributes) }
 
     it "updates Asana" do
       expect(asana_client).to receive(:update_project)
@@ -44,8 +58,22 @@ describe ProjectsRepository do
     end
 
     it "updates local cache" do
-      expect(project).to receive(:update).with(attributes)
+      expect(asana_client).to receive(:update_project)
+        .with(project.asana_id, attributes)
+        .and_return(updated_project)
       subject
+      expect(project.name).to eq(updated_name)
+    end
+
+    context "AsanaClient returns with nil" do
+      before do
+        expect(asana_client).to receive(:update_project).and_return(nil)
+      end
+
+      it "does not update local cache" do
+        subject
+        expect(project.name).to eq(name)
+      end
     end
   end
 
@@ -62,6 +90,17 @@ describe ProjectsRepository do
     it "updates local cache" do
       expect(collection).to receive(:delete).with(project.asana_id)
       subject
+    end
+
+    context "AsanaClient returns with nil" do
+      before do
+        expect(asana_client).to receive(:delete_project).and_return(nil)
+      end
+
+      it "does not update local cache" do
+        subject
+        expect(collection).not_to receive(:delete).with(project.asana_id)
+      end
     end
   end
 end

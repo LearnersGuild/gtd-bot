@@ -8,9 +8,10 @@ describe TeamObjectFactory do
     instance_double('RoleObjectFactory', from_glass_frog: role)
   end
   let(:user_object_factory) do
-    instance_double('UserObjectFactory')
+    instance_double('UserObjectFactory', from_asana: user)
   end
   let(:role) { double(:role) }
+  let(:user) { UserObject.new }
 
   describe "#from_glass_frog" do
     subject { factory.from_glass_frog(circle) }
@@ -37,7 +38,9 @@ describe TeamObjectFactory do
     subject { factory.from_asana(team, users) }
 
     let(:team) { double(:team, id: id, name: name) }
-    let(:users) { [UserObject.new(asana_id: 'test', email: 'test@test.com')] }
+    let(:users) do
+      [double(id: '7777', email: 'test@test.com')]
+    end
     let(:id) { '1111' }
     let(:name) { 'Short name' }
 
@@ -45,7 +48,7 @@ describe TeamObjectFactory do
       expected = TeamObject.new(
         asana_id: id,
         name: name,
-        users: users
+        users: [user]
       )
       expect(subject).to eq(expected)
     end

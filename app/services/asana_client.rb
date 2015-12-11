@@ -41,8 +41,9 @@ class AsanaClient < BaseService
       teams = Asana::Team.find_by_organization(client,
                                                organization: workspace_id)
       teams.map do |t|
+        # TODO: fetching users should be moved out of here
+        # to AsanaHierarchyFetcher or TeamsMatcher
         users = t.users(options: { fields: [:email] })
-          .map { |u| factories_injector.user_object_factory.from_asana(u) }
         factories_injector.team_object_factory.from_asana(t, users)
       end
     end
@@ -84,15 +85,20 @@ class AsanaClient < BaseService
     project = build_project(project_id)
 
     do_request do
-      tasks = project.tasks(options: { fields: fields })
+      tasks = project.tasks(
+        options: { fields: fields, expand: [:tags, :projects] })
       tasks.map do |t|
-        factories_injector.task_object_factory.build_from_asana(t)
+        factories_injector.task_object_factory
+          .build_from_asana(t, t.tags, t.projects)
       end.select(&:uncompleted?)
     end
   end
 
   def update_task(task_id, attributes)
-    do_request { build_task(task_id).update(attributes) }
+    do_request do
+      task = build_task(task_id).update(attributes)
+      factories_injector.task_object_factory.build_from_asana(task)
+    end
   end
 
   def add_project_to_task(task_id, project_id)

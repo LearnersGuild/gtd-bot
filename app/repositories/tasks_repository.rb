@@ -6,9 +6,11 @@ class TasksRepository < BaseRepository
   end
 
   def update(task, attributes)
-    success = asana_client.update_task(task.asana_id, attributes)
-    new_attributes = task.attributes.merge(attributes)
-    task.update(new_attributes) if success
+    updated_task = asana_client.update_task(task.asana_id, attributes)
+    return unless updated_task
+
+    new_attributes = updated_task.attributes_to_update_from_asana
+    task.update(new_attributes)
   end
 
   def add_comment_to_task(task, comment)

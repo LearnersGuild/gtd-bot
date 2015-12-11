@@ -82,16 +82,15 @@ describe AsanaClient do
     subject { asana_client.teams('8888') }
     let(:asana_team) { double(:asana_team, users: users) }
     let(:users) { [double(id: id, email: email)] }
-    let(:users_objects) { [UserObject.new(asana_id: id, email: email)] }
     let(:id) { '111' }
     let(:email) { 'test@test.com' }
-    let(:team_object) { TeamObject.new(users: users_objects) }
+    let(:team_object) { TeamObject.new }
 
     it "delegates to Asana::Client" do
       expect(Asana::Team).to receive(:find_by_organization)
         .and_return([asana_team])
       expect(team_object_factory).to receive(:from_asana)
-        .with(asana_team, users_objects).and_return(team_object)
+        .with(asana_team, users).and_return(team_object)
       expect(subject).to eq([team_object])
     end
   end
