@@ -14,7 +14,7 @@ class TeamObjectFactory
     TeamObject.new(
       asana_id: team.id,
       name: team.name,
-      users: users
+      users: users.map { |u| user_object_factory.from_asana(u) }
     )
   end
 

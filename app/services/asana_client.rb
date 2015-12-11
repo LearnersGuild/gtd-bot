@@ -41,8 +41,9 @@ class AsanaClient < BaseService
       teams = Asana::Team.find_by_organization(client,
                                                organization: workspace_id)
       teams.map do |t|
+        # TODO: fetching users should be moved out of here
+        # to AsanaHierarchyFetcher or TeamsMatcher
         users = t.users(options: { fields: [:email] })
-          .map { |u| factories_injector.user_object_factory.from_asana(u) }
         factories_injector.team_object_factory.from_asana(t, users)
       end
     end
