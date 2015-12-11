@@ -7,7 +7,7 @@ class ProjectsRepository < BaseRepository
 
   def update(project, attributes)
     updated_project = asana_client.update_project(project.asana_id, attributes)
-    project.update(updated_project.attributes) if project
+    project.update(updated_project.attributes) if updated_project
   end
 
   def delete(project_id)

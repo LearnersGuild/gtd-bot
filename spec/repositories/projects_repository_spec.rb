@@ -11,7 +11,8 @@ describe ProjectsRepository do
   let(:collection) do
     instance_double('ProjectsCollection', add: project, delete: true)
   end
-  let(:project) { ProjectObject.new(asana_id: '7777') }
+  let(:project) { ProjectObject.new(asana_id: '7777', name: name) }
+  let(:name) { 'Name' }
 
   it_behaves_like "BaseRepository", ProjectsRepository, ProjectsCollection,
     ProjectObject
@@ -30,6 +31,17 @@ describe ProjectsRepository do
     it "updates local cache" do
       expect(collection).to receive(:add).with(project)
       subject
+    end
+
+    context "AsanaClient returns with nil" do
+      before do
+        expect(asana_client).to receive(:create_project).and_return(nil)
+      end
+
+      it "does not update local cache" do
+        expect(collection).not_to receive(:add).with(project)
+        subject
+      end
     end
   end
 
@@ -52,6 +64,17 @@ describe ProjectsRepository do
       subject
       expect(project.name).to eq(updated_name)
     end
+
+    context "AsanaClient returns with nil" do
+      before do
+        expect(asana_client).to receive(:update_project).and_return(nil)
+      end
+
+      it "does not update local cache" do
+        subject
+        expect(project.name).to eq(name)
+      end
+    end
   end
 
   describe "#delete" do
@@ -67,6 +90,17 @@ describe ProjectsRepository do
     it "updates local cache" do
       expect(collection).to receive(:delete).with(project.asana_id)
       subject
+    end
+
+    context "AsanaClient returns with nil" do
+      before do
+        expect(asana_client).to receive(:delete_project).and_return(nil)
+      end
+
+      it "does not update local cache" do
+        subject
+        expect(collection).not_to receive(:delete).with(project.asana_id)
+      end
     end
   end
 end

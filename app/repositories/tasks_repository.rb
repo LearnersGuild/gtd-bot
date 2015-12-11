@@ -7,8 +7,10 @@ class TasksRepository < BaseRepository
 
   def update(task, attributes)
     updated_task = asana_client.update_task(task.asana_id, attributes)
+    return unless updated_task
+
     new_attributes = updated_task.attributes_to_update_from_asana
-    task.update(new_attributes) if updated_task
+    task.update(new_attributes)
   end
 
   def add_comment_to_task(task, comment)
