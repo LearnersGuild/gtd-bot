@@ -99,7 +99,7 @@ describe AsanaRolesUpdater do
           expect(to_update_from_glass_frog).to receive(:role_attributes)
             .and_return(role_attributes)
           expect(projects_repository).to receive(:update)
-            .with('7777', role_attributes)
+            .with(ProjectObject.new(asana_id: '7777'), role_attributes)
           subject
         end
 

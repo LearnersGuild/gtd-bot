@@ -28,7 +28,8 @@ class AsanaRolesUpdater < BaseService
 
   def to_update(diff)
     map(diff[:to_update]) do |r|
-      projects_repository.update(r.asana_id, r.role_attributes)
+      project_role = ProjectObject.new(asana_id: r.asana_id)
+      projects_repository.update(project_role, r.role_attributes)
       r
     end
   end

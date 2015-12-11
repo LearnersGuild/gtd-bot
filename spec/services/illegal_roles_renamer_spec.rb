@@ -19,7 +19,7 @@ describe IllegalRolesRenamer do
   describe '#perform' do
     it 'changes illegal names' do
       expect(projects_repository).to receive(:update)
-        .with(project_to_rename.asana_id, name: "_Project")
+        .with(project_to_rename, name: "_Project")
       subject
     end
   end

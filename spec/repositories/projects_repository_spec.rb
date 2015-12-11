@@ -34,8 +34,10 @@ describe ProjectsRepository do
   end
 
   describe "#update" do
-    subject { repository.update(project.asana_id, attributes) }
-    let(:attributes) { {} }
+    subject { repository.update(project, attributes) }
+    let(:attributes) { { name: updated_name } }
+    let(:updated_name) { 'New name' }
+    let(:updated_project) { ProjectObject.new(attributes) }
 
     it "updates Asana" do
       expect(asana_client).to receive(:update_project)
@@ -44,8 +46,11 @@ describe ProjectsRepository do
     end
 
     it "updates local cache" do
-      expect(project).to receive(:update).with(attributes)
+      expect(asana_client).to receive(:update_project)
+        .with(project.asana_id, attributes)
+        .and_return(updated_project)
       subject
+      expect(project.name).to eq(updated_name)
     end
   end
 

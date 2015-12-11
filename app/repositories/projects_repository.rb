@@ -5,9 +5,9 @@ class ProjectsRepository < BaseRepository
     collection.add(project) if project
   end
 
-  def update(project_id, attributes)
-    project = asana_client.update_project(project_id, attributes)
-    project.update(attributes) if project
+  def update(project, attributes)
+    updated_project = asana_client.update_project(project.asana_id, attributes)
+    project.update(updated_project.attributes) if project
   end
 
   def delete(project_id)
