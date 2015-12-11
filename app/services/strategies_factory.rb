@@ -10,6 +10,7 @@ class StrategiesFactory < BaseService
     projects_repository = ProjectsRepository.new(asana_client,
                                                  projects_collection)
     tasks_repository_factory = TasksRepositoryFactory.new(asana_client)
+    subtasks_repository_factory = SubtasksRepositoryFactory.new(asana_client)
     tags_repository = TagsRepository.new(asana_client)
     strategies_repository = StrategiesRepository.new
 
@@ -30,7 +31,10 @@ class StrategiesFactory < BaseService
       injector.comment_forgotten_tasks(projects_repository,
                                        tasks_repository_factory,
                                        strategies_repository),
-      injector.everyone_task(projects_repository, team)
+      injector.everyone_task(projects_repository, team),
+      injector.unassigned_subtask_strategy(projects_repository,
+                                           tasks_repository_factory,
+                                           subtasks_repository_factory)
     ]
   end
 end

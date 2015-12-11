@@ -82,14 +82,16 @@ class AsanaClient < BaseService
   def tasks_for_project(project_id)
     fields = [:name, :assignee, :notes, :modified_at, :tags, :due_at, :due_on,
               :completed, :projects]
+    subtasks_fields = [:name, :assignee, :completed]
     project = build_project(project_id)
 
     do_request do
       tasks = project.tasks(
         options: { fields: fields, expand: [:tags, :projects] })
       tasks.map do |t|
+        subtasks = t.subtasks(options: { fields: subtasks_fields })
         factories_injector.task_object_factory
-          .build_from_asana(t, t.tags, t.projects)
+          .build_from_asana(t, t.tags, t.projects, subtasks)
       end.select(&:uncompleted?)
     end
   end

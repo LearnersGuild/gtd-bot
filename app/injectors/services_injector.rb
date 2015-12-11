@@ -67,5 +67,14 @@ class ServicesInjector
     Strategies::EveryoneTask.new(projects_repository, tasks_repository_factory,
                                  team, PersonalTaskDuplicator)
   end
+
+  def unassigned_subtask_strategy(projects_repository, tasks_repository_factory,
+                                  subtasks_repository_factory)
+    Strategies::UnassignedSubtask.new(projects_repository,
+                                      tasks_repository_factory,
+                                      subtasks_repository_factory,
+                                      subtasks_assigner,
+                                      SubtasksOwnerSetter)
+  end
 end
 

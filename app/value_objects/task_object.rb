@@ -9,6 +9,7 @@ class TaskObject < BaseObject
   attribute :due_on, Date
   attribute :completed, Boolean
   attribute :project_ids, Array, default: []
+  attribute :subtasks, Array
 
   STALE_TIME = A9n.stale_time_count.to_i.send(A9n.stale_time_unit)
   STALE_TAG_NAME = 'stale'
