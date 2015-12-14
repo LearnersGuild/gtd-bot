@@ -164,7 +164,7 @@ Current application code is in `/home/lunar/apps/gtd-bot/current` directory
 
 * `ruby`, version 2.2.3 with gemset `gtd-bot`
 * `postgres` database
-* `monit` - configured to monitor `god`
+* `monit` - configured to monitor `god`, see `/etc/monit/conf.d/god.conf`
 * `/home/lunar/apps/gtd-bot/shared/configuration.yml` as symbolic link to `/home/lunar/apps/gtd-bot/current/config/configuration.yml`
 * `god` gem
   * custom god service in `/etc/init.d/god`
