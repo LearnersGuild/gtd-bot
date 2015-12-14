@@ -20,6 +20,6 @@ class TasksCollection < BaseCollection
   end
 
   def with_subtasks
-    select { |t| t.subtasks.any? }
+    uncompleted_tasks.select { |t| t.subtasks.any? }
   end
 end

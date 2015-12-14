@@ -21,7 +21,8 @@ class ServicesInjector
 
   def unassigned_task_strategy(projects_repository, tasks_repository_factory)
     Strategies::UnassignedTask.new(projects_repository,
-                                   tasks_repository_factory, tasks_assigner)
+                                   tasks_repository_factory, Assigner,
+                                   parallel_iterator)
   end
 
   def individual_role_strategy(projects_repository, team)
@@ -73,8 +74,8 @@ class ServicesInjector
     Strategies::UnassignedSubtask.new(projects_repository,
                                       tasks_repository_factory,
                                       subtasks_repository_factory,
-                                      subtasks_assigner,
-                                      SubtasksOwnerSetter)
+                                      Assigner, SubtasksOwnerSetter,
+                                      parallel_iterator)
   end
 end
 
