@@ -98,7 +98,9 @@ class AsanaClient < BaseService
     subtasks_fields = [:name, :assignee, :completed]
     subtasks = build_task(task_id)
       .subtasks(options: { fields: subtasks_fields })
-    subtasks.map { |s| subtask_object_factory.build_from_asana(s) }
+    subtasks.map do |s|
+      factories_injector.subtask_object_factory.build_from_asana(s)
+    end
   end
 
   def update_task(task_id, attributes)
