@@ -11,6 +11,7 @@ class StrategiesFactory < BaseService
                                                  projects_collection)
     tasks_repository_factory = TasksRepositoryFactory.new(asana_client)
     tags_repository = TagsRepository.new(asana_client)
+    strategies_repository = StrategiesRepository.new
 
     [
       injector.sync_role_strategy(projects_repository, team),
@@ -25,9 +26,10 @@ class StrategiesFactory < BaseService
                                              tasks_repository_factory),
       injector.assign_role_task_strategy(projects_repository),
       injector.stale_task(projects_repository, tasks_repository_factory,
-                          tags_repository),
+                          tags_repository, strategies_repository),
       injector.comment_forgotten_tasks(projects_repository,
-                                       tasks_repository_factory),
+                                       tasks_repository_factory,
+                                       strategies_repository),
       injector.everyone_task(projects_repository, team)
     ]
   end
