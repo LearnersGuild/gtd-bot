@@ -24,8 +24,8 @@ class PersonalTaskDuplicator < BaseService
   end
 
   def due(task)
-    return { due_on: task.due_on } if task.due_on
     return { due_at: task.due_at } if task.due_at
+    return { due_on: task.due_on } if task.due_on
     {}
   end
 end

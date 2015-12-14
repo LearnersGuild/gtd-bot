@@ -39,9 +39,9 @@ describe PersonalTaskDuplicator do
   describe '#perform' do
     subject { service.perform }
 
-    context 'without due_on' do
+    context 'with due_on and due_at' do
       let(:due_at) { double }
-      let(:due_on) { nil }
+      let(:due_on) { double }
       let(:expected_task_attributes) do
         {
           name: name,
