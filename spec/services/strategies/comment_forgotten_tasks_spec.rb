@@ -3,10 +3,16 @@ require 'rails_helper'
 module Strategies
   describe CommentForgottenTasks do
     let(:strategy) do
-      CommentForgottenTasks.new(projects_repository, tasks_repository_factory)
+      CommentForgottenTasks.new(projects_repository, tasks_repository_factory,
+                                strategies_repository)
     end
     let(:projects_repository) do
       double('ProjectsRepository', with_tasks: projects)
+    end
+    let(:strategies_repository) do
+      instance_double('StrategiesRepository',
+                      register_performing: true,
+                      already_performed?: false)
     end
     let(:projects) { [project] }
     let(:project) { ProjectObject.new(tasks: tasks) }
@@ -32,6 +38,16 @@ module Strategies
         expect(tasks_repository).to receive(:add_comment_to_task)
           .with(forgotten_task, comment)
         subject
+      end
+
+      context "strategy already performed" do
+        it 'does not add tag to tasks' do
+          expect(strategies_repository).to receive(:already_performed?)
+            .and_return(true)
+          expect(tasks_repository).not_to receive(:add_comment_to_task)
+            .with(forgotten_task, comment)
+          subject
+        end
       end
     end
   end

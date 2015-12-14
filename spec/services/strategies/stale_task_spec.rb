@@ -4,10 +4,16 @@ module Strategies
   describe StaleTask do
     let(:strategy) do
       StaleTask.new(projects_repository, tasks_repository_factory,
-                    task_tagger_factory, tags_repository, parallel_iterator)
+                    task_tagger_factory, tags_repository, parallel_iterator,
+                    strategies_repository)
     end
     let(:projects_repository) do
       double('ProjectsRepository', with_tasks: projects)
+    end
+    let(:strategies_repository) do
+      instance_double('StrategiesRepository',
+                      register_performing: true,
+                      already_performed?: false)
     end
     let(:projects) { [project] }
     let(:project) { ProjectObject.new(tasks: tasks) }
@@ -30,7 +36,7 @@ module Strategies
       subject { strategy.perform }
       it 'tags stale tasks' do
         expect(task_tagger_factory).to receive(:new)
-          .with(tags_repository, parallel_iterator)
+          .with(tags_repository, parallel_iterator, strategies_repository)
         expect(task_tagger).to receive(:perform).with(stale_tasks, 'stale')
         subject
       end

@@ -49,14 +49,18 @@ class ServicesInjector
                                        IllegalRolesRenamer, roles_repository)
   end
 
-  def stale_task(projects_repository, tasks_repository_factory, tags_repository)
+  def stale_task(projects_repository, tasks_repository_factory, tags_repository,
+                strategies_repository)
     Strategies::StaleTask.new(projects_repository, tasks_repository_factory,
-                              TaskTagger, tags_repository, parallel_iterator)
+                              TaskTagger, tags_repository, parallel_iterator,
+                              strategies_repository)
   end
 
-  def comment_forgotten_tasks(projects_repository, tasks_repository_factory)
+  def comment_forgotten_tasks(projects_repository, tasks_repository_factory,
+                              strategies_repository)
     Strategies::CommentForgottenTasks.new(projects_repository,
-                                          tasks_repository_factory)
+                                          tasks_repository_factory,
+                                          strategies_repository)
   end
 
   def everyone_task(projects_repository, team)
