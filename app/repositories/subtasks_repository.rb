@@ -1,8 +1,7 @@
 class SubtasksRepository < BaseRepository
   def update(subtask, attributes)
-    new_attributes = subtask.attributes.merge(attributes)
-    success = asana_client.update_task(subtask.asana_id, attributes)
-    subtask.update(new_attributes) if success
+    updated_subtask = asana_client.update_subtask(subtask.asana_id, attributes)
+    subtask.update(updated_subtask.attributes) if updated_subtask
   end
 
   private

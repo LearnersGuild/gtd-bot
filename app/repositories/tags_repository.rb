@@ -22,7 +22,12 @@ class TagsRepository < BaseRepository
   end
 
   def add_to_task(task, tag)
-    asana_client.add_tag_to_task(task.asana_id, tag.asana_id)
-    task.tags.push(tag)
+    success = asana_client.add_tag_to_task(task.asana_id, tag.asana_id)
+    if success
+      task.tags.push(tag)
+      # We need to update modified_at manually because Asana returns tag object,
+      # additional gem doesn't update modified_at field in Asana::Task object
+      task.update(modified_at: DateTime.now)
+    end
   end
 end

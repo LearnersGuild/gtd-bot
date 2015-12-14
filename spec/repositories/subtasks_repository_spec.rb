@@ -23,13 +23,13 @@ describe SubtasksRepository do
     end
 
     it "updates Asana" do
-      expect(asana_client).to receive(:update_task)
+      expect(asana_client).to receive(:update_subtask)
         .with(subtask.asana_id, attributes)
       subject
     end
 
     it "updates local cache" do
-      expect(asana_client).to receive(:update_task)
+      expect(asana_client).to receive(:update_subtask)
         .with(subtask.asana_id, attributes)
         .and_return(updated_subtask)
       subject
@@ -38,7 +38,7 @@ describe SubtasksRepository do
 
     context "AsanaClient returns with nil" do
       before do
-        expect(asana_client).to receive(:update_task).and_return(nil)
+        expect(asana_client).to receive(:update_subtask).and_return(nil)
       end
 
       it "deosn't update subtask" do
