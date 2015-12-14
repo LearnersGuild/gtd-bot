@@ -8,7 +8,8 @@ describe ProjectsCollection do
       project_without_tasks,
       role,
       individual_project,
-      with_role
+      with_role,
+      underscored
     ]
   end
   let(:project_with_tasks) do
@@ -21,8 +22,18 @@ describe ProjectsCollection do
   let(:role_link) { 'https://app.asana.com/0/7777/8888' }
   let(:with_role) { ProjectObject.new(description: "#{role_link} description") }
   let(:project) { ProjectObject.new(asana_id: '1111') }
+  let(:underscored) { ProjectObject.new(asana_id: '1111', name: "_Test") }
 
   it_behaves_like "BaseCollection", ProjectsCollection, ProjectObject
+
+  describe "default scope" do
+    subject { collection.items }
+
+    it 'rejects undescored items' do
+      expected = projects - [underscored]
+      expect(subject).to eq(expected)
+    end
+  end
 
   describe '#without_roles_and_tasks' do
     subject { collection.without_roles.without_tasks }

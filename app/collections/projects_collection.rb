@@ -1,6 +1,11 @@
 class ProjectsCollection < BaseCollection
   inject :roles_repository
 
+  def initialize(items = [])
+    super
+    self.items = items.reject(&:underscored?)
+  end
+
   def without_roles
     reject(&:a_role?)
   end
