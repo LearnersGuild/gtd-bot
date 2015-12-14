@@ -40,7 +40,7 @@ module Strategies
         expect(tasks_collection).to receive(:unassigned)
           .and_return(tasks_collection)
         expect(assigner_factory).to receive(:new)
-          .with(tasks_repository, parallel_iterator)
+          .with(tasks_repository)
         expect(tasks_assigner).to receive(:perform)
           .with(tasks_collection, project.owner_id)
 

@@ -16,7 +16,8 @@ class ServicesInjector
   def next_action_task_strategy(projects_repository, tasks_repository_factory)
     Strategies::NextActionTask.new(projects_repository,
                                    next_action_task_factory,
-                                   tasks_repository_factory)
+                                   tasks_repository_factory,
+                                   parallel_iterator)
   end
 
   def unassigned_task_strategy(projects_repository, tasks_repository_factory)
@@ -47,7 +48,8 @@ class ServicesInjector
 
   def clean_projects_names(projects_repository, team)
     Strategies::CleanProjectsNames.new(projects_repository, team,
-                                       IllegalRolesRenamer, roles_repository)
+                                       IllegalRolesRenamer, roles_repository,
+                                       parallel_iterator)
   end
 
   def stale_task(projects_repository, tasks_repository_factory, tags_repository,
@@ -61,12 +63,14 @@ class ServicesInjector
                               strategies_repository)
     Strategies::CommentForgottenTasks.new(projects_repository,
                                           tasks_repository_factory,
-                                          strategies_repository)
+                                          strategies_repository,
+                                          parallel_iterator)
   end
 
   def everyone_task(projects_repository, team)
     Strategies::EveryoneTask.new(projects_repository, tasks_repository_factory,
-                                 team, PersonalTaskDuplicator)
+                                 team, PersonalTaskDuplicator,
+                                 parallel_iterator)
   end
 
   def unassigned_subtask_strategy(projects_repository, tasks_repository_factory,

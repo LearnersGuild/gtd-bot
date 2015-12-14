@@ -36,8 +36,7 @@ module Strategies
           .and_return(projects_collection)
         expect(tasks_repository_factory).to receive(:new).with(tasks)
         expect(subtasks_owner_setter_factory).to receive(:new)
-          .with(subtasks_repository_factory, assigner_factory,
-                parallel_iterator)
+          .with(subtasks_repository_factory, assigner_factory)
         expect(subtasks_owner_setter).to receive(:perform)
           .with(tasks_repository)
 

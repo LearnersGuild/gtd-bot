@@ -4,7 +4,7 @@ module Strategies
   describe NextActionTask do
     let(:strategy) do
       NextActionTask.new(projects_repository, next_action_task_factory,
-                        tasks_repository_factory)
+                        tasks_repository_factory, parallel_iterator)
     end
     let(:next_action_task_factory) do
       instance_double('NextActionTaskFactory', create: true)
@@ -15,6 +15,7 @@ module Strategies
     let(:projects_collection) do
       ProjectsCollection.new(projects)
     end
+    let(:parallel_iterator) { ParallelIterator.new }
     let(:projects) { [project] }
     let(:project) { ProjectObject.new(tasks: tasks) }
     let(:tasks) { [TaskObject.new] }

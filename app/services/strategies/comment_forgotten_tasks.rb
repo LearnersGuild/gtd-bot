@@ -1,14 +1,14 @@
 module Strategies
   class CommentForgottenTasks < BaseStrategy
     takes :projects_repository, :tasks_repository_factory,
-      :strategies_repository
+      :strategies_repository, :parallel_iterator
 
     COMMENT = "Wow, you really don't seem to want to do this. "\
               "Maybe it's time to delegate or delete it!"
 
     def perform
       projects = projects_repository.with_tasks
-      projects.each do |project|
+      parallel_iterator.each(projects) do |project|
         tasks_repository = tasks_repository_factory.new(project.tasks)
         logger.info(
           "Adding comments for forgotten tasks for project #{project.name}...")

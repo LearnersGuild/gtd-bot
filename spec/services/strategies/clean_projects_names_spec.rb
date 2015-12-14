@@ -4,11 +4,13 @@ module Strategies
   describe CleanProjectsNames do
     let(:strategy) do
       CleanProjectsNames.new(projects_repository, team,
-                             illegal_roles_renamer_factory, roles_repository)
+                             illegal_roles_renamer_factory, roles_repository,
+                             parallel_iterator)
     end
     let(:projects_repository) do
       double('ProjectsRepository', roles: projects_from_asana)
     end
+    let(:parallel_iterator) { ParallelIterator.new }
     let(:projects_from_asana) do
       [
         ProjectObject.new(name: "&Project", asana_id: id),

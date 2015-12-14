@@ -5,7 +5,7 @@ module Strategies
 
     def perform
       projects_with_tasks = projects_repository.without_roles.with_tasks
-      projects_with_tasks.each do |project|
+      parallel_iterator.each(projects_with_tasks) do |project|
         perform_iteration(project)
       end
     end

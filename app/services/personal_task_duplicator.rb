@@ -1,8 +1,9 @@
 class PersonalTaskDuplicator < BaseService
-  takes :tasks_repository, :team, :project
+  takes :tasks_repository, :parallel_iterator, :team, :project
 
   def perform
-    tasks_repository.uncompleted_tasks.each do |task|
+    tasks = tasks_repository.uncompleted_tasks
+    parallel_iterator.each(tasks) do |task|
       team.users.each do |user|
         tasks_repository.create(nil, task_attributes(task, user))
       end

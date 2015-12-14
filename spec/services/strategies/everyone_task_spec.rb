@@ -4,12 +4,13 @@ module Strategies
   describe EveryoneTask do
     let(:strategy) do
       EveryoneTask.new(projects_repository, tasks_repository_factory, team,
-                       personal_task_duplicator_factory)
+                       personal_task_duplicator_factory, parallel_iterator)
     end
     let(:team) { TeamObject.new }
     let(:projects_repository) do
       double('ProjectsRepository', everyone: projects)
     end
+    let(:parallel_iterator) { ParallelIterator.new }
     let(:projects) { [project] }
     let(:project) { ProjectObject.new(name: "&Everyone", tasks: tasks) }
     let(:tasks) { [TaskObject.new] }
@@ -30,7 +31,7 @@ module Strategies
       it 'duplicates tasks' do
         expect(tasks_repository_factory).to receive(:new).with(tasks)
         expect(personal_task_duplicator_factory).to receive(:new)
-          .with(tasks_repository, team, project)
+          .with(tasks_repository, parallel_iterator, team, project)
         expect(personal_task_duplicator).to receive(:perform)
 
         subject

@@ -2,9 +2,10 @@ require 'rails_helper'
 
 describe IllegalRolesRenamer do
   subject do
-    IllegalRolesRenamer.new(projects_repository)
+    IllegalRolesRenamer.new(projects_repository, parallel_iterator)
       .perform(exisiting_roles, roles_from_asana)
   end
+  let(:parallel_iterator) { ParallelIterator.new }
   let(:projects_repository) { double('ProjectsRepository') }
   let(:exisiting_roles) { [RoleObject.new(name: 'Role')] }
   let(:roles_from_asana) do

@@ -30,13 +30,13 @@ module Strategies
     let(:task_tagger_factory) { double(new: task_tagger) }
     let(:task_tagger) { instance_double('TaskTagger') }
     let(:tags_repository) { instance_double('TagsRepository') }
-    let(:parallel_iterator) { instance_double('ParallelIterator') }
+    let(:parallel_iterator) { ParallelIterator.new }
 
     describe '#perform' do
       subject { strategy.perform }
       it 'tags stale tasks' do
         expect(task_tagger_factory).to receive(:new)
-          .with(tags_repository, parallel_iterator, strategies_repository)
+          .with(tags_repository, strategies_repository)
         expect(task_tagger).to receive(:perform).with(stale_tasks, 'stale')
         subject
       end

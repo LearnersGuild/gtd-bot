@@ -2,10 +2,9 @@ require 'rails_helper'
 
 describe Assigner do
   let(:assigner) do
-    Assigner.new(repository, parallel_iterator)
+    Assigner.new(repository)
   end
   let(:repository) { double('Repository') }
-  let(:parallel_iterator) { ParallelIterator.new }
   let(:assignee_id) { double }
   let(:collection) { [object] }
   let(:object) { double(:object, id: double) }

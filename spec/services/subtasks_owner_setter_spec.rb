@@ -2,15 +2,13 @@ require 'rails_helper'
 
 describe SubtasksOwnerSetter do
   let(:subtasks_owner_setter) do
-    SubtasksOwnerSetter.new(subtasks_repository_factory, assigner_factory,
-                            parallel_iterator)
+    SubtasksOwnerSetter.new(subtasks_repository_factory, assigner_factory)
   end
   let(:subtasks_repository_factory) do
     double(:subtasks_repository_factory, new: subtasks_repository)
   end
   let(:assigner_factory) { double(:assigner_factory, new: subtasks_assigner) }
   let(:subtasks_assigner) { instance_double('Assigner', perform: true) }
-  let(:parallel_iterator) { ParallelIterator.new }
   let(:subtasks_repository) do
     SubtasksRepository.new(asana_client, subtasks_collection)
   end
@@ -36,7 +34,7 @@ describe SubtasksOwnerSetter do
       expect(subtasks_repository_factory).to receive(:new)
         .with(task.subtasks)
       expect(assigner_factory).to receive(:new)
-        .with(subtasks_repository, parallel_iterator)
+        .with(subtasks_repository)
       expect(subtasks_collection).to receive(:unassigned)
         .and_return(unassigned_subtasks)
       expect(subtasks_assigner).to receive(:perform)

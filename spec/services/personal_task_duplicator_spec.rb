@@ -1,7 +1,12 @@
 require 'rails_helper'
 
 describe PersonalTaskDuplicator do
-  let(:service) { PersonalTaskDuplicator.new(tasks_repository, team, project) }
+  let(:service) do
+    PersonalTaskDuplicator.new(tasks_repository,
+                               parallel_iterator,
+                               team, project)
+  end
+  let(:parallel_iterator) { ParallelIterator.new }
   let(:tasks_repository) do
     double("TasksRepository",
            uncompleted_tasks: tasks,

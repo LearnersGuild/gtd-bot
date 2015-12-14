@@ -1,9 +1,9 @@
 class TaskTagger < BaseService
-  takes :tags_repository, :parallel_iterator, :strategies_repository
+  takes :tags_repository, :strategies_repository
 
   def perform(tasks, tag_name)
     tag = tags_repository.find_or_create(tag_name)
-    parallel_iterator.each(tasks) do |task|
+    tasks.each do |task|
       next if task.tags.include?(tag)
       next if strategies_repository.already_performed?(self, task)
 

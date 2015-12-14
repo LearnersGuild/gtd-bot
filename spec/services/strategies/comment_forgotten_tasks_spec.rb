@@ -4,7 +4,7 @@ module Strategies
   describe CommentForgottenTasks do
     let(:strategy) do
       CommentForgottenTasks.new(projects_repository, tasks_repository_factory,
-                                strategies_repository)
+                                strategies_repository, parallel_iterator)
     end
     let(:projects_repository) do
       double('ProjectsRepository', with_tasks: projects)
@@ -14,6 +14,7 @@ module Strategies
                       register_performing: true,
                       already_performed?: false)
     end
+    let(:parallel_iterator) { ParallelIterator.new }
     let(:projects) { [project] }
     let(:project) { ProjectObject.new(tasks: tasks) }
     let(:tasks) { [TaskObject.new, forgotten_task] }
