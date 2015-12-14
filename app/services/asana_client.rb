@@ -1,7 +1,7 @@
 class AsanaClient < BaseService
   attr_accessor :client, :factories_injector, :exception_handler
 
-  RATE_LIMIT_SLEEP = 3
+  RATE_LIMIT_SLEEP = 5
   RETRIES_COUNT = 3
 
   def initialize(factories_injector, exception_handler)
