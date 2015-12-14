@@ -1,7 +1,7 @@
 class TaskObjectFactory < BaseService
-  inject :tag_object_factory
+  inject :tag_object_factory, :subtask_object_factory
 
-  def build_from_asana(task, tags = [], projects = [])
+  def build_from_asana(task, tags = [], projects = [], subtasks = [])
     TaskObject.new(
       asana_id: task.id,
       name: task.name,
@@ -12,7 +12,8 @@ class TaskObjectFactory < BaseService
       due_on: parse_due_on(task.due_on),
       tags: map_tags(tags),
       completed: task.completed,
-      project_ids: map_projects(projects)
+      project_ids: map_projects(projects),
+      subtasks: map_subtasks(subtasks)
     )
   end
 
@@ -20,6 +21,10 @@ class TaskObjectFactory < BaseService
 
   def map_tags(tags)
     tags.map { |tg| tag_object_factory.build_from_asana(tg) }
+  end
+
+  def map_subtasks(subtasks)
+    subtasks.map { |s| subtask_object_factory.build_from_asana(s) }
   end
 
   def map_projects(projects)

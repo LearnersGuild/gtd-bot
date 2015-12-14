@@ -3,23 +3,24 @@ require 'rails_helper'
 module Strategies
   describe UnassignedTask do
     let(:strategy) do
-      UnassignedTask.new(projects_repository, tasks_filter_factory,
-                         tasks_assigner)
+      UnassignedTask.new(projects_repository, tasks_repository_factory,
+                         assigner_factory, parallel_iterator)
     end
     let(:projects_repository) do
       ProjectsRepository.new(asana_client, projects_collection)
     end
     let(:asana_client) { instance_double('AsanaClient') }
-    let(:projects_collection) do
-      ProjectsCollection.new(projects)
+    let(:projects_collection) { ProjectsCollection.new(projects) }
+    let(:tasks_repository) do
+      TasksRepository.new(asana_client, tasks_collection)
     end
-    let(:tasks_filter_factory) do
-      double(:tasks_filter_factory, new: tasks_filter)
+    let(:tasks_collection) { TasksCollection.new(tasks) }
+    let(:tasks_repository_factory) do
+      instance_double('TasksRepositoryFactory', new: tasks_repository)
     end
-    let(:tasks_filter) do
-      instance_double('TasksFilter', unassigned: unassigned_tasks)
-    end
-    let(:tasks_assigner) { instance_double('TasksAssigner', perform: true) }
+    let(:assigner_factory) { double(:assigner_factory, new: tasks_assigner) }
+    let(:tasks_assigner) { instance_double('Assigner', perform: true) }
+    let(:parallel_iterator) { ParallelIterator.new }
     let(:tasks) { [task] }
     let(:task) { TaskObject.new }
     let(:projects) { [project] }
@@ -35,10 +36,14 @@ module Strategies
           .and_return(projects_collection)
         expect(projects_collection).to receive(:with_tasks)
           .and_return(projects_collection)
-        expect(tasks_filter_factory).to receive(:new).with(tasks)
-        expect(tasks_filter).to receive(:unassigned)
-        expect(tasks_assigner).to receive(:perform).with(unassigned_tasks,
-                                                         project.owner_id)
+        expect(tasks_repository_factory).to receive(:new).with(tasks)
+        expect(tasks_collection).to receive(:unassigned)
+          .and_return(tasks_collection)
+        expect(assigner_factory).to receive(:new)
+          .with(tasks_repository, parallel_iterator)
+        expect(tasks_assigner).to receive(:perform)
+          .with(tasks_collection, project.owner_id)
+
         subject
       end
     end

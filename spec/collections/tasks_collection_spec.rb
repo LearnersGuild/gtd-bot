@@ -8,7 +8,8 @@ describe TasksCollection do
       unassigned_task,
       stale_task,
       forgotten_task,
-      completed_task
+      completed_task,
+      task_with_subtasks
     ]
   end
   let(:assigned_task) { TaskObject.new(assignee_id: assignee_id) }
@@ -22,12 +23,15 @@ describe TasksCollection do
                    tags: [TagObject.new(name: 'stale')])
   end
   let(:completed_task) { TaskObject.new(completed: true) }
+  let(:task_with_subtasks) { TaskObject.new(subtasks: [SubtaskObject.new]) }
 
   it_behaves_like "BaseCollection", TasksCollection, TaskObject
 
   describe '#unassigned' do
     subject { collection.unassigned }
-    let(:expected_tasks) { [unassigned_task, stale_task, forgotten_task] }
+    let(:expected_tasks) do
+      [unassigned_task, stale_task, forgotten_task, task_with_subtasks]
+    end
 
     it 'returns unassigned tasks' do
       expect(subject).to eq(TasksCollection.new(expected_tasks))
@@ -64,6 +68,15 @@ describe TasksCollection do
 
     it 'returns unassigned tasks' do
       expect(subject).to eq(TasksCollection.new(expected_tasks))
+    end
+  end
+
+  describe "#with_subtasks" do
+    subject { collection.with_subtasks }
+
+    it 'returns tasks with subtasks' do
+      expected = TasksCollection.new([task_with_subtasks])
+      expect(subject).to eq(expected)
     end
   end
 end

@@ -18,4 +18,8 @@ class TasksCollection < BaseCollection
   def uncompleted_tasks
     select(&:uncompleted?)
   end
+
+  def with_subtasks
+    uncompleted_tasks.select { |t| t.subtasks.any? }
+  end
 end

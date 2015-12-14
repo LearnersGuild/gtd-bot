@@ -7,7 +7,7 @@ describe AsanaClient do
   let(:factories_injector) do
     FactoriesInjector.new(team_object_factory, project_object_factory,
                           task_object_factory, tag_object_factory,
-                          user_object_factory)
+                          user_object_factory, subtask_object_factory)
   end
   let(:exceptions_handler) do
     instance_double('ExceptionsHandler')
@@ -25,6 +25,7 @@ describe AsanaClient do
     instance_double('ProjectObjectFactory', build_from_asana: project_object)
   end
   let(:user_object_factory) { UserObjectFactory.new }
+  let(:subtask_object_factory) { SubtaskObjectFactory.new }
   let(:project_object) do
     ProjectObject.new(asana_id: '7777', name: project_name)
   end
@@ -131,6 +132,12 @@ describe AsanaClient do
   describe "#update_task" do
     it "delegates to Asana::Client" do
       expect(subject).to respond_to(:update_task)
+    end
+  end
+
+  describe "#update_subtask" do
+    it "delegates to Asana::Client" do
+      expect(subject).to respond_to(:update_subtask)
     end
   end
 

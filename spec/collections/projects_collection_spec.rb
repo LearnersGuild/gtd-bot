@@ -42,7 +42,7 @@ describe ProjectsCollection do
   end
 
   shared_examples_for "with_tasks" do
-    it 'returns projects without tasks' do
+    it 'returns projects with tasks' do
       expected = ProjectsCollection.new([project_with_tasks])
       expect(subject).to eq(expected)
     end
