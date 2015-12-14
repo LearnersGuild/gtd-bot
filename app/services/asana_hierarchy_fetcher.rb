@@ -9,11 +9,19 @@ class AsanaHierarchyFetcher < BaseService
     parallel_iterator.map(projects) { |project| map_project(project) }
   end
 
+  private
+
   def map_project(project)
     logger.info("Fetching tasks for project #{project.name}...")
     tasks = asana_client.tasks_for_project(project.asana_id)
-    project.tasks = tasks
+    project.tasks = parallel_iterator.map(tasks) { |task| map_task(task) }
     logger.info("Tasks for #{project.name} fetched")
     project
+  end
+
+  def map_task(task)
+    subtasks = asana_client.subtasks_for_task(task.asana_id)
+    task.subtasks = subtasks
+    task
   end
 end

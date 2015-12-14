@@ -82,20 +82,23 @@ class AsanaClient < BaseService
   def tasks_for_project(project_id)
     fields = [:name, :assignee, :notes, :modified_at, :tags, :due_at, :due_on,
               :completed, :projects]
-    subtasks_fields = [:name, :assignee, :completed]
     project = build_project(project_id)
 
     do_request do
       tasks = project.tasks(
         options: { fields: fields, expand: [:tags, :projects] })
       tasks.map do |t|
-        # TODO: fetching subtasks should be moved out of here
-        # to AsanaHierarchyFetcher
-        subtasks = t.subtasks(options: { fields: subtasks_fields })
         factories_injector.task_object_factory
-          .build_from_asana(t, t.tags, t.projects, subtasks)
+          .build_from_asana(t, t.tags, t.projects)
       end.select(&:uncompleted?)
     end
+  end
+
+  def subtasks_for_task(task_id)
+    subtasks_fields = [:name, :assignee, :completed]
+    subtasks = build_task(task_id)
+      .subtasks(options: { fields: subtasks_fields })
+    subtasks.map { |s| subtask_object_factory.build_from_asana(s) }
   end
 
   def update_task(task_id, attributes)

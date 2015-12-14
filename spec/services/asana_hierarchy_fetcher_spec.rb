@@ -5,7 +5,8 @@ describe AsanaHierarchyFetcher do
   let(:asana_client) do
     instance_double('AsanaClient',
                     projects: projects,
-                    tasks_for_project: tasks)
+                    tasks_for_project: tasks,
+                    subtasks_for_task: subtasks)
   end
   let(:parallel_iterator) { ParallelIterator.new }
   let(:projects) do
@@ -15,7 +16,9 @@ describe AsanaHierarchyFetcher do
   let(:asana_id) { '7777' }
   let(:name) { 'Project' }
   let(:owner_id) { '8888' }
-  let(:tasks) { [TaskObject.new(name: 'Task')] }
+  let(:task) { TaskObject.new(name: 'Task') }
+  let(:tasks) { [task] }
+  let(:subtasks) { [SubtaskObject.new(name: 'Subtask')] }
   let(:team) { TeamObject.new(asana_id: '1111') }
 
   describe "#projects" do
@@ -28,6 +31,7 @@ describe AsanaHierarchyFetcher do
       expect(project.name).to eq(name)
       expect(project.owner_id).to eq(owner_id)
       expect(project.tasks).to eq(tasks)
+      expect(task.subtasks).to eq(subtasks)
     end
   end
 end
