@@ -1,5 +1,5 @@
 class ParallelIterator < BaseService
-  THREADS_NUMBER = 50
+  THREADS_NUMBER = 25
 
   def each(array, &block)
     Parallel.each(array, in_threads: THREADS_NUMBER, &block)
