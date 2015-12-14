@@ -6,7 +6,8 @@ class AsanaHierarchyFetcher < BaseService
     projects =
       asana_client.projects(A9n.asana[:workspace_id], team.asana_id)
     logger.info("Projects fetched")
-    parallel_iterator.map(projects) { |project| map_project(project) }
+    collection = ProjectsCollection.new(projects)
+    parallel_iterator.map(collection) { |project| map_project(project) }
   end
 
   private
