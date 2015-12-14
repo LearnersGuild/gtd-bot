@@ -20,13 +20,12 @@ describe PersonalTaskDuplicator do
                    tags: tags,
                    due_at: due_at,
                    due_on: due_on,
-                   project_ids: project_ids)
+                   project_ids: project_ids,
+                   description: description)
   end
   let(:name) { 'test' }
   let(:tags) { [tag] }
   let(:tag) { TagObject.new(asana_id: '222') }
-  let(:due_at) { double }
-  let(:due_on) { nil }
   let(:project_ids) { [project.asana_id, another_project.asana_id] }
   let(:project) { ProjectObject.new(asana_id: '9999') }
   let(:another_project) { ProjectObject.new(asana_id: '8888') }
@@ -35,27 +34,80 @@ describe PersonalTaskDuplicator do
   let(:users) { [user] }
   let(:user) { UserObject.new(email: "test@test.com", asana_id: user_asana_id) }
   let(:user_asana_id) { '333' }
-  let(:expected_task_attributes) do
-    {
-      name: name,
-      tags: [tag.asana_id],
-      assignee: user_asana_id,
-      due_at: due_at,
-      due_on: due_on,
-      projects: [another_project.asana_id]
-    }
-  end
+  let(:description) { 'test' }
 
   describe '#perform' do
     subject { service.perform }
 
-    it 'duplicates tasks to team members' do
-      expect(tasks_repository).to receive(:uncompleted_tasks)
-      expect(tasks_repository).to receive(:create)
-        .with(nil, expected_task_attributes)
-      expect(tasks_repository).to receive(:delete).with(task_asana_id)
+    context 'without due_on' do
+      let(:due_at) { double }
+      let(:due_on) { nil }
+      let(:expected_task_attributes) do
+        {
+          name: name,
+          tags: [tag.asana_id],
+          assignee: user_asana_id,
+          due_at: due_at,
+          projects: [another_project.asana_id],
+          notes: description
+        }
+      end
 
-      subject
+      it 'duplicates tasks to team members' do
+        expect(tasks_repository).to receive(:uncompleted_tasks)
+        expect(tasks_repository).to receive(:create)
+          .with(nil, expected_task_attributes)
+        expect(tasks_repository).to receive(:delete).with(task_asana_id)
+
+        subject
+      end
+    end
+
+    context 'without due_at' do
+      let(:due_at) { nil }
+      let(:due_on) { double }
+      let(:expected_task_attributes) do
+        {
+          name: name,
+          tags: [tag.asana_id],
+          assignee: user_asana_id,
+          due_on: due_on,
+          projects: [another_project.asana_id],
+          notes: description
+        }
+      end
+
+      it 'duplicates tasks to team members' do
+        expect(tasks_repository).to receive(:uncompleted_tasks)
+        expect(tasks_repository).to receive(:create)
+          .with(nil, expected_task_attributes)
+        expect(tasks_repository).to receive(:delete).with(task_asana_id)
+
+        subject
+      end
+    end
+
+    context 'without due_at and due_on' do
+      let(:due_at) { nil }
+      let(:due_on) { nil }
+      let(:expected_task_attributes) do
+        {
+          name: name,
+          tags: [tag.asana_id],
+          assignee: user_asana_id,
+          projects: [another_project.asana_id],
+          notes: description
+        }
+      end
+
+      it 'duplicates tasks to team members' do
+        expect(tasks_repository).to receive(:uncompleted_tasks)
+        expect(tasks_repository).to receive(:create)
+          .with(nil, expected_task_attributes)
+        expect(tasks_repository).to receive(:delete).with(task_asana_id)
+
+        subject
+      end
     end
   end
 end
