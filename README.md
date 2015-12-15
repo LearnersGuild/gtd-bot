@@ -11,7 +11,6 @@ To see all defined strategies, see `app/services/strategies_factory.rb`
 ## Initial setup
 
 ```
-bundle exec rake db:create db:create
 bundle exec rake db:create db:migrate
 ```
 
