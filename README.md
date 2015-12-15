@@ -28,6 +28,8 @@ chmod 755 log/god.log
 
 ## Running the bot
 
+### Development
+
 In `development` you can run the bot in two ways:
 
 ```
@@ -46,6 +48,36 @@ You can check status of the bot, start/stop/restart bot or terminate `god` with 
 god status
 god start/stop/restart bot
 god terminate
+```
+
+### Production
+
+In `production` bot is run and monitored using `god`. And `god` is
+monitored with monit.
+
+To check bot status:
+
+```
+god status
+```
+
+To restart bot:
+
+```
+god restart bot
+```
+
+To terminate bot completly:
+
+```
+monit stop god
+god terminate
+```
+
+To start it after complete termination:
+
+```
+monit start god
 ```
 
 ## Tests
@@ -178,3 +210,4 @@ Current application code is in `/home/lunar/apps/gtd-bot/current` directory
     needs to be created before running `god`
 
 * logrotate for `god` and `production` logs
+
