@@ -119,7 +119,7 @@ RAILS_ENV=profile bundle exec ruby workers/bot_worker.rb
 
 ## CircleCI
 
-Add https://circleci.com/gh/LunarLogic/gtd-bot to your watched projects.
+Add https://circleci.com/gh/LearnersGuild/gtd-bot to your watched projects.
 
 ## Deploy
 
