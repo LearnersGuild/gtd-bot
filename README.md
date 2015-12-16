@@ -177,8 +177,8 @@ https://app.honeybadger.io/projects/45378/faults
 You can ssh to the `demo` server using one of the following commands:
 
 ```
-ssh lunar@45.55.8.148
-ssh root@45.55.8.148
+ssh lunar@demo-gtd-bot.learnersguild.org
+ssh root@demo-gtd-bot.learnersguild.org
 ```
 
 ## Production
@@ -186,8 +186,8 @@ ssh root@45.55.8.148
 You can ssh to the `production` server using one of the following commands:
 
 ```
-ssh lunar@107.170.211.92
-ssh root@107.170.211.92
+ssh lunar@gtd-bot.learnersguild.org
+ssh root@gtd-bot.learnersguild.org
 ```
 
 ## Things installed on production servers
