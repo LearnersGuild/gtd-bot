@@ -6,6 +6,9 @@ For example, if a project in Asana does not have a Next Action defined, the bot 
 
 To see all defined strategies, see `app/services/strategies_factory.rb`
 
+Be sure you've read the [instructions for contributing](./CONTRIBUTING.md).
+
+
 ## Initial setup
 
 ```
@@ -207,3 +210,8 @@ Current application code is in `/home/lunar/apps/gtd-bot/current` directory
     needs to be created before running `god`
 
 * logrotate for `god` and `production` logs
+
+
+## License
+
+See the [LICENSE](./LICENSE) file.
