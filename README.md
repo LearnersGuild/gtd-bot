@@ -176,8 +176,8 @@ https://app.honeybadger.io/projects/45378/faults
 You can ssh to the `demo` server using one of the following commands:
 
 ```
-ssh lunar@gtd-bot.demo.llp.pl -p 20057
-ssh root@gtd-bot.demo.llp.pl -p 20057
+ssh lunar@45.55.8.148
+ssh root@45.55.8.148
 ```
 
 ## Production
@@ -209,4 +209,3 @@ Current application code is in `/home/lunar/apps/gtd-bot/current` directory
     needs to be created before running `god`
 
 * logrotate for `god` and `production` logs
-
