@@ -1,7 +1,7 @@
 class TaskObjectFactory < BaseService
   inject :tag_object_factory, :subtask_object_factory
 
-  def build_from_asana(task, tags = [], memberships = [])
+  def build_from_asana(task, tags = [], memberships = [], followers = [])
     TaskObject.new(
       asana_id: task.id,
       name: task.name,
@@ -12,7 +12,8 @@ class TaskObjectFactory < BaseService
       due_on: parse_due_on(task.due_on),
       tags: map_tags(tags),
       completed: task.completed,
-      project_ids: map_projects(memberships)
+      project_ids: map_projects(memberships),
+      follower_ids: map_followers(followers)
     )
   end
 
@@ -24,6 +25,10 @@ class TaskObjectFactory < BaseService
 
   def map_projects(memberships)
     memberships.map { |m| m[:project][:id].to_s }
+  end
+
+  def map_followers(followers)
+    followers.map { |o| o["id"].to_s }
   end
 
   def parse_due_at(due_at)

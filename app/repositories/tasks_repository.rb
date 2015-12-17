@@ -3,6 +3,8 @@ class TasksRepository < BaseRepository
     task = asana_client.create_task(A9n.asana[:workspace_id],
                                     project.try(:asana_id), task_attributes)
     project.tasks.push(task) if project && task
+
+    task
   end
 
   def update(task, attributes)

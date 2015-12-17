@@ -21,6 +21,7 @@ describe PersonalTaskDuplicator do
                    due_at: due_at,
                    due_on: due_on,
                    project_ids: project_ids,
+                   follower_ids: followers,
                    description: description)
   end
   let(:name) { 'test' }
@@ -29,6 +30,7 @@ describe PersonalTaskDuplicator do
   let(:project_ids) { [project.asana_id, another_project.asana_id] }
   let(:project) { ProjectObject.new(asana_id: '9999') }
   let(:another_project) { ProjectObject.new(asana_id: '8888') }
+  let(:followers) { ['9999'] }
   let(:task_asana_id) { '111' }
   let(:team) { TeamObject.new(users: users) }
   let(:users) { [user] }
@@ -49,6 +51,7 @@ describe PersonalTaskDuplicator do
           assignee: user_asana_id,
           due_at: due_at,
           projects: [another_project.asana_id],
+          followers: followers,
           notes: description
         }
       end
@@ -87,6 +90,7 @@ describe PersonalTaskDuplicator do
           assignee: user_asana_id,
           due_on: due_on,
           projects: [another_project.asana_id],
+          followers: followers,
           notes: description
         }
       end
@@ -110,6 +114,7 @@ describe PersonalTaskDuplicator do
           tags: [tag.asana_id],
           assignee: user_asana_id,
           projects: [another_project.asana_id],
+          followers: followers,
           notes: description
         }
       end

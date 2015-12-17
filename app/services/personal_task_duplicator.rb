@@ -19,6 +19,7 @@ class PersonalTaskDuplicator < BaseService
       tags: task.tags.map(&:asana_id),
       assignee: user.asana_id,
       projects: task.project_ids.reject { |id| id == project.asana_id },
+      followers: task.follower_ids,
       notes: task.description
     }.merge(due(task))
   end
