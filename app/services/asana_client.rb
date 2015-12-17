@@ -17,20 +17,23 @@ class AsanaClient < BaseService
       workspace: workspace_id,
       team: team_id
     )
-    do_request do
+    data = { team_id: team_id, attributes: project_attributes }
+    do_request(data) do
       project = Asana::Project.create(client, attributes)
       factories_injector.project_object_factory.build_from_asana(project)
     end
   end
 
   def delete_project(project_id)
-    do_request do
+    data = { project_id: project_id }
+    do_request(data) do
       build_project(project_id).delete
     end
   end
 
   def update_project(project_id, attributes)
-    do_request do
+    data = { project_id: project_id, attributes: attributes }
+    do_request(data) do
       project = build_project(project_id).update(attributes)
       factories_injector.project_object_factory.build_from_asana(project)
     end
@@ -72,14 +75,16 @@ class AsanaClient < BaseService
       merged_attributes[:projects] = projects
     end
 
-    do_request do
+    data = { project_id: project_id, task_attributes: attributes }
+    do_request(data) do
       task = Asana::Task.create(client, merged_attributes)
       factories_injector.task_object_factory.build_from_asana(task)
     end
   end
 
   def delete_task(task_id)
-    do_request { build_task(task_id).delete }
+    data = { task_id: task_id }
+    do_request(data) { build_task(task_id).delete }
   end
 
   def tasks_for_project(project_id)
@@ -107,21 +112,24 @@ class AsanaClient < BaseService
   end
 
   def update_task(task_id, attributes)
-    do_request do
+    data = { task_id: task_id, attributes: attributes }
+    do_request(data) do
       task = build_task(task_id).update(attributes)
       factories_injector.task_object_factory.build_from_asana(task)
     end
   end
 
   def update_subtask(subtask_id, attributes)
-    do_request do
+    data = { subtask_id: subtask_id, attributes: attributes }
+    do_request(data) do
       subtask = build_task(subtask_id).update(attributes)
       factories_injector.subtask_object_factory.build_from_asana(subtask)
     end
   end
 
   def add_project_to_task(task_id, project_id)
-    do_request { build_task(task_id).add_project(project: project_id) }
+    data = { task_id: task_id, project_id: project_id }
+    do_request(data) { build_task(task_id).add_project(project: project_id) }
   end
 
   def all_tags(workspace_id)
@@ -134,19 +142,22 @@ class AsanaClient < BaseService
   end
 
   def add_tag_to_task(task_id, tag_id)
-    do_request { build_task(task_id).add_tag(tag: tag_id) }
+    data = { task_id: task_id, tag_id: tag_id }
+    do_request(data) { build_task(task_id).add_tag(tag: tag_id) }
   end
 
   def create_tag(workspace_id, attributes)
     merged_attributes = attributes.merge(workspace: workspace_id)
-    do_request do
+    data = { attributes: attributes }
+    do_request(data) do
       tag = Asana::Tag.create(client, merged_attributes)
       factories_injector.tag_object_factory.build_from_asana(tag)
     end
   end
 
   def add_comment_to_task(task_id, text)
-    do_request { build_task(task_id).add_comment(text: text) }
+    data = { task_id: task_id, text: text }
+    do_request(data) { build_task(task_id).add_comment(text: text) }
   end
 
   private
@@ -159,14 +170,15 @@ class AsanaClient < BaseService
     Asana::Task.new({ id: id }, { client: client })
   end
 
-  def do_request(retries_count = RETRIES_COUNT, &block)
+  def do_request(data = {}, retries_count = RETRIES_COUNT, &block)
+    exception_handler.context(data)
     block.call
   rescue Asana::Errors::InvalidRequest => exception
     exception_handler.perform(exception)
   rescue Asana::Errors::RateLimitEnforced => exception
     if retries_count > 0
       sleep RATE_LIMIT_SLEEP
-      do_request(retries_count - 1, &block)
+      do_request(data, retries_count - 1, &block)
     end
     exception_handler.perform(exception)
   end

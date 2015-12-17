@@ -10,7 +10,7 @@ describe AsanaClient do
                           user_object_factory, subtask_object_factory)
   end
   let(:exceptions_handler) do
-    instance_double('ExceptionsHandler')
+    instance_double('ExceptionsHandler', context: nil)
   end
 
   let(:team_object_factory) do
