@@ -4,10 +4,10 @@ class PersonalTaskDuplicator < BaseService
   def perform
     tasks = tasks_repository.uncompleted_tasks
     parallel_iterator.each(tasks) do |task|
-      team.users.each do |user|
+      success = team.users.map do |user|
         tasks_repository.create(nil, task_attributes(task, user))
       end
-      tasks_repository.delete(task.asana_id)
+      tasks_repository.delete(task.asana_id) if success.all?
     end
   end
 

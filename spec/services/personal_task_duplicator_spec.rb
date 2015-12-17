@@ -61,6 +61,20 @@ describe PersonalTaskDuplicator do
 
         subject
       end
+
+      context 'any task creation failed' do
+        let(:users) { [user, other_user] }
+        let(:other_user) { UserObject.new }
+
+        it 'does not delete original task' do
+          expect(tasks_repository).to receive(:uncompleted_tasks)
+          expect(tasks_repository).to receive(:create)
+            .and_return(true, false)
+          expect(tasks_repository).not_to receive(:delete).with(task_asana_id)
+
+          subject
+        end
+      end
     end
 
     context 'without due_at' do
