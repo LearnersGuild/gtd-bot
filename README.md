@@ -1,12 +1,13 @@
-# GTD Bot
+# gtd-bot
 
-## The purpose
+The gtd-bot application integrates GlassFrog and Asana in order to automate parts of the Getting Things Done process.
 
-Application integrates GlassFrog and Asana in order to automize parts of Getting Things Done process.
-
-For example application is suppose to automatically add task "Add Next Action to the project" to all projects which does not have Next Action defined.
+For example, if a project in Asana does not have a Next Action defined, the bot will automatically add a task "Add Next Action to the project".
 
 To see all defined strategies, see `app/services/strategies_factory.rb`
+
+Be sure you've read the [instructions for contributing](./CONTRIBUTING.md).
+
 
 ## Initial setup
 
@@ -119,7 +120,7 @@ RAILS_ENV=profile bundle exec ruby workers/bot_worker.rb
 
 ## CircleCI
 
-Add https://circleci.com/gh/LunarLogic/gtd-bot to your watched projects.
+Add https://circleci.com/gh/LearnersGuild/gtd-bot to your watched projects.
 
 ## Deploy
 
@@ -176,8 +177,8 @@ https://app.honeybadger.io/projects/45378/faults
 You can ssh to the `demo` server using one of the following commands:
 
 ```
-ssh lunar@gtd-bot.demo.llp.pl -p 20057
-ssh root@gtd-bot.demo.llp.pl -p 20057
+ssh lunar@demo-gtd-bot.learnersguild.org
+ssh root@demo-gtd-bot.learnersguild.org
 ```
 
 ## Production
@@ -185,8 +186,8 @@ ssh root@gtd-bot.demo.llp.pl -p 20057
 You can ssh to the `production` server using one of the following commands:
 
 ```
-ssh lunar@107.170.211.92
-ssh root@107.170.211.92
+ssh lunar@gtd-bot.learnersguild.org
+ssh root@gtd-bot.learnersguild.org
 ```
 
 ## Things installed on production servers
@@ -210,3 +211,7 @@ Current application code is in `/home/lunar/apps/gtd-bot/current` directory
 
 * logrotate for `god` and `production` logs
 
+
+## License
+
+See the [LICENSE](./LICENSE) file.
