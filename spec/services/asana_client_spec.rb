@@ -33,10 +33,10 @@ describe AsanaClient do
   let(:attributes) { { name: project_name } }
   let(:asana_project) { double(:asana_project, id: '7777') }
   let(:asana_task) { double(:asana_task, id: '8888') }
+  let(:workspace_id) { '1111' }
 
   describe "#create_project" do
     subject { asana_client.create_project(workspace_id, team_id, attributes) }
-    let(:workspace_id) { '1111' }
     let(:team_id) { '2222' }
 
     it "delegates to Asana::Client" do
@@ -106,8 +106,60 @@ describe AsanaClient do
   end
 
   describe "#create_task" do
-    it "delegates to Asana::Client" do
-      expect(subject).to respond_to(:create_task)
+    subject { asana_client.create_task(workspace_id, project_id, attributes) }
+    let(:attributes) { { name: 'Task' } }
+
+    context "project_id nil" do
+      let(:project_id) { nil }
+
+      it "executes Asana::Task.create with given attributes" do
+        expect(Asana::Task).to receive(:create)
+          .with(asana_client.client, name: 'Task', workspace: workspace_id)
+          .and_return(asana_task)
+        expect(task_object_factory).to receive(:build_from_asana)
+          .with(asana_task)
+        subject
+      end
+    end
+
+    context "project_id present" do
+      let(:project_id) { '7777' }
+
+      shared_examples_for "executes Asana::Task.create" do
+        it do
+          expect(Asana::Task).to receive(:create)
+            .with(asana_client.client, expected_attributes)
+            .and_return(asana_task)
+          expect(task_object_factory).to receive(:build_from_asana)
+            .with(asana_task)
+          subject
+        end
+      end
+
+      context "attributes includes projects" do
+        let(:attributes) { { name: 'Task', projects: ['8888'] } }
+        let(:expected_attributes) do
+          {
+            workspace: workspace_id,
+            name: 'Task',
+            projects: %w{8888 7777}
+          }
+        end
+
+        it_behaves_like "executes Asana::Task.create"
+      end
+
+      context "projects key not present in attributes" do
+        let(:expected_attributes) do
+          {
+            workspace: workspace_id,
+            name: 'Task',
+            projects: ['7777']
+          }
+        end
+
+        it_behaves_like "executes Asana::Task.create"
+      end
     end
   end
 

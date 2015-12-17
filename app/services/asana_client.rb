@@ -66,8 +66,11 @@ class AsanaClient < BaseService
     merged_attributes = attributes.merge(
       workspace: workspace_id
     )
-    merged_attributes =
-      merged_attributes.merge(projects: [project_id]) if project_id
+    if project_id
+      projects = merged_attributes[:projects] || []
+      projects.push(project_id)
+      merged_attributes[:projects] = projects
+    end
 
     do_request do
       task = Asana::Task.create(client, merged_attributes)
