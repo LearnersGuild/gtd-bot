@@ -3,7 +3,7 @@ require 'rails_helper'
 describe TaskObjectFactory do
   let(:task_object_factory) { TaskObjectFactory.new }
   describe 'build_from_asana' do
-    subject { task_object_factory.build_from_asana(task, tags, projects) }
+    subject { task_object_factory.build_from_asana(task, tags, memberships) }
 
     let(:task) do
       double(
@@ -30,7 +30,7 @@ describe TaskObjectFactory do
     let(:expected_project_ids) { [project_id.to_s] }
     let(:tag_id) { '3' }
     let(:tag_name) { 'tag_name' }
-    let(:projects) { [double(:project, id: project_id)] }
+    let(:memberships) { [{ project: { id: project_id } }] }
     let(:project_id) { 123 }
 
     context 'task does not have due_at and due_on' do
