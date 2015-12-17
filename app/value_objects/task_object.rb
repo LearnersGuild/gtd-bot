@@ -16,6 +16,7 @@ class TaskObject < BaseObject
   STALE_TAG_NAME = 'stale'
   IGNORED_TAGS_NAMES = ['maybe later', 'blocked', 'waiting for']
   IGNORE_DURING_UPDATE_FROM_ASANA = [:project_ids, :tags]
+  MODIFIED_SINCE = 5.minutes
 
   def stale_task?
     modified_at && modified_at < STALE_TIME.ago &&
@@ -49,5 +50,9 @@ class TaskObject < BaseObject
 
   def attributes_to_update_from_asana
     attributes.reject { |k, _| IGNORE_DURING_UPDATE_FROM_ASANA.include?(k) }
+  end
+
+  def modified_since(time = MODIFIED_SINCE)
+    modified_at && modified_at > time.ago
   end
 end

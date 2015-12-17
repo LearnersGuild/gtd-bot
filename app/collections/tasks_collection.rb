@@ -1,4 +1,9 @@
 class TasksCollection < BaseCollection
+  def initialize(items = [])
+    super
+    self.items = items.reject(&:modified_since)
+  end
+
   def unassigned
     uncompleted_tasks.reject(&:assignee_id)
   end

@@ -129,4 +129,28 @@ describe TaskObject do
       it { expect(subject[:modified_at]).to eq(modified_at) }
     end
   end
+
+  describe "#modified_since" do
+    subject { task_object.modified_since }
+
+    let(:task_object) { TaskObject.new(modified_at: modified_at) }
+
+    context "modified_at is nil" do
+      let(:modified_at) { nil }
+
+      it { expect(subject).to be_falsey }
+    end
+
+    context "modified_at is old" do
+      let(:modified_at) { DateTime.parse("10.07.1987") }
+
+      it { expect(subject).to be_falsey }
+    end
+
+    context "modified_at is fresh" do
+      let(:modified_at) { DateTime.now }
+
+      it { expect(subject).to be true }
+    end
+  end
 end
