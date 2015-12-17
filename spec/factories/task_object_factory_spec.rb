@@ -3,7 +3,9 @@ require 'rails_helper'
 describe TaskObjectFactory do
   let(:task_object_factory) { TaskObjectFactory.new }
   describe 'build_from_asana' do
-    subject { task_object_factory.build_from_asana(task, tags, memberships) }
+    subject do
+      task_object_factory.build_from_asana(task, tags, memberships, followers)
+    end
 
     let(:task) do
       double(
@@ -14,6 +16,7 @@ describe TaskObjectFactory do
         modified_at: modified_at,
         due_at: due_at,
         due_on: due_on,
+        followers: followers,
         completed: completed
       )
     end
@@ -30,7 +33,10 @@ describe TaskObjectFactory do
     let(:expected_project_ids) { [project_id.to_s] }
     let(:tag_id) { '3' }
     let(:tag_name) { 'tag_name' }
-    let(:memberships) { [{ project: { id: project_id } }] }
+    let(:followers) { [{ "id" => follower_id }] }
+    let(:follower_ids) { [follower_id] }
+    let(:follower_id) { '777' }
+    let(:memberships) { [{ "project" => { "id" => project_id } }] }
     let(:project_id) { 123 }
 
     context 'task does not have due_at and due_on' do
@@ -49,6 +55,7 @@ describe TaskObjectFactory do
           due_on: expected_due_on,
           tags: expected_tags,
           completed: completed,
+          follower_ids: follower_ids,
           project_ids: expected_project_ids
         )
       end
@@ -74,6 +81,7 @@ describe TaskObjectFactory do
           due_on: expected_due_on,
           tags: expected_tags,
           completed: completed,
+          follower_ids: follower_ids,
           project_ids: expected_project_ids
         )
       end
@@ -99,6 +107,7 @@ describe TaskObjectFactory do
           due_on: expected_due_on,
           tags: expected_tags,
           completed: completed,
+          follower_ids: follower_ids,
           project_ids: expected_project_ids
         )
       end

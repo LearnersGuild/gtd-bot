@@ -24,7 +24,7 @@ class TaskObjectFactory < BaseService
   end
 
   def map_projects(memberships)
-    memberships.map { |m| m[:project][:id].to_s }
+    memberships.map { |m| m["project"]["id"].to_s }
   end
 
   def map_followers(followers)
