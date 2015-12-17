@@ -2,7 +2,7 @@ set :application, 'gtd-bot'
 
 set :branch, 'master'
 
-set :repo_url, 'git@github.com:LunarLogic/gtd-bot.git'
+set :repo_url, 'git@github.com:LearnersGuild/gtd-bot.git'
 set :deploy_via, :remote_cache
 set :copy_exclude, ['.git']
 
