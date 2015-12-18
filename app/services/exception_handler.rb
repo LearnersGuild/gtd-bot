@@ -12,7 +12,6 @@ class ExceptionHandler
       fail exception
     else
       Honeybadger.notify(exception)
-      clear_context
     end
   end
 end

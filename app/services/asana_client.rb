@@ -181,5 +181,7 @@ class AsanaClient < BaseService
       do_request(data, retries_count - 1, &block)
     end
     exception_handler.perform(exception)
+  ensure
+    exception_handler.clear_context
   end
 end
