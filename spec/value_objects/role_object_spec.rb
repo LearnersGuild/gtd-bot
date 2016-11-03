@@ -2,11 +2,38 @@ require 'rails_helper'
 
 describe RoleObject do
   let(:role_object) { RoleObject.new(name: 'RoleName', purpose: "Purpose") }
+  let(:holacracy_role_object) { RoleObject.new(name: "Lead Link", glass_frog_circle_name: "Circle") }
 
   describe "#name_with_prefix" do
     subject { role_object.name_with_prefix }
 
     it { expect(subject).to eq("&RoleName") }
+  end
+
+  describe "#holacracy_role?" do
+
+    context "Role is a holacracy role" do
+      subject { holacracy_role_object.holacracy_role? }
+      it { expect(subject).to eq(true) }
+    end
+
+    context "Role is not a holacracy role" do
+      subject { role_object.holacracy_role? }
+      it { expect(subject).to eq(false) }
+    end
+  end
+
+  describe "#asana_name" do
+
+    context "Role is a holacracy role" do
+      subject { holacracy_role_object.asana_name }
+      it { expect(subject).to eq("&Lead Link Circle") }
+    end
+
+    context "Role is not a holacracy role" do
+      subject { role_object.asana_name }
+      it { expect(subject).to eq("&RoleName") }
+    end
   end
 
   describe "#==" do
