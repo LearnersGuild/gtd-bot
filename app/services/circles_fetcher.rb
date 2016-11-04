@@ -15,7 +15,9 @@ class CirclesFetcher < BaseService
 
   def detailed_roles(circle, roles_with_details)
     circle.roles.map do |role|
-      role = roles_with_details.detect { |r| r.glass_frog_id == role.glass_frog_id }
+      role = roles_with_details.detect do |r|
+        r.glass_frog_id == role.glass_frog_id
+      end
       role.glass_frog_circle_name = circle.name
       role
     end

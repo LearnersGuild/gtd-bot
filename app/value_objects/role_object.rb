@@ -12,7 +12,11 @@ class RoleObject < BaseObject
   DESCRIPTION_PATTERN =
     "Purpose:\n%s\n\nDomains:\n%s\n\nAccountabilities:\n%s\n\nUsers:\n%s"
 
-  HOLACRACY_NAMES= ["Lead Link", "Facilitator", "Secretary", "Governor", "Rep Link"]
+  HOLACRACY_NAMES = ["Lead Link",
+                     "Facilitator",
+                     "Secretary",
+                     "Governor",
+                     "Rep Link"]
 
   def name_with_prefix
     "#{ProjectObject::ROLE_PREFIX}#{name}"
