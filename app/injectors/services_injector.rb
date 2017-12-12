@@ -13,13 +13,6 @@ class ServicesInjector
                              role_object_factory)
   end
 
-  def next_action_task_strategy(projects_repository, tasks_repository_factory)
-    Strategies::NextActionTask.new(projects_repository,
-                                   next_action_task_factory,
-                                   tasks_repository_factory,
-                                   parallel_iterator)
-  end
-
   def unassigned_task_strategy(projects_repository, tasks_repository_factory)
     Strategies::UnassignedTask.new(projects_repository,
                                    tasks_repository_factory, Assigner,
@@ -82,4 +75,3 @@ class ServicesInjector
                                       parallel_iterator)
   end
 end
-
