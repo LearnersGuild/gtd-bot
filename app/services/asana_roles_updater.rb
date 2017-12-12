@@ -21,7 +21,11 @@ class AsanaRolesUpdater < BaseService
 
   def to_delete(diff)
     map(diff[:to_delete]) do |r|
-      projects_repository.delete(r.asana_id)
+      begin
+        projects_repository.delete(r.asana_id)
+      rescue Asana::Errors::NotFound
+        Role.destroy_all(asana_id: r.asana_id)
+      end
       r
     end
   end
