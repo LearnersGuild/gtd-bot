@@ -1,7 +1,7 @@
 class AsanaClient < BaseService
   attr_accessor :client, :factories_injector, :exception_handler
 
-  RATE_LIMIT_SLEEP = 5
+  RATE_LIMIT_SLEEP = 10
   RETRIES_COUNT = 3
 
   def initialize(factories_injector, exception_handler)
@@ -177,10 +177,11 @@ class AsanaClient < BaseService
     exception_handler.perform(exception)
   rescue Asana::Errors::RateLimitEnforced => exception
     if retries_count > 0
-      sleep RATE_LIMIT_SLEEP
+      sleep RATE_LIMIT_SLEEP * (RETRIES_COUNT - retries_count + 1)
       do_request(data, retries_count - 1, &block)
     end
     exception_handler.perform(exception)
+    []
   ensure
     exception_handler.clear_context
   end
