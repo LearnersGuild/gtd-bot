@@ -175,6 +175,7 @@ class AsanaClient < BaseService
     block.call
   rescue Asana::Errors::InvalidRequest => exception
     exception_handler.perform(exception)
+    []
   rescue Asana::Errors::RateLimitEnforced => exception
     if retries_count > 0
       sleep RATE_LIMIT_SLEEP * (RETRIES_COUNT - retries_count + 1)
