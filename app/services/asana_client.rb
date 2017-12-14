@@ -173,16 +173,13 @@ class AsanaClient < BaseService
   def do_request(data = {}, retries_count = RETRIES_COUNT, &block)
     exception_handler.context(data)
     block.call
-  rescue Asana::Errors::InvalidRequest => exception
-    exception_handler.perform(exception)
-    []
   rescue Asana::Errors::RateLimitEnforced => exception
     if retries_count > 0
       sleep RATE_LIMIT_SLEEP * (RETRIES_COUNT - retries_count + 1)
       do_request(data, retries_count - 1, &block)
+    else
+      fail exception
     end
-    exception_handler.perform(exception)
-    []
   ensure
     exception_handler.clear_context
   end

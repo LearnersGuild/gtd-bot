@@ -9,13 +9,10 @@ class Bot < BaseService
       logger.info("Strategies created")
 
       strategies.each do |strategy|
-        begin
-          strategy.perform_with_logging
-        rescue StandardError => exception
-          exception_handler.perform(exception)
-        end
+        strategy.perform_with_logging
       end
     end
+  rescue StandardError => exception
+    exception_handler.perform(exception)
   end
 end
-
