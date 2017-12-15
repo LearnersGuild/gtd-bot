@@ -8,9 +8,7 @@ class Bot < BaseService
       strategies = strategies_factory.create(team)
       logger.info("Strategies created")
 
-      strategies.each do |strategy|
-        strategy.perform_with_logging
-      end
+      strategies.each(&:perform_with_logging)
     end
   rescue StandardError => exception
     exception_handler.perform(exception)

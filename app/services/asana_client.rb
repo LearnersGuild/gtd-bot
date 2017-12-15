@@ -178,7 +178,7 @@ class AsanaClient < BaseService
       sleep RATE_LIMIT_SLEEP * (RETRIES_COUNT - retries_count + 1)
       do_request(data, retries_count - 1, &block)
     else
-      fail exception
+      raise exception
     end
   ensure
     exception_handler.clear_context
