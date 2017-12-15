@@ -19,8 +19,6 @@ class StrategiesFactory < BaseService
       injector.individual_role_strategy(projects_repository, team),
       injector.everyone_role_strategy(projects_repository, team),
       injector.clean_projects_names(projects_repository, team),
-      injector.next_action_task_strategy(projects_repository,
-                                         tasks_repository_factory),
       injector.unassigned_task_strategy(projects_repository,
                                         tasks_repository_factory),
       injector.unassigned_subtask_strategy(projects_repository,
