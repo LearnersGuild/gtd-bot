@@ -22,6 +22,4 @@ tags
 .DS_Store
 .orig
 
-config/database.yml
-
 coverage
