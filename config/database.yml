@@ -16,6 +16,6 @@ production:
   encoding: utf8
   database: gtd-bot
   username: lunar
-  password: "<%= ENV.fetch('GTD_BOT_DATABASE_PASSWORD') %>"
+  password: "<%= ENV['GTD_BOT_DATABASE_PASSWORD'] %>"
   pool: 25
   min_messages: WARNING

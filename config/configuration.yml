@@ -2,10 +2,10 @@ defaults: &defaults
   stale_time_count: 4
   stale_time_unit: weeks
   glass_frog:
-    api_key: "<%= ENV.fetch('GLASSFROG_API_KEY') %>"
+    api_key: "<%= ENV['GLASSFROG_API_KEY'] %>"
   asana:
-    api_key: "<%= ENV.fetch('ASANA_API_KEY') %>"
-    workspace_id: "<%= ENV.fetch('ASANA_WORKSPACE_ID') %>"
+    api_key: "<%= ENV['ASANA_API_KEY'] %>"
+    workspace_id: "<%= ENV['ASANA_WORKSPACE_ID'] %>"
 
 development:
   <<: *defaults
