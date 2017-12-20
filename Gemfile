@@ -18,6 +18,7 @@ group :development, :test do
   gem 'guard-rspec', require: false
   gem 'guard-rubocop'
   gem 'awesome_print'
+  gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
 end
 
 group :development do
