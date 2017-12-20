@@ -25,7 +25,7 @@ describe TasksRepository do
 
     it "updates Asana" do
       expect(asana_client).to receive(:create_task)
-        .with(A9n.asana[:workspace_id], project.asana_id, attributes)
+        .with(ENV.fetch('ASANA_WORKSPACE_ID'), project.asana_id, attributes)
       subject
     end
 

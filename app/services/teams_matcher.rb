@@ -3,7 +3,7 @@ class TeamsMatcher < BaseService
 
   def perform
     circles = circles_fetcher.perform
-    teams = asana_client.teams(A9n.asana[:workspace_id])
+    teams = asana_client.teams(ENV.fetch('ASANA_WORKSPACE_ID'))
 
     circles.map do |circle|
       team = teams.detect { |t| t.name == circle.name }

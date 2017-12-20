@@ -24,7 +24,7 @@ describe ProjectsRepository do
 
     it "updates Asana" do
       expect(asana_client).to receive(:create_project)
-        .with(A9n.asana[:workspace_id], team_id, attributes)
+        .with(ENV.fetch('ASANA_WORKSPACE_ID'), team_id, attributes)
       subject
     end
 

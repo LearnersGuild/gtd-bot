@@ -3,8 +3,8 @@ require File.expand_path('../../config/environment', __FILE__)
 class ProjectsGenerator < BaseService
   inject :teams_matcher, :asana_client, :parallel_iterator
 
-  API_KEY = A9n.asana[:api_key]
-  WORKSPACE = A9n.asana[:workspace_id]
+  API_KEY = ENV.fetch('ASANA_API_KEY')
+  WORKSPACE = ENV.fetch('ASANA_WORKSPACE_ID')
   PROJECTS_NUMBER = 100
   TASKS_NUMBER = 3
 
