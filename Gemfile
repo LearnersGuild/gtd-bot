@@ -25,11 +25,6 @@ group :development do
 
   gem 'web-console', '~> 2.0'
 
-  gem 'capistrano', '~> 3.3'
-  gem 'capistrano-rvm'
-  gem 'capistrano-bundler'
-  gem 'capistrano-rails'
-
   gem 'god'
 end
 
