@@ -24,8 +24,6 @@ group :development do
   gem 'rubocop', git: 'git@github.com:bbatsov/rubocop.git'
 
   gem 'web-console', '~> 2.0'
-
-  gem 'god'
 end
 
 group :test do
