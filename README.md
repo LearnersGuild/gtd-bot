@@ -12,19 +12,13 @@ Be sure you've read the [instructions for contributing](./CONTRIBUTING.md).
 ## Initial setup
 
 ```
+bundle install
 bundle exec rake db:create db:migrate
+cp .env.example .env
 ```
 
-```
-cp config/configuration.yml.example config/configuration.yml
-```
+Open the newly created `.env` file and fill it with proper credentials for `development` stage.
 
-Open the file and fill it with proper credentials
-
-```
-touch log/god.log
-chmod 755 log/god.log
-```
 
 ## Running the bot
 
