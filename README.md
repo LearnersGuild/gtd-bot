@@ -93,7 +93,7 @@ bundle exec rspec spec
 Run rubocop before pushing anything - it's part of CI process.
 
 ```
-rubocop
+bundle exec rubocop
 ```
 
 ## Guard
