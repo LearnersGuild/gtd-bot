@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.4'
 
 gem 'pg'
-gem 'a9n'
 gem 'honeybadger', '~> 2.0'
 gem 'glassfrog', git: 'https://github.com/LunarLogic/glassfrog-ruby.git'
 gem 'asana'
