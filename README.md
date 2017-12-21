@@ -118,9 +118,9 @@ You can run bot with `ruby-prof` enabled by executing following command:
 RAILS_ENV=profile bundle exec ruby workers/bot_worker.rb
 ```
 
-## CircleCI
+## Continuous Integration
 
-Add https://circleci.com/gh/LearnersGuild/gtd-bot to your watched projects.
+CI builds run on Codeship: https://app.codeship.com/projects/158630.
 
 ## Deploy
 
