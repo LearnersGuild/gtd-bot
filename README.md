@@ -170,7 +170,7 @@ bundle exec cap demo/production clean:roles
 
 ## HoneyBadger
 
-https://app.honeybadger.io/projects/45378/faults
+https://app.honeybadger.io/projects/54492/faults
 
 ## Demo
 
