@@ -30,49 +30,24 @@ In `development` you can run the bot in two ways:
 bundle exec ruby workers/bot_worker.rb
 ```
 
-Or the same as it's being run on `demo`/`production`, using `god`:
+Or using Heroku CLI:
 
 ```
-god -c config/god.rb -D
+heroku local
 ```
 
-You can check status of the bot, start/stop/restart bot or terminate `god` with following commands:
+### Production and Staging
+
+Bot is hosted on Heroku.
+To use Heroku CLI on your local machine, you need to be added as a collaborator to both staging and production apps on Heroku. Next, type this in your command line while you're in the bot directory:
 
 ```
-god status
-god start/stop/restart bot
-god terminate
+heroku git:remote -a gtd-bot-staging
+git remote rename heroku heroku-staging
+heroku git:remote -a gtd-bot
 ```
 
-### Production
-
-In `production` bot is run and monitored using `god`. And `god` is
-monitored with monit.
-
-To check bot status:
-
-```
-god status
-```
-
-To restart bot:
-
-```
-god restart bot
-```
-
-To terminate bot completly:
-
-```
-monit stop god
-god terminate
-```
-
-To start it after complete termination:
-
-```
-monit start god
-```
+You can manage the app from your command line or [Heroku web panel](https://dashboard.heroku.com/pipelines/fa0f00ca-5915-4cbc-9f21-678ca40374b7).
 
 ## Tests
 
@@ -118,94 +93,6 @@ CI builds run on Codeship: https://app.codeship.com/projects/158630.
 
 ## Deploy
 
-Deploy is done using `capistrano` gem.
+After each green build of `dev` branch, there is automatic deploy to Staging.
 
-After each green build of `dev` branch, there is automatic deploy to the
-demo configured.
-
-If for some reason you want to deploy to `demo` manually execute:
-
-```
-bundle exec cap demo deploy
-```
-
-Or to deploy to production:
-
-```
-bundle exec cap production deploy
-```
-
-## Capistrano tasks
-
-Restart bot (done during deploy):
-
-```
-bundle exec cap demo/production bot:restart
-```
-
-Restart whole `god` process
-
-```
-bundle exec cap demo/production god:restart
-```
-
-Clean roles in the database. Be careful with this one. Use it only if
-you know what you are doing :].
-
-It will cause all `Role` to be deleted, so if you have not delete
-project-roles in Asana, they will be dupplicated there.
-
-It's useful only on `demo`, when you want to start from the scratch.
-
-```
-bundle exec cap demo/production clean:roles
-```
-
-
-## HoneyBadger
-
-https://app.honeybadger.io/projects/54492/faults
-
-## Demo
-
-You can ssh to the `demo` server using one of the following commands:
-
-```
-ssh lunar@demo-gtd-bot.learnersguild.org
-ssh root@demo-gtd-bot.learnersguild.org
-```
-
-## Production
-
-You can ssh to the `production` server using one of the following commands:
-
-```
-ssh lunar@gtd-bot.learnersguild.org
-ssh root@gtd-bot.learnersguild.org
-```
-
-## Things installed on production servers
-
-Current application code is in `/home/lunar/apps/gtd-bot/current` directory
-
-* `ruby`, version 2.2.3 with gemset `gtd-bot`
-* `postgres` database
-* `monit` - configured to monitor `god`, see `/etc/monit/conf.d/god.conf`
-* `/home/lunar/apps/gtd-bot/shared/configuration.yml` as symbolic link to `/home/lunar/apps/gtd-bot/current/config/configuration.yml`
-* `god` gem
-  * custom god service in `/etc/init.d/god`
-  * there is master `god` configuration in `/etc/god/god.rb` which loads `/etc/god/*.god` configurations, so for gtd-bot `/etc/god/gtd-bot_app.god`
-  * it is symbolic link for `/home/lunar/apps/gtd-bot/shared/config/god.rb`
-  * `/home/lunar/apps/gtd-bot/shared/config/god.rb` is copied from `/home/lunar/apps/gtd-bot/current/config/god.rb` by
-    `capistrano` during deploy
-  * to sum up, if you need to change `god` configuration, you should do
-    it just in the repository, in `config/god.rb`
-  * `god` logs to `/home/lunar/apps/gtd-bot/shared/log/god.log` - file
-    needs to be created before running `god`
-
-* logrotate for `god` and `production` logs
-
-
-## License
-
-See the [LICENSE](./LICENSE) file.
+To deploy from Staging to Production, go to [project Heroku pipeline](https://dashboard.heroku.com/pipelines/fa0f00ca-5915-4cbc-9f21-678ca40374b7) and click on `Promote to Production`.
