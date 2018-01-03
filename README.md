@@ -2,8 +2,6 @@
 
 The gtd-bot application integrates GlassFrog and Asana in order to automate parts of the Getting Things Done process.
 
-For example, if a project in Asana does not have a Next Action defined, the bot will automatically add a task "Add Next Action to the project".
-
 To see all defined strategies, see `app/services/strategies_factory.rb`
 
 Be sure you've read the [instructions for contributing](./CONTRIBUTING.md).
