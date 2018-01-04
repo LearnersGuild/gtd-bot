@@ -2,7 +2,7 @@ class TagsRepository < BaseRepository
   def initialize(asana_client)
     self.asana_client = asana_client
 
-    all_tags = asana_client.all_tags(A9n.asana[:workspace_id])
+    all_tags = asana_client.all_tags(ENV.fetch('ASANA_WORKSPACE_ID'))
     self.collection = TagsCollection.new(all_tags)
   end
 
@@ -17,7 +17,7 @@ class TagsRepository < BaseRepository
   def create(name)
     return if name.blank?
 
-    tag = asana_client.create_tag(A9n.asana[:workspace_id], name: name)
+    tag = asana_client.create_tag(ENV.fetch('ASANA_WORKSPACE_ID'), name: name)
     @collection.add(tag)
   end
 

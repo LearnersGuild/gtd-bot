@@ -1,7 +1,7 @@
 class ProjectsRepository < BaseRepository
   def create(team_id, attributes)
     project = asana_client.create_project(
-      A9n.asana[:workspace_id], team_id, attributes)
+      ENV.fetch('ASANA_WORKSPACE_ID'), team_id, attributes)
     collection.add(project) if project
   end
 

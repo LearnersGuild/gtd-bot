@@ -12,7 +12,7 @@ class TaskObject < BaseObject
   attribute :follower_ids, Array, default: []
   attribute :subtasks, Array
 
-  STALE_TIME = A9n.stale_time_count.to_i.send(A9n.stale_time_unit)
+  STALE_TIME = 4.weeks
   STALE_TAG_NAME = 'stale'
   IGNORED_TAGS_NAMES = ['maybe later', 'blocked', 'waiting for']
   IGNORE_DURING_UPDATE_FROM_ASANA = [:project_ids, :tags]

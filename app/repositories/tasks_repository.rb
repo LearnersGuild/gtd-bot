@@ -1,6 +1,6 @@
 class TasksRepository < BaseRepository
   def create(project, task_attributes)
-    task = asana_client.create_task(A9n.asana[:workspace_id],
+    task = asana_client.create_task(ENV.fetch('ASANA_WORKSPACE_ID'),
                                     project.try(:asana_id), task_attributes)
     project.tasks.push(task) if project && task
 
