@@ -6,7 +6,7 @@ class AsanaClient < BaseService
 
   def initialize(factories_injector, exception_handler)
     self.client = Asana::Client.new do |c|
-      c.authentication(:access_token, A9n.asana[:api_key])
+      c.authentication(:access_token, ENV.fetch('ASANA_API_KEY'))
     end
     self.factories_injector = factories_injector
     self.exception_handler = exception_handler

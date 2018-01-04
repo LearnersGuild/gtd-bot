@@ -70,7 +70,7 @@ describe TagsRepository do
 
     it "creates tag in Asana" do
       expect(asana_client).to receive(:create_tag)
-        .with(A9n.asana[:workspace_id], name: name)
+        .with(ENV.fetch('ASANA_WORKSPACE_ID'), name: name)
       subject
     end
 

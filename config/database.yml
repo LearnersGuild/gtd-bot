@@ -12,5 +12,10 @@ test:
   database: gtd_test
 
 production:
-  <<: *default
-  database: gtd_production
+  adapter: postgresql
+  encoding: utf8
+  database: gtd-bot
+  username: lunar
+  password: "<%= ENV['GTD_BOT_DATABASE_PASSWORD'] %>"
+  pool: 25
+  min_messages: WARNING

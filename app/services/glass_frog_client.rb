@@ -3,7 +3,7 @@ class GlassFrogClient
 
   def initialize(team_object_factory, role_object_factory)
     self.client = Glassfrog::Client.new(
-      api_key: A9n.glass_frog[:api_key],
+      api_key: ENV.fetch('GLASSFROG_API_KEY'),
       caching: false
     )
     self.team_object_factory = team_object_factory
